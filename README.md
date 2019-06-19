@@ -1,1 +1,1 @@
-# Infinum Developer Academy - iOS 2018
+# Infinum Developer Academy - iOS 2019
