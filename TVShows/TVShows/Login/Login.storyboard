@@ -18,43 +18,86 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="center" fixedFrame="YES" axis="vertical" spacing="44" translatesAutoresizingMaskIntoConstraints="NO" id="AdI-Gx-b8i">
-                                <rect key="frame" x="186" y="275" width="47" height="178"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <stackView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="center" horizontalHuggingPriority="450" verticalHuggingPriority="450" axis="vertical" distribution="fillEqually" spacing="44" translatesAutoresizingMaskIntoConstraints="NO" id="AdI-Gx-b8i">
+                                <rect key="frame" x="182" y="282" width="50" height="332"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DCB-1f-HRn">
-                                        <rect key="frame" x="0.0" y="0.0" width="47" height="24"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cis-5q-byQ">
-                                        <rect key="frame" x="0.0" y="68" width="47" height="33"/>
+                                        <rect key="frame" x="0.0" y="94" width="50" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <state key="normal" title="Count"/>
+                                        <state key="normal" backgroundImage="count_image">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
                                         <connections>
                                             <action selector="Count:" destination="dkk-aT-jMa" eventType="touchUpInside" id="ItT-ge-2T2"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rGf-2U-VIo">
-                                        <rect key="frame" x="0.0" y="145" width="47" height="33"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <state key="normal" title="Reset"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rGf-2U-VIo">
+                                        <rect key="frame" x="0.0" y="188" width="50" height="50"/>
+                                        <state key="normal" backgroundImage="reset_image">
+                                            <attributedString key="attributedTitle"/>
+                                        </state>
                                         <connections>
                                             <action selector="Reset:" destination="dkk-aT-jMa" eventType="touchUpInside" id="ZEj-ah-opZ"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="756-xB-z2e" userLabel="Loading">
+                                        <rect key="frame" x="0.0" y="282" width="50" height="50"/>
+                                        <state key="normal" image="loading_image"/>
+                                        <connections>
+                                            <action selector="Loading:" destination="dkk-aT-jMa" eventType="touchUpInside" id="w6t-O3-kqa"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Q0g-t2-NZl">
+                                <rect key="frame" x="188.5" y="429.5" width="37" height="37"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Infinum Academy - Homework 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yd1-77-lcD">
+                                <rect key="frame" x="85.5" y="104" width="243.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vLL-Yj-FN2">
+                                <rect key="frame" x="100" y="772" width="214" height="30"/>
+                                <state key="normal" title="Stop animating">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleShadowColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="StopAnimating:" destination="dkk-aT-jMa" eventType="touchUpInside" id="9Lf-yA-VgJ"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="1" green="0.2527923882" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Yd1-77-lcD" firstAttribute="top" secondItem="oI8-f2-TuH" secondAttribute="top" constant="60" id="2Z4-q2-RJf"/>
+                            <constraint firstItem="Yd1-77-lcD" firstAttribute="centerX" secondItem="FVG-Tx-rx4" secondAttribute="centerX" id="KIc-Tl-EgV"/>
+                            <constraint firstItem="oI8-f2-TuH" firstAttribute="bottom" secondItem="vLL-Yj-FN2" secondAttribute="bottom" constant="60" id="RPp-rP-hUT"/>
+                            <constraint firstItem="oI8-f2-TuH" firstAttribute="trailing" secondItem="vLL-Yj-FN2" secondAttribute="trailing" constant="100" id="TLc-io-Dfv"/>
+                            <constraint firstItem="Q0g-t2-NZl" firstAttribute="centerX" secondItem="FVG-Tx-rx4" secondAttribute="centerX" id="Thd-Po-OJr"/>
+                            <constraint firstItem="Q0g-t2-NZl" firstAttribute="centerY" secondItem="FVG-Tx-rx4" secondAttribute="centerY" id="YRj-ad-9hr"/>
+                            <constraint firstItem="AdI-Gx-b8i" firstAttribute="centerY" secondItem="FVG-Tx-rx4" secondAttribute="centerY" id="hjh-L7-eT2"/>
+                            <constraint firstItem="vLL-Yj-FN2" firstAttribute="leading" secondItem="oI8-f2-TuH" secondAttribute="leading" constant="100" id="pAO-5b-3W7"/>
+                            <constraint firstItem="AdI-Gx-b8i" firstAttribute="centerX" secondItem="FVG-Tx-rx4" secondAttribute="centerX" id="toY-Fc-WeV"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="oI8-f2-TuH"/>
                     </view>
                     <connections>
+                        <outlet property="Activity" destination="Q0g-t2-NZl" id="sUk-bX-3ON"/>
                         <outlet property="Count" destination="cis-5q-byQ" id="bQG-UW-RsK"/>
                         <outlet property="Label" destination="DCB-1f-HRn" id="RoH-Or-RgH"/>
+                        <outlet property="Loading" destination="756-xB-z2e" id="0Cb-sg-0TV"/>
                         <outlet property="Reset" destination="rGf-2U-VIo" id="lAw-oV-yut"/>
+                        <outlet property="StopAnimating" destination="vLL-Yj-FN2" id="KYz-OT-YsK"/>
+                        <outlet property="TitleLabel" destination="Yd1-77-lcD" id="IVF-Wa-K73"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r2t-6Y-S2j" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -62,4 +105,9 @@
             <point key="canvasLocation" x="-30.434782608695656" y="-165.40178571428569"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="count_image" width="24" height="24"/>
+        <image name="loading_image" width="50" height="50"/>
+        <image name="reset_image" width="24" height="24"/>
+    </resources>
 </document>
