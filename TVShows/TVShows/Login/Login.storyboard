@@ -98,6 +98,7 @@
                         <outlet property="Reset" destination="rGf-2U-VIo" id="lAw-oV-yut"/>
                         <outlet property="StopAnimating" destination="vLL-Yj-FN2" id="KYz-OT-YsK"/>
                         <outlet property="TitleLabel" destination="Yd1-77-lcD" id="IVF-Wa-K73"/>
+                        <outlet property="stackView" destination="AdI-Gx-b8i" id="cER-qF-Kc3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r2t-6Y-S2j" userLabel="First Responder" sceneMemberID="firstResponder"/>

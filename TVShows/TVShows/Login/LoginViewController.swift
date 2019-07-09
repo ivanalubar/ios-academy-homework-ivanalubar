@@ -18,6 +18,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var Loading: UIButton!
     @IBOutlet weak var StopAnimating: UIButton!
     @IBOutlet weak var TitleLabel: UILabel!
+    @IBOutlet weak var stackView: UIStackView!
+
     
 //    Counter reset
     @IBAction func Reset(_ sender: UIButton) {
@@ -25,6 +27,12 @@ class LoginViewController: UIViewController {
         Label.text = String(self.counter)
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        stackView.axis = size.width > size.height ? .horizontal : .vertical
+
+    }
+
 //    Counter increase
     @IBAction func Count(_ sender: UIButton) {
         counter += 1
@@ -67,7 +75,7 @@ class LoginViewController: UIViewController {
         Count.backgroundColor = .clear
         Count.frame.size = CGSize(width: 60.0, height: 20.0)
         Count.layer.borderColor = UIColor.lightGray.cgColor
-        Activity.isHidden = true
+        
     }
     
 //    Show loading animation and hide everything else
