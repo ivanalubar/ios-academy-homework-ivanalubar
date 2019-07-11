@@ -22,7 +22,6 @@ final class LoginViewController: UIViewController {
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var stackView: UIStackView!
 
-
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         stackView.axis = size.width > size.height ? .horizontal : .vertical
@@ -31,17 +30,16 @@ final class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
         startAnimtation()
-        setingView()
+        settingView()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.configureUI()
         }
     }
     
-    private func setingView(){
+    private func settingView(){
         view.backgroundColor = UIColor.magenta
         numberOfClicksLabel.font = UIFont(name: "Arial", size: 25)
         numberOfClicksLabel.textColor = UIColor.black
@@ -77,27 +75,27 @@ final class LoginViewController: UIViewController {
     
     // MARK: - Actions
     
-    @IBAction private func resetCounterButton(_ sender: UIButton) {
+    @IBAction private func resetCounterActionHandler() {
         numberOfClicks = 0
         numberOfClicksLabel.text = String(self.numberOfClicks)
     }
     
-    @IBAction private func touchCounterButtonActionHandler(_ sender: UIButton) {
+    @IBAction private func touchCounterButtonActionHandler() {
         numberOfClicks += 1
         numberOfClicksLabel.text = String(self.numberOfClicks)
     }
 
-    @IBAction private func loadingButtonActionHandler(_ sender: Any) {
-            touchCounterButton.isHidden = true
-            resetCounterButton.isHidden = true
-            numberOfClicksLabel.isHidden = true
-            Activity.startAnimating()
-            Activity.isHidden = false
-            stopAnimating.isHidden = false
-            loadingButton.isHidden = true
+    @IBAction private func loadingButtonActionHandler() {
+        touchCounterButton.isHidden = true
+        resetCounterButton.isHidden = true
+        numberOfClicksLabel.isHidden = true
+        Activity.startAnimating()
+        Activity.isHidden = false
+        stopAnimating.isHidden = false
+        loadingButton.isHidden = true
     }
     
-    @IBAction private func stopAnimatingActionHandler(_ sender: Any) {
+    @IBAction private func stopAnimatingActionHandler() {
         Activity.isHidden = true
         Activity.stopAnimating()
         numberOfClicksLabel.isHidden = false

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dkk-aT-jMa">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,64 +15,64 @@
             <objects>
                 <viewController id="dkk-aT-jMa" customClass="LoginViewController" customModule="TVShows" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FVG-Tx-rx4">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="center" horizontalHuggingPriority="450" verticalHuggingPriority="450" axis="vertical" distribution="fillEqually" spacing="44" translatesAutoresizingMaskIntoConstraints="NO" id="AdI-Gx-b8i">
-                                <rect key="frame" x="292" y="186" width="16" height="228"/>
+                                <rect key="frame" x="182" y="282" width="50" height="332"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DCB-1f-HRn">
-                                        <rect key="frame" x="0.0" y="0.0" width="16" height="24"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cis-5q-byQ">
-                                        <rect key="frame" x="0.0" y="68" width="16" height="24"/>
+                                        <rect key="frame" x="0.0" y="94" width="50" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <state key="normal" backgroundImage="count_image">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
-                                            <action selector="touchCounterButtonActionHandler:" destination="dkk-aT-jMa" eventType="touchUpInside" id="ItT-ge-2T2"/>
+                                            <action selector="touchCounterButtonActionHandler" destination="dkk-aT-jMa" eventType="touchUpInside" id="4XJ-WM-lIE"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rGf-2U-VIo">
-                                        <rect key="frame" x="0.0" y="136" width="16" height="24"/>
+                                        <rect key="frame" x="0.0" y="188" width="50" height="50"/>
                                         <state key="normal" backgroundImage="reset_image">
                                             <attributedString key="attributedTitle"/>
                                         </state>
                                         <connections>
-                                            <action selector="resetCounterButton:" destination="dkk-aT-jMa" eventType="touchUpInside" id="ZEj-ah-opZ"/>
+                                            <action selector="resetCounterActionHandler" destination="dkk-aT-jMa" eventType="touchUpInside" id="84J-Z5-Wjh"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="756-xB-z2e" userLabel="Loading">
-                                        <rect key="frame" x="0.0" y="204" width="16" height="24"/>
+                                        <rect key="frame" x="0.0" y="282" width="50" height="50"/>
                                         <state key="normal" image="loading_image"/>
                                         <connections>
-                                            <action selector="loadingButtonActionHandler:" destination="dkk-aT-jMa" eventType="touchUpInside" id="w6t-O3-kqa"/>
+                                            <action selector="loadingButtonActionHandler" destination="dkk-aT-jMa" eventType="touchUpInside" id="rDJ-Na-O09"/>
                                         </connections>
                                     </button>
                                 </subviews>
                             </stackView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Q0g-t2-NZl">
-                                <rect key="frame" x="281.5" y="281.5" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="429.5" width="37" height="37"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Infinum Academy - Homework 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yd1-77-lcD">
-                                <rect key="frame" x="178.5" y="80" width="243.5" height="20.5"/>
+                                <rect key="frame" x="85.5" y="104" width="243.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vLL-Yj-FN2">
-                                <rect key="frame" x="100" y="510" width="400" height="30"/>
+                                <rect key="frame" x="100" y="772" width="214" height="30"/>
                                 <state key="normal" title="Stop animating">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <color key="titleShadowColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 </state>
                                 <connections>
-                                    <action selector="stopAnimatingActionHandler:" destination="dkk-aT-jMa" eventType="touchUpInside" id="9Lf-yA-VgJ"/>
+                                    <action selector="stopAnimatingActionHandler" destination="dkk-aT-jMa" eventType="touchUpInside" id="PZy-RD-pZe"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -90,11 +94,11 @@
                         <outlet property="Activity" destination="Q0g-t2-NZl" id="sUk-bX-3ON"/>
                         <outlet property="loadingButton" destination="756-xB-z2e" id="0Cb-sg-0TV"/>
                         <outlet property="numberOfClicksLabel" destination="DCB-1f-HRn" id="RoH-Or-RgH"/>
-                        <outlet property="resetCounterButton" destination="rGf-2U-VIo" id="lAw-oV-yut"/>
+                        <outlet property="resetCounterButton" destination="rGf-2U-VIo" id="fPh-go-a12"/>
                         <outlet property="stackView" destination="AdI-Gx-b8i" id="cER-qF-Kc3"/>
-                        <outlet property="stopAnimating" destination="vLL-Yj-FN2" id="KYz-OT-YsK"/>
+                        <outlet property="stopAnimating" destination="vLL-Yj-FN2" id="sGG-Uf-GSe"/>
                         <outlet property="titleLabel" destination="Yd1-77-lcD" id="IVF-Wa-K73"/>
-                        <outlet property="touchCounterButton" destination="cis-5q-byQ" id="bQG-UW-RsK"/>
+                        <outlet property="touchCounterButton" destination="cis-5q-byQ" id="rRh-Wt-5xK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r2t-6Y-S2j" userLabel="First Responder" sceneMemberID="firstResponder"/>
