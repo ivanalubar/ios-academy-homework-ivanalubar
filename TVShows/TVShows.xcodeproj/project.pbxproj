@@ -85,7 +85,6 @@
 				8DD7C037511B75422A2F0D3E /* Pods-TVShows.debug.xcconfig */,
 				3E954C07E16208A74D3C0749 /* Pods-TVShows.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -335,6 +334,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Q23NP96L48;
 				INFOPLIST_FILE = TVShows/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -353,6 +353,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Q23NP96L48;
 				INFOPLIST_FILE = TVShows/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
