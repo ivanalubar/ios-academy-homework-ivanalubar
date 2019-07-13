@@ -8,65 +8,48 @@
 
 import UIKit
 
-
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController, UITextFieldDelegate{
     
     // MARK: - Outlets
     
+    @IBOutlet private weak var usernameTextField: UITextField!
+    @IBOutlet private weak var passwordTextfield: UITextField!
+    @IBOutlet private weak var passwordVisibilityButton: UIButton!
     @IBOutlet private weak var rememberMeCheckBox: UIButton!
     @IBOutlet private weak var loginButton: UIButton!
     @IBOutlet private weak var createAccountButton: UIButton!
-    @IBOutlet private weak var passwordTextfield: UITextField!
-    @IBOutlet private weak var usernameTextField: UITextField!
-    @IBOutlet private weak var stackView: UIStackView!
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-
         
-        defineButtonDesign()
+        defineButtonsDesign()
+        keyboardManipulation()
     }
     
-
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
-        }
-    }
-    private func defineButtonDesign(){
+    private func defineButtonsDesign(){
         
+        passwordVisibilityButton.isHidden = true
         loginButton.layer.cornerRadius = 5
         loginButton.layer.borderWidth = 1
         loginButton.layer.borderColor = UIColor.clear.cgColor
     }
     
-    private func defineBottomBorders(){
+    private func keyboardManipulation(){
         
-        let bottomUsernameBorder = CALayer()
-        bottomUsernameBorder.backgroundColor = UIColor.lightGray.cgColor
-        bottomUsernameBorder.frame = CGRect(x: 0.0, y: usernameTextField.frame.height + 5, width: usernameTextField.frame.width, height: 1.0);
-        usernameTextField.layer.addSublayer(bottomUsernameBorder)
+        passwordTextfield.delegate = self
+        usernameTextField.delegate = self
         
-        let bottomPasswordBorder = CALayer()
-        bottomPasswordBorder.backgroundColor = UIColor.lightGray.cgColor
-        bottomPasswordBorder.frame = CGRect(x: 0.0, y: passwordTextfield.frame.height + 5, width: passwordTextfield.frame.width, height: 1.0);
-        passwordTextfield.layer.addSublayer(bottomPasswordBorder)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
     // MARK: - Actions
     
-    @IBAction private func RememberMe(_ sender: Any) {
+    @IBAction private func rememberMeActionHandler() {
+        
         if rememberMeCheckBox.currentImage == UIImage(named: "ic-checkbox-empty.png") {
             rememberMeCheckBox.setImage(UIImage(named: "ic-checkbox-filled.png"), for: .normal)
         }
@@ -75,4 +58,38 @@ class LoginViewController: UIViewController {
         }
     }
     
+    @IBAction private func passwordShow() {
+        
+        if passwordVisibilityButton.currentImage == UIImage(named: "eye-visible.png"){
+            passwordVisibilityButton.setImage(UIImage(named: "eye-invisible.png"), for: .normal)
+            passwordTextfield.isSecureTextEntry = false
+        }
+        else {
+            passwordVisibilityButton.setImage(UIImage(named: "eye-visible.png"), for: .normal)
+            passwordTextfield.isSecureTextEntry = true
+        }
+    }
+    
+    @IBAction private func paswordFieldEditing() {
+        passwordTextfield.isSecureTextEntry = true
+        passwordVisibilityButton.isHidden = false
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= (keyboardSize.height - 150)
+            }
+        }
+    }
+    
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
 }
