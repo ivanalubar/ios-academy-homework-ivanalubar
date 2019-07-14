@@ -92,4 +92,23 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             self.view.frame.origin.y = 0
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+    }
+    
+    @IBAction func navigateToHome(_ sender: Any) {
+        
+        let sb = UIStoryboard(name: "Home", bundle: nil)
+        let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
+        
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    @IBAction func navigateToRegister(_ sender: Any) {
+        let sb = UIStoryboard(name: "Home", bundle: nil)
+        let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
+        
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
