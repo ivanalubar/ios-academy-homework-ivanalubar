@@ -17,7 +17,20 @@
                     <view key="view" contentMode="scaleToFill" id="fAv-NQ-bkF">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home Page" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AQ0-1H-pqY">
+                                <rect key="frame" x="140" y="432" width="134.5" height="32.5"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="highlightedColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="0.45882352939999999" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="AQ0-1H-pqY" firstAttribute="centerY" secondItem="fAv-NQ-bkF" secondAttribute="centerY" id="6Rf-ZR-08g"/>
+                            <constraint firstItem="AQ0-1H-pqY" firstAttribute="centerX" secondItem="fAv-NQ-bkF" secondAttribute="centerX" id="VGl-jb-x7N"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="qcm-cz-9aR"/>
                     </view>
                 </viewController>

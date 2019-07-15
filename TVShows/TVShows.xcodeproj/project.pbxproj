@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,7 @@
 		42387B0C22CE53AB00C829B9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42387B0A22CE53AB00C829B9 /* LaunchScreen.storyboard */; };
 		42387B1D22CFE55D00C829B9 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42387B1C22CFE55D00C829B9 /* Login.storyboard */; };
 		42387B1F22CFE59F00C829B9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42387B1E22CFE59F00C829B9 /* LoginViewController.swift */; };
+		426C134B22DCC5FE000D971A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C134A22DCC5FE000D971A /* User.swift */; };
 		42C2F84222DA739100F4CC52 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C2F84122DA739100F4CC52 /* HomeViewController.swift */; };
 		42C2F84522DB2A4400F4CC52 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42C2F84422DB2A4300F4CC52 /* Home.storyboard */; };
 		6008306625C719FB638BEC71 /* Pods_TVShows.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9A6B5F8C761FE581E62C2D2 /* Pods_TVShows.framework */; };
@@ -26,6 +27,7 @@
 		42387B0D22CE53AB00C829B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		42387B1C22CFE55D00C829B9 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		42387B1E22CFE59F00C829B9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		426C134A22DCC5FE000D971A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		42C2F84122DA739100F4CC52 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		42C2F84422DB2A4300F4CC52 /* Home.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		8DD7C037511B75422A2F0D3E /* Pods-TVShows.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVShows.debug.xcconfig"; path = "Target Support Files/Pods-TVShows/Pods-TVShows.debug.xcconfig"; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 		42387B0022CE53AA00C829B9 /* TVShows */ = {
 			isa = PBXGroup;
 			children = (
+				426C134C22DCC765000D971A /* Home */,
 				42387B1522CFD2D100C829B9 /* Login */,
 				42387B0122CE53AA00C829B9 /* AppDelegate.swift */,
 				42387B0822CE53AB00C829B9 /* Assets.xcassets */,
@@ -79,10 +82,18 @@
 			children = (
 				42387B1C22CFE55D00C829B9 /* Login.storyboard */,
 				42387B1E22CFE59F00C829B9 /* LoginViewController.swift */,
+				426C134A22DCC5FE000D971A /* User.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		426C134C22DCC765000D971A /* Home */ = {
+			isa = PBXGroup;
+			children = (
 				42C2F84122DA739100F4CC52 /* HomeViewController.swift */,
 				42C2F84422DB2A4300F4CC52 /* Home.storyboard */,
 			);
-			path = Login;
+			path = Home;
 			sourceTree = "<group>";
 		};
 		AF286C559CA5FA6BD7BE9B0A /* Pods */ = {
@@ -113,6 +124,7 @@
 				42387AFA22CE53AA00C829B9 /* Sources */,
 				42387AFB22CE53AA00C829B9 /* Frameworks */,
 				42387AFC22CE53AA00C829B9 /* Resources */,
+				7C3145493BD648AB8628B10E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -193,6 +205,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		7C3145493BD648AB8628B10E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TVShows/Pods-TVShows-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TVShows/Pods-TVShows-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TVShows/Pods-TVShows-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -200,6 +229,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				426C134B22DCC5FE000D971A /* User.swift in Sources */,
 				42387B1F22CFE59F00C829B9 /* LoginViewController.swift in Sources */,
 				42387B0222CE53AA00C829B9 /* AppDelegate.swift in Sources */,
 				42C2F84222DA739100F4CC52 /* HomeViewController.swift in Sources */,

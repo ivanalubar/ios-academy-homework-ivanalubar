@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import SVProgressHUD
+import Alamofire
+import CodableAlamofire
 
 final class LoginViewController: UIViewController, UITextFieldDelegate{
     
@@ -99,6 +102,13 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     
     @IBAction func navigateToHome(_ sender: Any) {
         
+        guard
+            let username = usernameTextField.text,
+            let pass = passwordTextfield.text
+            else {
+                return
+        }
+        _alamofireCodableLoginUserWith(email: username, password: pass)
         let sb = UIStoryboard(name: "Home", bundle: nil)
         let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
         
@@ -106,9 +116,84 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     }
     
     @IBAction func navigateToRegister(_ sender: Any) {
+        guard
+            let username = usernameTextField.text,
+            let pass = passwordTextfield.text
+        else {
+                return
+            }
+        _alamofireCodableRegisterUserWith(email: username, password: pass)
+        
         let sb = UIStoryboard(name: "Home", bundle: nil)
         let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
         
         navigationController?.pushViewController(viewController, animated: true)
+        SVProgressHUD.setDefaultMaskType(.black)
+        
+    }
+}
+
+private extension LoginViewController{
+    
+    func _alamofireCodableRegisterUserWith(email: String, password: String) {
+        SVProgressHUD.show()
+     
+        let parameters: [String: String] = [
+            "email": email,
+            "password": password
+        ]
+        Alamofire
+            .request("https://api.infinum.academy/api/users",
+                     method: .post,
+                     parameters: parameters,
+                     encoding: JSONEncoding.default)
+            .validate()
+            .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) {
+                (response: DataResponse<LoginData>) in
+        
+        SVProgressHUD.dismiss()
+        
+        switch response.result {
+        case .success(let user):
+            
+            //self.usernameTextField.text = "Success: \(user)"
+            print("Success: \(user)")
+            
+        case .failure(let error):
+            print("API failure: \(error)")
+            
+        }
+        }
+    }
+    
+    func _alamofireCodableLoginUserWith(email: String, password: String) {
+        SVProgressHUD.show()
+        
+        let parameters: [String: String] = [
+            "email": email,
+            "password": password
+        ]
+        Alamofire
+            .request("https://api.infinum.academy/api/users/sessions",
+                     method: .post,
+                     parameters: parameters,
+                     encoding: JSONEncoding.default)
+            .validate()
+            .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) {
+                (response: DataResponse<User>) in
+                
+                SVProgressHUD.dismiss()
+                
+                switch response.result {
+                case .success(let user):
+                    
+                    //self.usernameTextField.text = "Success: \(user)"
+                    print("Success: \(user)")
+                    
+                case .failure(let error):
+                    print("API failure: \(error)")
+                    
+            }
+        }
     }
 }
