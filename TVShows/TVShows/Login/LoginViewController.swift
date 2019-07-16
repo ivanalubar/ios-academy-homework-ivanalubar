@@ -105,14 +105,10 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         guard
             let username = usernameTextField.text,
             let pass = passwordTextfield.text
-            else {
+        else {
                 return
         }
         _alamofireCodableLoginUserWith(email: username, password: pass)
-        let sb = UIStoryboard(name: "Home", bundle: nil)
-        let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
-        
-        navigationController?.pushViewController(viewController, animated: true)
     }
     
     @IBAction func navigateToRegister(_ sender: Any) {
@@ -123,13 +119,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 return
             }
         _alamofireCodableRegisterUserWith(email: username, password: pass)
-        
-        let sb = UIStoryboard(name: "Home", bundle: nil)
-        let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
-        
-        navigationController?.pushViewController(viewController, animated: true)
-        SVProgressHUD.setDefaultMaskType(.black)
-        
     }
 }
 
@@ -149,22 +138,26 @@ private extension LoginViewController{
                      encoding: JSONEncoding.default)
             .validate()
             .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) {
-                (response: DataResponse<LoginData>) in
+                (response: DataResponse<User>) in
         
         SVProgressHUD.dismiss()
         
         switch response.result {
         case .success(let user):
             
-            //self.usernameTextField.text = "Success: \(user)"
+            let sb = UIStoryboard(name: "Home", bundle: nil)
+            let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
+            self.navigationController?.pushViewController(viewController, animated: true)
+            SVProgressHUD.setDefaultMaskType(.black)
+
             print("Success: \(user)")
             
         case .failure(let error):
             print("API failure: \(error)")
             
         }
-        }
     }
+}
     
     func _alamofireCodableLoginUserWith(email: String, password: String) {
         SVProgressHUD.show()
@@ -180,20 +173,25 @@ private extension LoginViewController{
                      encoding: JSONEncoding.default)
             .validate()
             .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) {
-                (response: DataResponse<User>) in
+                (response: DataResponse<LoginData>) in
                 
                 SVProgressHUD.dismiss()
                 
                 switch response.result {
                 case .success(let user):
                     
-                    //self.usernameTextField.text = "Success: \(user)"
-                    print("Success: \(user)")
+                    let sb = UIStoryboard(name: "Home", bundle: nil)
+                    let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
+                    self.navigationController?.pushViewController(viewController, animated: true)
+                    SVProgressHUD.setDefaultMaskType(.black)
                     
+                    print("Success: \(user)")
+                    SVProgressHUD.showSuccess(withStatus: "Success")
                 case .failure(let error):
                     print("API failure: \(error)")
+                    SVProgressHUD.showError(withStatus: "Failure")
                     
+                }
             }
-        }
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="p9m-ev-J9k">
-    <device id="retina6_1" orientation="portrait">
+    <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -233,7 +233,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="p9m-ev-J9k" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="L0t-Tw-268">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -247,7 +247,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="eye-visible" width="24" height="24"/>
+        <image name="eye-visible" width="32" height="32"/>
         <image name="ic-checkbox-empty" width="24" height="24"/>
         <image name="login-logo" width="75" height="80"/>
     </resources>
