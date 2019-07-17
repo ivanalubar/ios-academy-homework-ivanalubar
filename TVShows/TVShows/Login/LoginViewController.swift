@@ -10,6 +10,7 @@ import UIKit
 import SVProgressHUD
 import Alamofire
 import CodableAlamofire
+import PromiseKit
 
 final class LoginViewController: UIViewController, UITextFieldDelegate{
     
@@ -117,80 +118,65 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         }
         _alamofireCodableRegisterUserWith(email: username, password: pass)
     }
-}
-
-private extension LoginViewController{
-    
-    func _alamofireCodableRegisterUserWith(email: String, password: String) {
-        SVProgressHUD.show()
-     
-        let parameters: [String: String] = [
-            "email": email,
-            "password": password
-        ]
-        Alamofire
-            .request("https://api.infinum.academy/api/users",
-                     method: .post,
-                     parameters: parameters,
-                     encoding: JSONEncoding.default)
-            .validate()
-            .responseDecodableObject(keyPath: "data") {
-                (response: DataResponse<User>) in
-        
-        SVProgressHUD.dismiss()
-        
-        switch response.result {
-        case .success(let user):
-            
-            let sb = UIStoryboard(name: "Home", bundle: nil)
-            let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
-            self.navigationController?.pushViewController(viewController, animated: true)
-            SVProgressHUD.setDefaultMaskType(.black)
-            SVProgressHUD.showSuccess(withStatus: "Success")
-            print("Success: \(user)")
-            
-        case .failure(let error):
-            print("API failure: \(error)")
-            SVProgressHUD.showError(withStatus: "Failure")
-        }
-    }
-}
-    
-}
-private extension LoginViewController{
     
     func _alamofireCodableLoginUserWith(email: String, password: String) {
         SVProgressHUD.show()
-        
         let parameters: [String: String] = [
             "email": email,
             "password": password
         ]
-        Alamofire
-            .request("https://api.infinum.academy/api/users/sessions",
-                     method: .post,
-                     parameters: parameters,
-                     encoding: JSONEncoding.default)
-            .validate()
-            .responseDecodableObject(keyPath: "data") {
-                (response: DataResponse<LoginData>) in
+        firstly {
+            Alamofire
+                .request("https://api.infinum.academy/api/users/sessions",
+                      method: .post,
+                      parameters: parameters,
+                      encoding: JSONEncoding.default)
+                .validate()
+                .responseDecodable(LoginData.self, keypath: "data")
+            }.done { loginData in
+                let sb = UIStoryboard(name: "Home", bundle: nil)
+                let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
+                self.navigationController?.pushViewController(viewController, animated: true)
+                SVProgressHUD.setDefaultMaskType(.black)
+              
+                print("Success: \(loginData)")
+                SVProgressHUD.showSuccess(withStatus: "Success")
+            }.catch { error in
+                print("API failure: \(error)")
+                SVProgressHUD.showError(withStatus: "Failure")
+        }
+    }
+    
+    func _alamofireCodableRegisterUserWith(email: String, password: String) {
+        SVProgressHUD.show()
+        let parameters: [String: String] = [
+            "email": email,
+            "password": password
+        ]
+        firstly {
+            Alamofire
+                .request("https://api.infinum.academy/api/users",
+                         method: .post,
+                         parameters: parameters,
+                         encoding: JSONEncoding.default)
+                .validate()
+                .responseDecodable(User.self, keypath: "data")
+            }.done { loginData in
+                let sb = UIStoryboard(name: "Home", bundle: nil)
+                let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
+                self.navigationController?.pushViewController(viewController, animated: true)
+                SVProgressHUD.setDefaultMaskType(.black)
                 
-                SVProgressHUD.dismiss()
-                
-                switch response.result {
-                case .success(let user):
-                    
-                    let sb = UIStoryboard(name: "Home", bundle: nil)
-                    let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
-                    self.navigationController?.pushViewController(viewController, animated: true)
-                    SVProgressHUD.setDefaultMaskType(.black)
-                    
-                    print("Success: \(user)")
-                    SVProgressHUD.showSuccess(withStatus: "Success")
-                case .failure(let error):
-                    print("API failure: \(error)")
-                    SVProgressHUD.showError(withStatus: "Failure")
-                }
-            }
+                print("Success: \(loginData)")
+                SVProgressHUD.showSuccess(withStatus: "Success")
+            }.catch { error in
+                print("API failure: \(error)")
+                SVProgressHUD.showError(withStatus: "Failure")
+        }
     }
 }
+
+
+    
+
+
