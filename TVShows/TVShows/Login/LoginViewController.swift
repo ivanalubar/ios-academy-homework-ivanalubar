@@ -96,28 +96,25 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-    }
-    
-    @IBAction func navigateToHome(_ sender: Any) {
+    @IBAction private func loginButtonClick() {
         
         guard
             let username = usernameTextField.text,
             let pass = passwordTextfield.text
-        else {
+            else {
                 return
         }
         _alamofireCodableLoginUserWith(email: username, password: pass)
     }
     
-    @IBAction func navigateToRegister(_ sender: Any) {
+    @IBAction private func registerButtonClick() {
+        
         guard
             let username = usernameTextField.text,
             let pass = passwordTextfield.text
-        else {
+            else {
                 return
-            }
+        }
         _alamofireCodableRegisterUserWith(email: username, password: pass)
     }
 }
@@ -137,7 +134,7 @@ private extension LoginViewController{
                      parameters: parameters,
                      encoding: JSONEncoding.default)
             .validate()
-            .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) {
+            .responseDecodableObject(keyPath: "data") {
                 (response: DataResponse<User>) in
         
         SVProgressHUD.dismiss()
@@ -149,15 +146,18 @@ private extension LoginViewController{
             let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
             self.navigationController?.pushViewController(viewController, animated: true)
             SVProgressHUD.setDefaultMaskType(.black)
-
+            SVProgressHUD.showSuccess(withStatus: "Success")
             print("Success: \(user)")
             
         case .failure(let error):
             print("API failure: \(error)")
-            
+            SVProgressHUD.showError(withStatus: "Failure")
         }
     }
 }
+    
+}
+private extension LoginViewController{
     
     func _alamofireCodableLoginUserWith(email: String, password: String) {
         SVProgressHUD.show()
@@ -172,7 +172,7 @@ private extension LoginViewController{
                      parameters: parameters,
                      encoding: JSONEncoding.default)
             .validate()
-            .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) {
+            .responseDecodableObject(keyPath: "data") {
                 (response: DataResponse<LoginData>) in
                 
                 SVProgressHUD.dismiss()
@@ -190,7 +190,6 @@ private extension LoginViewController{
                 case .failure(let error):
                     print("API failure: \(error)")
                     SVProgressHUD.showError(withStatus: "Failure")
-                    
                 }
             }
     }

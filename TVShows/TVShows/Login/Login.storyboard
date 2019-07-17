@@ -144,7 +144,7 @@
                                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="navigateToHome:" destination="dkk-aT-jMa" eventType="touchUpInside" id="8d5-4k-6LY"/>
+                                                            <action selector="loginButtonClick" destination="dkk-aT-jMa" eventType="touchUpInside" id="FbZ-t1-cpy"/>
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WCJ-rd-dcJ">
@@ -164,7 +164,7 @@
                                                         <color key="tintColor" red="1" green="0.45882352941176469" blue="0.5490196078431373" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <state key="normal" title="Create an account"/>
                                                         <connections>
-                                                            <action selector="navigateToRegister:" destination="dkk-aT-jMa" eventType="touchUpInside" id="Mad-4e-8Bs"/>
+                                                            <action selector="registerButtonClick" destination="dkk-aT-jMa" eventType="touchUpInside" id="x8K-nd-qlK"/>
                                                         </connections>
                                                     </button>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tPy-nn-9uR" userLabel="Bottom view spacing">
