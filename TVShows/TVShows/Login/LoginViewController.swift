@@ -106,7 +106,9 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 return
         }
         _alamofireCodableLoginUserWith(email: username, password: pass)
+        
     }
+    
     
     @IBAction private func registerButtonClick() {
         
@@ -117,6 +119,12 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 return
         }
         _alamofireCodableRegisterUserWith(email: username, password: pass)
+    }
+    
+    func showAlertMessage(){
+        let alert = UIAlertController(title: "Log in failure", message: "User can not be logged in", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        self.present(alert, animated: true)
     }
     
     func _alamofireCodableLoginUserWith(email: String, password: String) {
@@ -136,14 +144,16 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             }.done { loginData in
                 let sb = UIStoryboard(name: "Home", bundle: nil)
                 let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
-                self.navigationController?.pushViewController(viewController, animated: true)
+                self.navigationController?.navigationItem.hidesBackButton = true
+                self.navigationController?.setViewControllers([viewController], animated: true)
                 SVProgressHUD.setDefaultMaskType(.black)
               
                 print("Success: \(loginData)")
                 SVProgressHUD.showSuccess(withStatus: "Success")
             }.catch { error in
                 print("API failure: \(error)")
-                SVProgressHUD.showError(withStatus: "Failure")
+                SVProgressHUD.dismiss()
+                self.showAlertMessage()
         }
     }
     
@@ -164,9 +174,12 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             }.done { loginData in
                 let sb = UIStoryboard(name: "Home", bundle: nil)
                 let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
-                self.navigationController?.pushViewController(viewController, animated: true)
+                self.navigationController?.navigationItem.hidesBackButton = true
+                self.navigationController?.setViewControllers([viewController], animated: true)
+               
                 SVProgressHUD.setDefaultMaskType(.black)
-                
+                let vc = HomeViewController()
+                vc.token = loginData.type
                 print("Success: \(loginData)")
                 SVProgressHUD.showSuccess(withStatus: "Success")
             }.catch { error in
@@ -174,6 +187,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 SVProgressHUD.showError(withStatus: "Failure")
         }
     }
+    
 }
 
 
