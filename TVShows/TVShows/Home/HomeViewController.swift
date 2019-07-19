@@ -59,6 +59,15 @@ final class HomeViewController: UIViewController {
                 SVProgressHUD.showError(withStatus: "Failure")
         }
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            print("Deleted")
+            
+            self.items.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
 }
 
 extension HomeViewController: UITableViewDelegate {
