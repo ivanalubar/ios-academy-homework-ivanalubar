@@ -32,6 +32,24 @@ final class HomeViewController: UIViewController {
         
     }
     
+    private func tableRowSelect(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
+        let currentCell = tableView.cellForRow(at: indexPath!) as! UITableViewCell
+        let vc = ShowDetailsViewController()
+        vc.selected = currentCell
+        showAlertMessage()
+        _showDetails()
+        print(currentCell)
+        
+    }
+    
+    func showAlertMessage(){
+        let alert = UIAlertController(title: "Log in failure", message: "User can not be logged in", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
     func _getApiShow() {
         SVProgressHUD.show()
         let headers = [
@@ -66,6 +84,37 @@ final class HomeViewController: UIViewController {
             
             self.items.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
+    func showDetails(){
+        let sb = UIStoryboard(name: "ShowDetails", bundle: nil)
+        let viewController = sb.instantiateViewController(withIdentifier: "ShowDetailsViewController")
+        self.navigationController?.navigationItem.hidesBackButton = true
+         self.navigationController?.setViewControllers([viewController], animated: true)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func _showDetails() {
+        SVProgressHUD.show()
+        
+        firstly {
+            Alamofire
+                .request("https://api.infinum.academy/api/shows/{showId}",
+                         method: .get,
+                         encoding: JSONEncoding.default)
+                .validate()
+                .responseDecodable(Shows.self, keypath: "data")
+            }.done { loginData in
+                
+                self.showDetails()
+                SVProgressHUD.setDefaultMaskType(.black)
+               
+                print("Success: \(loginData)")
+                SVProgressHUD.showSuccess(withStatus: "Success")
+            }.catch { error in
+                print("API failure: \(error)")
+                SVProgressHUD.showError(withStatus: "Failure")
         }
     }
 }
