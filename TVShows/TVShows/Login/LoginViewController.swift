@@ -66,10 +66,10 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBAction private func passwordShow() {
         
         if passwordTextField.isSecureTextEntry {
-            passwordVisibilityButton.setImage(UIImage(named: "eye-invisible.png"), for: .normal)
+            passwordVisibilityButton.setImage(UIImage(named: "ic-hide-password"), for: .normal)
             passwordTextField.isSecureTextEntry = false
         } else {
-            passwordVisibilityButton.setImage(UIImage(named: "eye-visible.png"), for: .normal)
+            passwordVisibilityButton.setImage(UIImage(named: "ic-characters-hide"), for: .normal)
             passwordTextField.isSecureTextEntry = true
         }
     }

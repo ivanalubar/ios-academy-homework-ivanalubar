@@ -12,10 +12,7 @@ import Alamofire
 import CodableAlamofire
 import PromiseKit
 
-//struct TVShowItem {
-//    let name: String
-//    let image: UIImage?
-//}
+private let TableViewRowHeight: CGFloat = 110
 
 final class HomeViewController: UIViewController {
     
@@ -28,19 +25,7 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        _getApiShow()
-        
-    }
-    
-    private func tableRowSelect(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
-        let currentCell = tableView.cellForRow(at: indexPath!) as! UITableViewCell
-        let vc = ShowDetailsViewController()
-        vc.selected = currentCell
-        showAlertMessage()
-        _showDetails()
-        print(currentCell)
+        getApiShows()
         
     }
     
@@ -50,11 +35,9 @@ final class HomeViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
-    func _getApiShow() {
+    func getApiShows() {
         SVProgressHUD.show()
-        let headers = [
-            "Authorization": token]
-
+        let headers = [ "Authorization": token ]
         firstly {
             Alamofire
                 .request("https://api.infinum.academy/api/shows",
@@ -86,36 +69,20 @@ final class HomeViewController: UIViewController {
         }
     }
     
-    func showDetails(){
-        let sb = UIStoryboard(name: "ShowDetails", bundle: nil)
-        let viewController = sb.instantiateViewController(withIdentifier: "ShowDetailsViewController")
+    private func navigateToDetails(item: Shows){
+        let sb = UIStoryboard(name: Constants.Storyboards.showDetails, bundle: nil)
+        
+        guard
+            let viewController = sb.instantiateViewController(withIdentifier: "ShowDetailsViewController") as? ShowDetailsViewController
+            else { return }
+    
+        viewController.selected = item
+        viewController.token = token
         self.navigationController?.navigationItem.hidesBackButton = true
-         self.navigationController?.setViewControllers([viewController], animated: true)
+        self.navigationController?.setViewControllers([viewController], animated: true)
         self.navigationController?.popViewController(animated: true)
     }
     
-    func _showDetails() {
-        SVProgressHUD.show()
-        
-        firstly {
-            Alamofire
-                .request("https://api.infinum.academy/api/shows/{showId}",
-                         method: .get,
-                         encoding: JSONEncoding.default)
-                .validate()
-                .responseDecodable(Shows.self, keypath: "data")
-            }.done { loginData in
-                
-                self.showDetails()
-                SVProgressHUD.setDefaultMaskType(.black)
-               
-                print("Success: \(loginData)")
-                SVProgressHUD.showSuccess(withStatus: "Success")
-            }.catch { error in
-                print("API failure: \(error)")
-                SVProgressHUD.showError(withStatus: "Failure")
-        }
-    }
 }
 
 extension HomeViewController: UITableViewDelegate {
@@ -124,6 +91,7 @@ extension HomeViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         let item = items[indexPath.row]
         print("Selected Item: \(item)")
+        navigateToDetails(item: item)
     }
 }
 
@@ -136,15 +104,10 @@ extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         print("CURRENT INDEX PATH BEING CONFIGURED: \(indexPath)")
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TvShowsTableCell.self), for: indexPath) as! TvShowsTableCell
-        
         cell.configure(with: items[indexPath.row])
- 
-        return cell
+         return cell
     }
-    
-    
 }
 
 
@@ -152,7 +115,7 @@ private extension HomeViewController {
     
     func setupTableView() {
         
-        tableView.estimatedRowHeight = 110
+        tableView.estimatedRowHeight = TableViewRowHeight
         tableView.rowHeight = UITableView.automaticDimension
         tableView.tableFooterView = UIView()
         tableView.delegate = self

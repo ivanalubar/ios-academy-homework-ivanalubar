@@ -83,7 +83,7 @@
                                                                             <constraint firstAttribute="height" constant="20" id="oIc-j0-iB5"/>
                                                                         </constraints>
                                                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        <state key="normal" image="eye-visible">
+                                                                        <state key="normal" image="ic-hide-password">
                                                                             <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                         <connections>
@@ -248,8 +248,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="eye-visible" width="32" height="32"/>
         <image name="ic-checkbox-empty" width="24" height="24"/>
+        <image name="ic-hide-password" width="24" height="24"/>
         <image name="login-logo" width="75" height="80"/>
     </resources>
 </document>
