@@ -17,20 +17,21 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     // MARK: - Outlets
     
     @IBOutlet private weak var usernameTextField: UITextField!
-    @IBOutlet private weak var passwordTextfield: UITextField!
+    @IBOutlet private weak var passwordTextField: UITextField!
     @IBOutlet private weak var passwordVisibilityButton: UIButton!
     @IBOutlet private weak var rememberMeCheckBox: UIButton!
     @IBOutlet private weak var loginButton: UIButton!
     @IBOutlet private weak var createAccountButton: UIButton!
-
+    @IBOutlet private weak var scrollView: UIScrollView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        defineButtonsDesign()
+        configureUI()
         keyboardManipulation()
     }
     
-    private func defineButtonsDesign(){
+    private func configureUI(){
         
         passwordVisibilityButton.isHidden = true
         loginButton.layer.cornerRadius = 5
@@ -40,7 +41,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     
     private func keyboardManipulation(){
         
-        passwordTextfield.delegate = self
+        passwordTextField.delegate = self
         usernameTextField.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -54,28 +55,27 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     
     @IBAction private func rememberMeActionHandler() {
         
-        if rememberMeCheckBox.currentImage == UIImage(named: "ic-checkbox-empty.png") {
-            rememberMeCheckBox.setImage(UIImage(named: "ic-checkbox-filled.png"), for: .normal)
+        if rememberMeCheckBox.isSelected {
+            rememberMeCheckBox.setImage(UIImage(named: "ic-checkbox-empty"), for: .normal)
+        } else {
+            rememberMeCheckBox.setImage(UIImage(named: "ic-checkbox-filled"), for: .normal)
         }
-        else {
-            rememberMeCheckBox.setImage(UIImage(named: "ic-checkbox-empty.png"), for: .normal)
-        }
+        rememberMeCheckBox.isSelected.toggle()
     }
     
     @IBAction private func passwordShow() {
         
-        if passwordVisibilityButton.currentImage == UIImage(named: "eye-visible.png"){
+        if passwordTextField.isSecureTextEntry {
             passwordVisibilityButton.setImage(UIImage(named: "eye-invisible.png"), for: .normal)
-            passwordTextfield.isSecureTextEntry = false
-        }
-        else {
+            passwordTextField.isSecureTextEntry = false
+        } else {
             passwordVisibilityButton.setImage(UIImage(named: "eye-visible.png"), for: .normal)
-            passwordTextfield.isSecureTextEntry = true
+            passwordTextField.isSecureTextEntry = true
         }
     }
     
     @IBAction private func paswordFieldEditing() {
-        passwordTextfield.isSecureTextEntry = true
+        passwordTextField.isSecureTextEntry = true
         passwordVisibilityButton.isHidden = false
     }
     
@@ -84,10 +84,8 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= (keyboardSize.height - 150)
-            }
+        if let keyboardSize = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect {
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
         }
     }
     
@@ -101,11 +99,11 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         
         guard
             let username = usernameTextField.text,
-            let pass = passwordTextfield.text
+            let pass = passwordTextField.text
             else {
                 return
         }
-        _alamofireCodableLoginUserWith(email: username, password: pass)
+        loginUserWith(email: username, password: pass)
         
     }
     
@@ -114,11 +112,11 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         
         guard
             let username = usernameTextField.text,
-            let pass = passwordTextfield.text
+            let pass = passwordTextField.text
             else {
                 return
         }
-        _alamofireCodableRegisterUserWith(email: username, password: pass)
+        registerUserWith(email: username, password: pass)
     }
     
     func showAlertMessage(){
@@ -127,7 +125,14 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         self.present(alert, animated: true)
     }
     
-    func _alamofireCodableLoginUserWith(email: String, password: String) {
+    private func navigateToHome(){
+        let sb = UIStoryboard(name: "Home", bundle: nil)
+        let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
+        self.navigationController?.navigationItem.hidesBackButton = true
+        self.navigationController?.setViewControllers([viewController], animated: true)
+    }
+    
+    func loginUserWith(email: String, password: String) {
         SVProgressHUD.show()
         let parameters: [String: String] = [
             "email": email,
@@ -142,12 +147,8 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 .validate()
                 .responseDecodable(LoginData.self, keypath: "data")
             }.done { loginData in
-                let sb = UIStoryboard(name: "Home", bundle: nil)
-                let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
-                self.navigationController?.navigationItem.hidesBackButton = true
-                self.navigationController?.setViewControllers([viewController], animated: true)
+                self.navigateToHome()
                 SVProgressHUD.setDefaultMaskType(.black)
-              
                 print("Success: \(loginData)")
                 SVProgressHUD.showSuccess(withStatus: "Success")
             }.catch { error in
@@ -157,7 +158,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         }
     }
     
-    func _alamofireCodableRegisterUserWith(email: String, password: String) {
+    func registerUserWith(email: String, password: String) {
         SVProgressHUD.show()
         let parameters: [String: String] = [
             "email": email,
@@ -172,11 +173,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 .validate()
                 .responseDecodable(User.self, keypath: "data")
             }.done { loginData in
-                let sb = UIStoryboard(name: "Home", bundle: nil)
-                let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
-                self.navigationController?.navigationItem.hidesBackButton = true
-                self.navigationController?.setViewControllers([viewController], animated: true)
-               
                 SVProgressHUD.setDefaultMaskType(.black)
                 let vc = HomeViewController()
                 vc.token = loginData.type

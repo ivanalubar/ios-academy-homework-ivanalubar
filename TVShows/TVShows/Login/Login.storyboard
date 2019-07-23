@@ -217,9 +217,10 @@
                     <connections>
                         <outlet property="createAccountButton" destination="d7k-Zw-zca" id="D7M-UE-Rke"/>
                         <outlet property="loginButton" destination="kBB-cb-aTq" id="qPz-VL-dxo"/>
-                        <outlet property="passwordTextfield" destination="KKC-iV-2KE" id="SeX-qv-19M"/>
+                        <outlet property="passwordTextField" destination="KKC-iV-2KE" id="SeX-qv-19M"/>
                         <outlet property="passwordVisibilityButton" destination="b2j-ip-oNo" id="HjZ-6D-clr"/>
                         <outlet property="rememberMeCheckBox" destination="fNK-jh-2J3" id="nBe-0L-krp"/>
+                        <outlet property="scrollView" destination="Vw9-da-8h4" id="rd1-qw-bcT"/>
                         <outlet property="usernameTextField" destination="zeZ-PF-Mc8" id="rCZ-Pk-cvY"/>
                     </connections>
                 </viewController>

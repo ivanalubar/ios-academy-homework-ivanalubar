@@ -2,16 +2,10 @@ platform :ios, '9.0'
 use_frameworks!
 
 target 'TVShows' do
-
 	pod 'Alamofire'
-
 	pod 'CodableAlamofire'
-
 	pod 'SVProgressHUD'
-
 	pod 'PromiseKit/CorePromise', '~> 6.0'
-	
 	pod 'PromiseKit/Alamofire'
-
 
 end
