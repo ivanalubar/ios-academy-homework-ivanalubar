@@ -36,24 +36,18 @@ struct Shows: Codable {
 }
 
 struct ShowDetails: Codable {
-    let id: String
-    let showId: String
+    let type: String
     let title: String
     let description: String
-    let episodeNumber: String
-    let season: String
-    let type: String
+    let id: String
     let likesCount: Int
     let imageUrl: String
     enum CodingKeys: String, CodingKey {
-        case imageUrl
-        case showId
+        case type
         case title
         case description
-        case episodeNumber
-        case season
-        case type
         case likesCount
+        case imageUrl
         case id = "_id"
     }
 }

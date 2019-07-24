@@ -28,7 +28,7 @@ final class ShowDetailsViewController: UIViewController {
     public var token: String = ""
     public var showID: String = ""
     public var showTitle: String = ""
-    var id: String? = ""
+    var id: String! = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,9 +37,12 @@ final class ShowDetailsViewController: UIViewController {
             titleLabel.text = selected.title
             showTitle = selected.title
         } else { titleLabel.text = showTitle }
-        setupTableView()
+        
         getShowDetails()
         getShowEpisodes()
+        setupTableView()
+        descriptionLabel.lineBreakMode = .byCharWrapping
+        descriptionLabel.numberOfLines = 10
     }
     
     // MARK: - Navigation
@@ -73,12 +76,16 @@ final class ShowDetailsViewController: UIViewController {
     // MARK: - API calls
     
     func getShowDetails() {
+        print(id!)
+        print("*******************************")
         SVProgressHUD.show()
+        let headers: HTTPHeaders = ["Authorization": token]
         firstly {
             Alamofire
                 .request("https://api.infinum.academy/api/shows/\(id!)",
                     method: .get,
-                    encoding: JSONEncoding.default)
+                    encoding: JSONEncoding.default,
+                    headers:headers)
                 .validate()
                 .responseDecodable(ShowDetails.self, keypath: "data")
             }.done { details in
