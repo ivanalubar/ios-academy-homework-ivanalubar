@@ -18,15 +18,20 @@ final class ShowDetailsViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     private let TableViewRowHeight: CGFloat = 110
     public var currentShow: ShowDetails? = nil
-    public var selected: Shows? = nil
+    public var selected: Shows! = nil
     private var episodeList = [Episodes]()
     public var token: String = ""
+    public var showID: String = ""
     @IBOutlet weak var label: UILabel!
+    var id: String? = ""
 
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if selected != nil {
+            id = selected.id
+        }
         print(selected)
         label.text = selected?.title
         setupTableView()
@@ -36,23 +41,30 @@ final class ShowDetailsViewController: UIViewController {
     
     @IBAction func navigateBackButton() {
         let sb = UIStoryboard(name: "Home", bundle: nil)
-        let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
+        guard
+            let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController
+            else { return }
         self.navigationController?.navigationItem.hidesBackButton = true
         self.navigationController?.setViewControllers([viewController], animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func addNewEpisodeButton() {
-        let sBoard = UIStoryboard(name: "AddNewEpisode", bundle: nil)
-        let vc = sBoard.instantiateViewController(withIdentifier: "AddNewEpisodeController")
-        //let vc = AddNewEpisodeViewController()
-        let navigationController = UINavigationController(rootViewController: vc)
+        let sb = UIStoryboard(name: "AddNewEpisode", bundle: nil)
+        guard
+            let viewController = sb.instantiateViewController(withIdentifier: "AddNewEpisodeViewController") as? AddNewEpisodeViewController
+            else { return }
+        viewController.token = token
+        viewController.showID = id!
+        print(viewController.showID)
+        print("*********************************************************")
+        let navigationController = UINavigationController(rootViewController: viewController)
         present(navigationController, animated: true)
         
     }
     
     func getShowDetails() {
         SVProgressHUD.show()
-        let id: String? = selected?.id
         firstly {
             Alamofire
                 .request("https://api.infinum.academy/api/shows/\(id!)",
@@ -76,7 +88,6 @@ final class ShowDetailsViewController: UIViewController {
     
     func getShowEpisodes() {
         SVProgressHUD.show()
-        let id: String? = selected?.id
         firstly {
             Alamofire
                 .request("https://api.infinum.academy/api/shows/\(id!)/episodes",

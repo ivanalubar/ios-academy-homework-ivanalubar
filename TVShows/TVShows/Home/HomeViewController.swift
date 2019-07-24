@@ -26,7 +26,6 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getApiShows()
-        
     }
     
     func showAlertMessage(){
@@ -78,6 +77,8 @@ final class HomeViewController: UIViewController {
     
         viewController.selected = item
         viewController.token = token
+        print(viewController.token)
+        print("********************************************")
         self.navigationController?.navigationItem.hidesBackButton = true
         self.navigationController?.setViewControllers([viewController], animated: true)
         self.navigationController?.popViewController(animated: true)

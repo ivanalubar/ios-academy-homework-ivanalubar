@@ -23,6 +23,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet private weak var loginButton: UIButton!
     @IBOutlet private weak var createAccountButton: UIButton!
     @IBOutlet private weak var scrollView: UIScrollView!
+   //var token: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,11 +126,20 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         self.present(alert, animated: true)
     }
     
-    private func navigateToHome(){
+    private func navigateToHome(token: String){
         let sb = UIStoryboard(name: "Home", bundle: nil)
-        let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
-        self.navigationController?.navigationItem.hidesBackButton = true
-        self.navigationController?.setViewControllers([viewController], animated: true)
+//        let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
+//
+//        self.navigationController?.navigationItem.hidesBackButton = true
+//        self.navigationController?.setViewControllers([viewController], animated: true)
+        guard
+            let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController
+            else { return }
+        viewController.token = token
+        print(viewController.token)
+        print("*********************************************************")
+        let navigationController = UINavigationController(rootViewController: viewController)
+        present(navigationController, animated: true)
     }
     
     func loginUserWith(email: String, password: String) {
@@ -147,7 +157,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 .validate()
                 .responseDecodable(LoginData.self, keypath: "data")
             }.done { loginData in
-                self.navigateToHome()
+                self.navigateToHome(token: loginData.token)
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success: \(loginData)")
                 SVProgressHUD.showSuccess(withStatus: "Success")
@@ -183,7 +193,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 SVProgressHUD.showError(withStatus: "Failure")
         }
     }
-    
 }
 
 
