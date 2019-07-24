@@ -18,9 +18,6 @@ final class HomeViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     public var token: String = ""
-    
-//    @IBOutlet weak var tableView: UITableView!
-   
     private var items = [Shows]()
     
     override func viewDidLoad() {
@@ -28,11 +25,15 @@ final class HomeViewController: UIViewController {
         getApiShows()
     }
     
-    func showAlertMessage(){
-        let alert = UIAlertController(title: "Log in failure", message: "User can not be logged in", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+    // MARK: - Alert messages
+    
+    func showApiFailedMessage(){
+        let alert = UIAlertController(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.getShowsFaliure, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
         self.present(alert, animated: true)
     }
+    
+    // MARK: - API calls
     
     func getApiShows() {
         SVProgressHUD.show()
@@ -53,11 +54,29 @@ final class HomeViewController: UIViewController {
                     self.items.append(show)
                 }
                 self.setupTableView()
-                SVProgressHUD.showSuccess(withStatus: "Success")
+                SVProgressHUD.dismiss()
             }.catch { error in
                 print("API failure: \(error)")
-                SVProgressHUD.showError(withStatus: "Failure")
+                self.showApiFailedMessage()
+                SVProgressHUD.dismiss()
         }
+    }
+    
+    // MARK: - Navigation
+    
+    private func navigateToDetails(item: Shows){
+        let sb = UIStoryboard(name: Constants.Storyboards.showDetails, bundle: nil)
+        
+        guard
+            let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.showDetailsViewConstroller) as? ShowDetailsViewController
+            else { return }
+        
+        viewController.selected = item
+        viewController.token = token
+        print(viewController.token)
+        self.navigationController?.navigationItem.hidesBackButton = true
+        self.navigationController?.setViewControllers([viewController], animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -67,24 +86,9 @@ final class HomeViewController: UIViewController {
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
-    
-    private func navigateToDetails(item: Shows){
-        let sb = UIStoryboard(name: Constants.Storyboards.showDetails, bundle: nil)
-        
-        guard
-            let viewController = sb.instantiateViewController(withIdentifier: "ShowDetailsViewController") as? ShowDetailsViewController
-            else { return }
-    
-        viewController.selected = item
-        viewController.token = token
-        print(viewController.token)
-        print("********************************************")
-        self.navigationController?.navigationItem.hidesBackButton = true
-        self.navigationController?.setViewControllers([viewController], animated: true)
-        self.navigationController?.popViewController(animated: true)
-    }
-    
 }
+
+// MARK: - Extensions
 
 extension HomeViewController: UITableViewDelegate {
 

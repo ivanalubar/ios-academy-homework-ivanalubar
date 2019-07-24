@@ -13,25 +13,28 @@ import CodableAlamofire
 import PromiseKit
 
 final class AddNewEpisodeViewController: UIViewController {
-
+    
+    // MARK: - Outlets
+    
     @IBOutlet weak var episodeTitleLabel: UITextField!
     @IBOutlet weak var seasonNumberLabel: UITextField!
     @IBOutlet weak var episodeNumberLabel: UITextField!
     @IBOutlet weak var episodeDescriptionLabel: UITextField!
     var token: String = ""
     var showID: String = ""
+    var showTitle: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: "Cancel",
+            title: Constants.ButtonNames.cancel,
             style: .plain,
             target: self,
             action: #selector(didSelectCancel)
         )
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Add",
+            title: Constants.ButtonNames.add,
             style: .plain,
             target: self,
             action: #selector(didSelectAddShow)
@@ -54,19 +57,35 @@ final class AddNewEpisodeViewController: UIViewController {
     
     @objc func didSelectCancel(){
         print("Clicked Cancel")
-        let sb = UIStoryboard(name: "ShowDetails", bundle: nil)
+        let sb = UIStoryboard(name: Constants.Storyboards.showDetails, bundle: nil)
         guard
-            let viewController = sb.instantiateViewController(withIdentifier: "ShowDetailsViewController") as? ShowDetailsViewController
+            let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.showDetailsViewConstroller) as? ShowDetailsViewController
             else { return }
         
         viewController.id = showID
         viewController.token = token
+        viewController.showTitle = showTitle
         print(viewController.id!)
-        print("*********************************************************")
         self.navigationController?.navigationItem.hidesBackButton = true
         self.navigationController?.setViewControllers([viewController], animated: true)
         self.navigationController?.popViewController(animated: true)
     }
+    
+    // MARK: - Alert messagess
+    
+    func showFailureMessage(){
+        let alert = UIAlertController(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.addEpisodeFailure, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    func showSuccessMessage(){
+        let alert = UIAlertController(title: Constants.AlertMessages.sucessMessageTitle, message: Constants.AlertMessages.addEpisodeSuccess, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    // MARK: - API calls
     
     func addNewEpisode(title: String, season: String, episode: String, description: String) {
         SVProgressHUD.show()
@@ -91,13 +110,17 @@ final class AddNewEpisodeViewController: UIViewController {
             }.done { _ in
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success:")
-                SVProgressHUD.showSuccess(withStatus: "Success")
+                self.showSuccessMessage()
+                SVProgressHUD.dismiss()
             }.catch { error in
                 print("API failure: \(error)")
-                SVProgressHUD.showError(withStatus: "Failure")
+                self.showFailureMessage()
+                SVProgressHUD.dismiss()
         }
     }
 }
+
+// MARK: - Color conversion
 
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {

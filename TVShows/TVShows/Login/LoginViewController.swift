@@ -12,6 +12,9 @@ import Alamofire
 import CodableAlamofire
 import PromiseKit
 
+private let cornerRadius: CGFloat = 5
+private let borderWidth: CGFloat = 1
+
 final class LoginViewController: UIViewController, UITextFieldDelegate{
     
     // MARK: - Outlets
@@ -23,7 +26,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet private weak var loginButton: UIButton!
     @IBOutlet private weak var createAccountButton: UIButton!
     @IBOutlet private weak var scrollView: UIScrollView!
-   //var token: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,8 +37,8 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     private func configureUI(){
         
         passwordVisibilityButton.isHidden = true
-        loginButton.layer.cornerRadius = 5
-        loginButton.layer.borderWidth = 1
+        loginButton.layer.cornerRadius = cornerRadius
+        loginButton.layer.borderWidth = borderWidth
         loginButton.layer.borderColor = UIColor.clear.cgColor
     }
     
@@ -57,9 +59,9 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBAction private func rememberMeActionHandler() {
         
         if rememberMeCheckBox.isSelected {
-            rememberMeCheckBox.setImage(UIImage(named: "ic-checkbox-empty"), for: .normal)
+            rememberMeCheckBox.setImage(UIImage(named: Constants.Images.unchecked), for: .normal)
         } else {
-            rememberMeCheckBox.setImage(UIImage(named: "ic-checkbox-filled"), for: .normal)
+            rememberMeCheckBox.setImage(UIImage(named: Constants.Images.checked), for: .normal)
         }
         rememberMeCheckBox.isSelected.toggle()
     }
@@ -67,10 +69,10 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBAction private func passwordShow() {
         
         if passwordTextField.isSecureTextEntry {
-            passwordVisibilityButton.setImage(UIImage(named: "ic-hide-password"), for: .normal)
+            passwordVisibilityButton.setImage(UIImage(named: Constants.Images.passwordHide), for: .normal)
             passwordTextField.isSecureTextEntry = false
         } else {
-            passwordVisibilityButton.setImage(UIImage(named: "ic-characters-hide"), for: .normal)
+            passwordVisibilityButton.setImage(UIImage(named: Constants.Images.passwordShow), for: .normal)
             passwordTextField.isSecureTextEntry = true
         }
     }
@@ -97,50 +99,58 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     }
     
     @IBAction private func loginButtonClick() {
-        
+
         guard
             let username = usernameTextField.text,
             let pass = passwordTextField.text
-            else {
-                return
-        }
+            else { return }
         loginUserWith(email: username, password: pass)
         
     }
-    
     
     @IBAction private func registerButtonClick() {
         
         guard
             let username = usernameTextField.text,
             let pass = passwordTextField.text
-            else {
-                return
-        }
+            else { return }
         registerUserWith(email: username, password: pass)
     }
     
-    func showAlertMessage(){
-        let alert = UIAlertController(title: "Log in failure", message: "User can not be logged in", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+    // MARK: - Alert messagess
+    
+    func showLoginFailedMessage(){
+        let alert = UIAlertController(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.loginFailure, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
         self.present(alert, animated: true)
     }
     
+    func showRegisterFailedMessage(){
+        let alert = UIAlertController(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.registrationFaliure, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    func showRegisterSuccessdMessage(){
+        let alert = UIAlertController(title: Constants.AlertMessages.sucessMessageTitle, message: Constants.AlertMessages.registrationSuccess, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    // MARK: - Navigation
+    
     private func navigateToHome(token: String){
-        let sb = UIStoryboard(name: "Home", bundle: nil)
-//        let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController")
-//
-//        self.navigationController?.navigationItem.hidesBackButton = true
-//        self.navigationController?.setViewControllers([viewController], animated: true)
+        let sb = UIStoryboard(name: Constants.Storyboards.home, bundle: nil)
         guard
-            let viewController = sb.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController
+            let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.homeViewConstroller) as? HomeViewController
             else { return }
         viewController.token = token
         print(viewController.token)
-        print("*********************************************************")
         let navigationController = UINavigationController(rootViewController: viewController)
         present(navigationController, animated: true)
     }
+    
+    // MARK: - API calls
     
     func loginUserWith(email: String, password: String) {
         SVProgressHUD.show()
@@ -160,11 +170,11 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 self.navigateToHome(token: loginData.token)
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success: \(loginData)")
-                SVProgressHUD.showSuccess(withStatus: "Success")
+                SVProgressHUD.dismiss()
             }.catch { error in
                 print("API failure: \(error)")
                 SVProgressHUD.dismiss()
-                self.showAlertMessage()
+                self.showLoginFailedMessage()
         }
     }
     
@@ -187,10 +197,12 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 let vc = HomeViewController()
                 vc.token = loginData.type
                 print("Success: \(loginData)")
-                SVProgressHUD.showSuccess(withStatus: "Success")
+                self.showRegisterSuccessdMessage()
+                SVProgressHUD.dismiss()
             }.catch { error in
                 print("API failure: \(error)")
-                SVProgressHUD.showError(withStatus: "Failure")
+                SVProgressHUD.dismiss()
+                self.showRegisterFailedMessage()
         }
     }
 }
