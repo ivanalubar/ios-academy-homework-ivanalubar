@@ -96,7 +96,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cMs-6S-ioL">
-                                                    <rect key="frame" x="20" y="345" width="560" height="30"/>
+                                                    <rect key="frame" x="20" y="345" width="374" height="30"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="seasonNumberLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jmu-ip-EcO">
                                                             <rect key="frame" x="0.0" y="0.0" width="40" height="30"/>
@@ -117,13 +117,13 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="episodeTitleLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0vj-bi-PFG">
-                                                            <rect key="frame" x="80" y="0.0" width="450" height="30"/>
+                                                            <rect key="frame" x="80" y="0.0" width="264" height="30"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9UK-mh-686">
-                                                            <rect key="frame" x="530" y="0.0" width="30" height="30"/>
+                                                            <rect key="frame" x="344" y="0.0" width="30" height="30"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="30" id="WAV-4O-at5"/>
                                                                 <constraint firstAttribute="width" constant="30" id="oga-dG-SxY"/>
@@ -138,14 +138,13 @@
                                                         <constraint firstItem="dCi-Kk-X8k" firstAttribute="leading" secondItem="Jmu-ip-EcO" secondAttribute="trailing" priority="999" constant="5" id="Svt-vn-eC0"/>
                                                         <constraint firstItem="9UK-mh-686" firstAttribute="leading" secondItem="0vj-bi-PFG" secondAttribute="trailing" priority="999" constant="5" id="TS8-6v-eb2"/>
                                                         <constraint firstItem="0vj-bi-PFG" firstAttribute="leading" secondItem="dCi-Kk-X8k" secondAttribute="trailing" priority="999" constant="5" id="uK0-yy-hAc"/>
+                                                        <constraint firstAttribute="height" constant="30" id="yWX-0T-ykJ"/>
                                                     </constraints>
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="cMs-6S-ioL" firstAttribute="top" secondItem="yD9-VQ-xEE" secondAttribute="topMargin" priority="999" id="58L-rv-gDi"/>
+                                                <constraint firstItem="cMs-6S-ioL" firstAttribute="top" secondItem="yD9-VQ-xEE" secondAttribute="topMargin" priority="999" constant="50" id="4Mb-AF-jRw"/>
                                                 <constraint firstAttribute="trailing" secondItem="cMs-6S-ioL" secondAttribute="trailing" constant="20" id="Mhc-ne-qI0"/>
-                                                <constraint firstItem="cMs-6S-ioL" firstAttribute="leading" secondItem="yD9-VQ-xEE" secondAttribute="leadingMargin" id="OsQ-bn-vjC"/>
-                                                <constraint firstItem="cMs-6S-ioL" firstAttribute="trailing" secondItem="yD9-VQ-xEE" secondAttribute="trailingMargin" id="X1A-Qe-wrN"/>
                                                 <constraint firstItem="cMs-6S-ioL" firstAttribute="leading" secondItem="yD9-VQ-xEE" secondAttribute="leading" constant="20" id="ZlI-1K-Hd0"/>
                                                 <constraint firstAttribute="bottom" secondItem="cMs-6S-ioL" secondAttribute="bottom" priority="999" id="lq7-Fk-B52"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="cMs-6S-ioL" secondAttribute="bottom" id="zYr-JI-CI6"/>
