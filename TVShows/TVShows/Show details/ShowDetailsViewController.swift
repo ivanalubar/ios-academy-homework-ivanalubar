@@ -33,15 +33,19 @@ final class ShowDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loading()
+    }
+    
+    func loading(){
         if selected != nil {
             id = selected.id
             titleLabel.text = selected.title
             showTitle = selected.title
         } else { titleLabel.text = showTitle }
         
-        getShowDetails()
-        getShowEpisodes()
         setupTableView()
+        getShowEpisodes()
+        getShowDetails()
     }
     
     // MARK: - Navigation
@@ -67,6 +71,7 @@ final class ShowDetailsViewController: UIViewController {
         viewController.token = token
         viewController.showID = id!
         viewController.showTitle = showTitle
+        viewController.delegate = self
         print(viewController.showID)
         let navigationController = UINavigationController(rootViewController: viewController)
         present(navigationController, animated: true)
@@ -111,9 +116,7 @@ final class ShowDetailsViewController: UIViewController {
                 .responseDecodable([Episodes].self, keypath: "data")
             }.done { episodes in
                 SVProgressHUD.setDefaultMaskType(.black)
-                episodes.forEach { episode in
-                    self.episodeList.append(episode)
-                }
+                self.episodeList = episodes
                 self.episodeList.sort(by: { $0.season < $1.season })
                 self.tableView.reloadData()
                 print(self.episodeList)
@@ -160,5 +163,11 @@ private extension ShowDetailsViewController {
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
+    }
+}
+
+extension ShowDetailsViewController: NewEpiodeDelegate{
+    func episodeAdded() {
+        loading()
     }
 }

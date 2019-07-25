@@ -12,6 +12,10 @@ import Alamofire
 import CodableAlamofire
 import PromiseKit
 
+protocol NewEpiodeDelegate: class {
+    func episodeAdded()
+}
+
 final class AddNewEpisodeViewController: UIViewController {
     
     // MARK: - Outlets
@@ -21,6 +25,7 @@ final class AddNewEpisodeViewController: UIViewController {
     @IBOutlet weak var episodeNumberLabel: UITextField!
     @IBOutlet weak var episodeDescriptionLabel: UITextField!
     
+    weak var delegate: NewEpiodeDelegate?
     var token: String = ""
     var showID: String = ""
     var showTitle: String = ""
@@ -67,21 +72,13 @@ final class AddNewEpisodeViewController: UIViewController {
         viewController.token = token
         viewController.showTitle = showTitle
         print(viewController.id!)
-        self.navigationController?.navigationItem.hidesBackButton = true
-        self.navigationController?.setViewControllers([viewController], animated: true)
-        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Alert messagess
     
     func showFailureMessage(){
         let alert = UIAlertController(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.addEpisodeFailure, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
-        self.present(alert, animated: true)
-    }
-    
-    func showSuccessMessage(){
-        let alert = UIAlertController(title: Constants.AlertMessages.sucessMessageTitle, message: Constants.AlertMessages.addEpisodeSuccess, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
         self.present(alert, animated: true)
     }
@@ -111,8 +108,10 @@ final class AddNewEpisodeViewController: UIViewController {
             }.done { _ in
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success:")
-                self.showSuccessMessage()
                 SVProgressHUD.dismiss()
+                self.delegate?.episodeAdded()
+                self.dismiss(animated: true)
+                //self.dismiss(animated: true, completion: nil)
             }.catch { error in
                 print("API failure: \(error)")
                 self.showFailureMessage()
