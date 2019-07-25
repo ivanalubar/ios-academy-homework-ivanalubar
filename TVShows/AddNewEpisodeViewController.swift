@@ -20,6 +20,7 @@ final class AddNewEpisodeViewController: UIViewController {
     @IBOutlet weak var seasonNumberLabel: UITextField!
     @IBOutlet weak var episodeNumberLabel: UITextField!
     @IBOutlet weak var episodeDescriptionLabel: UITextField!
+    
     var token: String = ""
     var showID: String = ""
     var showTitle: String = ""

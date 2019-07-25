@@ -19,15 +19,16 @@ final class ShowDetailsViewController: UIViewController {
     // MARK: - Outlets
     
     @IBOutlet weak var numberOfEpisodesLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    public var currentShow: ShowDetails? = nil
-    public var selected: Shows! = nil
-    private var episodeList = [Episodes]()
-    public var token: String = ""
-    public var showID: String = ""
-    public var showTitle: String = ""
+    @IBOutlet weak var descriptionView: UITextView!
+    
+    var currentShow: ShowDetails? = nil
+    var selected: Shows! = nil
+    var episodeList = [Episodes]()
+    var token: String = ""
+    var showID: String = ""
+    var showTitle: String = ""
     var id: String! = ""
     
     override func viewDidLoad() {
@@ -41,8 +42,6 @@ final class ShowDetailsViewController: UIViewController {
         getShowDetails()
         getShowEpisodes()
         setupTableView()
-        descriptionLabel.lineBreakMode = .byCharWrapping
-        descriptionLabel.numberOfLines = 10
     }
     
     // MARK: - Navigation
@@ -77,8 +76,6 @@ final class ShowDetailsViewController: UIViewController {
     // MARK: - API calls
     
     func getShowDetails() {
-        print(id!)
-        print("*******************************")
         SVProgressHUD.show()
         let headers: HTTPHeaders = ["Authorization": token]
         firstly {
@@ -92,8 +89,7 @@ final class ShowDetailsViewController: UIViewController {
             }.done { details in
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Ovo je details \(details)")
-                self.descriptionLabel.text = details.description
-                
+                self.descriptionView.text = details.description
                 print(details.description)
                 self.tableView.reloadData()
                 print("Success: \(details)")

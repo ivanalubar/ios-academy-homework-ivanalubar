@@ -16,9 +16,6 @@
 		42391C8B22E50D25006ECD14 /* ShowDetails.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42391C8A22E50D25006ECD14 /* ShowDetails.storyboard */; };
 		42391C9222E7069F006ECD14 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42391C9122E7069F006ECD14 /* Constants.swift */; };
 		42391C9522E710B4006ECD14 /* ShowDetailsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42391C9422E710B4006ECD14 /* ShowDetailsTableCell.swift */; };
-		42391C9722E721FB006ECD14 /* ShowImageTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42391C9622E721FB006ECD14 /* ShowImageTableCell.swift */; };
-		42391C9922E7221A006ECD14 /* ShowTitleTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42391C9822E7221A006ECD14 /* ShowTitleTableCell.swift */; };
-		42391C9B22E72236006ECD14 /* ShowDescriptionTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42391C9A22E72236006ECD14 /* ShowDescriptionTableCell.swift */; };
 		424F001F22DF244200F91BDE /* PromiseKit+KeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F001E22DF244200F91BDE /* PromiseKit+KeyPath.swift */; };
 		424F002222E0D03C00F91BDE /* TvShowsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F002122E0D03C00F91BDE /* TvShowsTableCell.swift */; };
 		4257525E22E7BFDD0012CD3D /* AddNewEpisodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4257525D22E7BFDD0012CD3D /* AddNewEpisodeViewController.swift */; };
@@ -42,9 +39,6 @@
 		42391C8A22E50D25006ECD14 /* ShowDetails.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ShowDetails.storyboard; sourceTree = "<group>"; };
 		42391C9122E7069F006ECD14 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		42391C9422E710B4006ECD14 /* ShowDetailsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailsTableCell.swift; sourceTree = "<group>"; };
-		42391C9622E721FB006ECD14 /* ShowImageTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowImageTableCell.swift; sourceTree = "<group>"; };
-		42391C9822E7221A006ECD14 /* ShowTitleTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTitleTableCell.swift; sourceTree = "<group>"; };
-		42391C9A22E72236006ECD14 /* ShowDescriptionTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDescriptionTableCell.swift; sourceTree = "<group>"; };
 		424F001E22DF244200F91BDE /* PromiseKit+KeyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PromiseKit+KeyPath.swift"; sourceTree = "<group>"; };
 		424F002122E0D03C00F91BDE /* TvShowsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvShowsTableCell.swift; sourceTree = "<group>"; };
 		4257525D22E7BFDD0012CD3D /* AddNewEpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewEpisodeViewController.swift; sourceTree = "<group>"; };
@@ -126,9 +120,6 @@
 			isa = PBXGroup;
 			children = (
 				42391C9422E710B4006ECD14 /* ShowDetailsTableCell.swift */,
-				42391C9622E721FB006ECD14 /* ShowImageTableCell.swift */,
-				42391C9822E7221A006ECD14 /* ShowTitleTableCell.swift */,
-				42391C9A22E72236006ECD14 /* ShowDescriptionTableCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -306,8 +297,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				426C134B22DCC5FE000D971A /* User.swift in Sources */,
-				42391C9B22E72236006ECD14 /* ShowDescriptionTableCell.swift in Sources */,
-				42391C9722E721FB006ECD14 /* ShowImageTableCell.swift in Sources */,
 				4257525E22E7BFDD0012CD3D /* AddNewEpisodeViewController.swift in Sources */,
 				424F001F22DF244200F91BDE /* PromiseKit+KeyPath.swift in Sources */,
 				42387B1F22CFE59F00C829B9 /* LoginViewController.swift in Sources */,
@@ -315,7 +304,6 @@
 				42C2F84222DA739100F4CC52 /* HomeViewController.swift in Sources */,
 				42391C9522E710B4006ECD14 /* ShowDetailsTableCell.swift in Sources */,
 				42391C8922E50CF9006ECD14 /* ShowDetailsViewController.swift in Sources */,
-				42391C9922E7221A006ECD14 /* ShowTitleTableCell.swift in Sources */,
 				424F002222E0D03C00F91BDE /* TvShowsTableCell.swift in Sources */,
 				42391C9222E7069F006ECD14 /* Constants.swift in Sources */,
 			);

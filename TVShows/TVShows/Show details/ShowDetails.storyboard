@@ -26,7 +26,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="bij-w3-9AQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="419.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="476"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icImagePlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="5Oc-t1-27e">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
@@ -35,22 +35,20 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="titleLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uWo-xz-XAP">
-                                                    <rect key="frame" x="0.0" y="313" width="414" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" priority="999" constant="30" id="Gia-Rj-OV0"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="0.0" y="313" width="414" height="33.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" semanticContentAttribute="spatial" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="descriptionLabel" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OHS-M1-aTf">
-                                                    <rect key="frame" x="0.0" y="356" width="414" height="20.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="KKv-MX-ym0">
+                                                    <rect key="frame" x="0.0" y="359.5" width="414" height="73.5"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DDy-qC-Ca2">
-                                                    <rect key="frame" x="0.0" y="389.5" width="414" height="30"/>
+                                                    <rect key="frame" x="0.0" y="446" width="414" height="30"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Episodes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bqe-oT-5fc">
                                                             <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
@@ -74,13 +72,15 @@
                                                 </stackView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="KKv-MX-ym0" firstAttribute="leading" secondItem="bij-w3-9AQ" secondAttribute="leading" id="3x5-ou-A6c"/>
                                                 <constraint firstItem="5Oc-t1-27e" firstAttribute="top" secondItem="bij-w3-9AQ" secondAttribute="top" id="Fmc-0l-84W"/>
-                                                <constraint firstItem="DDy-qC-Ca2" firstAttribute="top" secondItem="OHS-M1-aTf" secondAttribute="bottom" priority="999" constant="10" id="Vvw-sv-17Y"/>
+                                                <constraint firstAttribute="trailing" secondItem="KKv-MX-ym0" secondAttribute="trailing" id="dOa-eH-4Ew"/>
                                             </constraints>
                                         </stackView>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="bij-w3-9AQ" secondAttribute="bottom" id="X1Z-xx-m8C"/>
                                         <constraint firstAttribute="trailing" secondItem="bij-w3-9AQ" secondAttribute="trailing" id="b4x-Vk-gXd"/>
                                         <constraint firstItem="bij-w3-9AQ" firstAttribute="top" secondItem="AHC-jf-5Z5" secondAttribute="top" id="q0h-ak-qep"/>
                                         <constraint firstItem="bij-w3-9AQ" firstAttribute="leading" secondItem="AHC-jf-5Z5" secondAttribute="leading" id="rHm-Hz-ywW"/>
@@ -143,7 +143,7 @@
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="cMs-6S-ioL" firstAttribute="top" secondItem="yD9-VQ-xEE" secondAttribute="topMargin" priority="999" constant="50" id="4Mb-AF-jRw"/>
+                                                <constraint firstItem="cMs-6S-ioL" firstAttribute="top" relation="lessThanOrEqual" secondItem="yD9-VQ-xEE" secondAttribute="topMargin" priority="999" constant="30" id="4Mb-AF-jRw"/>
                                                 <constraint firstAttribute="trailing" secondItem="cMs-6S-ioL" secondAttribute="trailing" constant="20" id="Mhc-ne-qI0"/>
                                                 <constraint firstItem="cMs-6S-ioL" firstAttribute="leading" secondItem="yD9-VQ-xEE" secondAttribute="leading" constant="20" id="ZlI-1K-Hd0"/>
                                                 <constraint firstAttribute="bottom" secondItem="cMs-6S-ioL" secondAttribute="bottom" priority="999" id="lq7-Fk-B52"/>
@@ -199,7 +199,7 @@
                         <viewLayoutGuide key="safeArea" id="sof-56-gJ1"/>
                     </view>
                     <connections>
-                        <outlet property="descriptionLabel" destination="OHS-M1-aTf" id="K7I-la-UuV"/>
+                        <outlet property="descriptionView" destination="KKv-MX-ym0" id="ZeJ-8R-XIx"/>
                         <outlet property="numberOfEpisodesLabel" destination="sZg-99-iwc" id="wTJ-7N-Crl"/>
                         <outlet property="tableView" destination="0rY-5e-WB5" id="gaE-Ug-CsU"/>
                         <outlet property="titleLabel" destination="uWo-xz-XAP" id="18x-re-Whu"/>
@@ -207,7 +207,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x2s-ZM-E5r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2449" y="-996"/>
+            <point key="canvasLocation" x="-2849.275362318841" y="-1004.4642857142857"/>
         </scene>
     </scenes>
     <resources>
