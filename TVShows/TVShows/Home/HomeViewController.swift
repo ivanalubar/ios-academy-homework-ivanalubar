@@ -23,6 +23,26 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getApiShows()
+//        let logoutItem = UIBarButtonItem.init(image: UIImage(name: "ic-logout"),
+//                                                                style: .plain,
+//                                                                target: self,
+//                                                                action: #selector(_logotActionHandler))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+           // title: "Logout",
+            image: UIImage(named: "ic-logout"),
+            style: .plain,
+            target: self,
+            action: #selector(logotActionHandler)
+        )
+    }
+    
+    @objc private func logotActionHandler(){
+
+        print("Navigate to login")
+        self.dismiss(animated: true, completion: nil)
+        let domain = Bundle.main.bundleIdentifier!
+        UserDefaults.standard.removePersistentDomain(forName: domain)
+        UserDefaults.standard.synchronize()
     }
     
     // MARK: - Alert messages

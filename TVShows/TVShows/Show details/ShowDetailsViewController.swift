@@ -11,6 +11,7 @@ import SVProgressHUD
 import Alamofire
 import CodableAlamofire
 import PromiseKit
+import Kingfisher
 
 private let TableViewRowHeight: CGFloat = 110
 
@@ -22,6 +23,7 @@ final class ShowDetailsViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var descriptionView: UITextView!
+    @IBOutlet weak var imageView: UIImageView!
     
     var currentShow: ShowDetails? = nil
     var selected: Shows! = nil
@@ -96,6 +98,8 @@ final class ShowDetailsViewController: UIViewController {
                 print("Ovo je details \(details)")
                 self.descriptionView.text = details.description
                 print(details.description)
+                let url = URL(string: "https://api.infinum.academy/\(details.imageUrl)")
+                self.imageView.kf.setImage(with: url)
                 self.tableView.reloadData()
                 print("Success: \(details)")
                 SVProgressHUD.dismiss()

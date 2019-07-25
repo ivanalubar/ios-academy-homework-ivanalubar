@@ -7,5 +7,7 @@ target 'TVShows' do
 	pod 'SVProgressHUD'
 	pod 'PromiseKit/CorePromise', '~> 6.0'
 	pod 'PromiseKit/Alamofire'
+  pod 'Kingfisher', '~> 4.2'
+  pod 'KeychainSwift'
 
 end

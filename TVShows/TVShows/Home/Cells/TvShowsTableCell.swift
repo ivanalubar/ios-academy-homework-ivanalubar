@@ -33,8 +33,9 @@ final class TvShowsTableCell: UITableViewCell {
 // MARK: - Configure
 extension TvShowsTableCell {
     func configure(with item: Shows) {
-   
-        thumbnail.image =  UIImage(named: "icImagePlaceholder")
+        let url = URL(string: "https://api.infinum.academy/\(item.imageUrl)")
+        self.thumbnail.kf.setImage(with: url)
+        //thumbnail.image =  UIImage(named: "icImagePlaceholder")
         title.text = item.title
     }
 }

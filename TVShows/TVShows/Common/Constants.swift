@@ -19,7 +19,7 @@ enum Constants {
     
     enum Controllers {
         static let showDetailsViewConstroller = "ShowDetailsViewController"
-        static let loginViewConstroller = "LoginViewController"
+        static let loginViewController = "LoginViewController"
         static let homeViewConstroller = "HomeViewController"
         static let addNewEpisodeViewConstroller = "AddNewEpisodeViewController"
     }

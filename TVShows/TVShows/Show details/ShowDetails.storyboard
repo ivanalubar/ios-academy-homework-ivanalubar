@@ -200,6 +200,7 @@
                     </view>
                     <connections>
                         <outlet property="descriptionView" destination="KKv-MX-ym0" id="ZeJ-8R-XIx"/>
+                        <outlet property="imageView" destination="5Oc-t1-27e" id="iko-sd-sQk"/>
                         <outlet property="numberOfEpisodesLabel" destination="sZg-99-iwc" id="wTJ-7N-Crl"/>
                         <outlet property="tableView" destination="0rY-5e-WB5" id="gaE-Ug-CsU"/>
                         <outlet property="titleLabel" destination="uWo-xz-XAP" id="18x-re-Whu"/>

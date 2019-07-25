@@ -11,6 +11,7 @@ import SVProgressHUD
 import Alamofire
 import CodableAlamofire
 import PromiseKit
+import KeychainSwift
 
 private let cornerRadius: CGFloat = 5
 private let borderWidth: CGFloat = 1
@@ -26,6 +27,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet private weak var loginButton: UIButton!
     @IBOutlet private weak var createAccountButton: UIButton!
     @IBOutlet private weak var scrollView: UIScrollView!
+    var token: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +64,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             rememberMeCheckBox.setImage(UIImage(named: Constants.Images.unchecked), for: .normal)
         } else {
             rememberMeCheckBox.setImage(UIImage(named: Constants.Images.checked), for: .normal)
+            UserDefaults.standard.set(true, forKey: token)
         }
         rememberMeCheckBox.isSelected.toggle()
     }
@@ -170,6 +173,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 self.navigateToHome(token: loginData.token)
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success: \(loginData)")
+                self.token = loginData.token
                 SVProgressHUD.dismiss()
             }.catch { error in
                 print("API failure: \(error)")
