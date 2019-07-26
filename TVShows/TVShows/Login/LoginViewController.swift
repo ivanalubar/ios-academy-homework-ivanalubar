@@ -28,12 +28,23 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet private weak var createAccountButton: UIButton!
     @IBOutlet private weak var scrollView: UIScrollView!
     var token: String = ""
+    var remember: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        configureUI()
-        keyboardManipulation()
+        if isLogged() {
+            //let s: String = UserDefaults.standard.string(forKey: "token")!
+            navigateToHome(token: token)
+        } else
+        {
+            configureUI()
+            keyboardManipulation()
+        }
+    }
+    
+    private func isLogged() -> Bool{
+       // return false
+        return UserDefaults.standard.bool(forKey: "isLoggedIn")
     }
     
     private func configureUI(){
@@ -62,9 +73,10 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         
         if rememberMeCheckBox.isSelected {
             rememberMeCheckBox.setImage(UIImage(named: Constants.Images.unchecked), for: .normal)
+            remember = false
         } else {
             rememberMeCheckBox.setImage(UIImage(named: Constants.Images.checked), for: .normal)
-            UserDefaults.standard.set(true, forKey: token)
+            remember = true
         }
         rememberMeCheckBox.isSelected.toggle()
     }
@@ -108,7 +120,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             let pass = passwordTextField.text
             else { return }
         loginUserWith(email: username, password: pass)
-        
     }
     
     @IBAction private func registerButtonClick() {
@@ -174,6 +185,15 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success: \(loginData)")
                 self.token = loginData.token
+                if self.remember {
+//                    let keychain = KeychainSwift()
+//                    keychain.set(self.token, forKey: "loginKey")
+//                    print(keychain.get("loginKey"))
+//                    print("***************************************************")
+                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                    UserDefaults.standard.set(loginData.token, forKey: "token")
+                    UserDefaults.standard.synchronize()
+                }
                 SVProgressHUD.dismiss()
             }.catch { error in
                 print("API failure: \(error)")

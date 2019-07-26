@@ -39,10 +39,12 @@ final class HomeViewController: UIViewController {
     @objc private func logotActionHandler(){
 
         print("Navigate to login")
-        self.dismiss(animated: true, completion: nil)
-        let domain = Bundle.main.bundleIdentifier!
-        UserDefaults.standard.removePersistentDomain(forName: domain)
+        UserDefaults.standard.set(false, forKey: "isLoggedIn")
         UserDefaults.standard.synchronize()
+//        let vc = LoginViewController()
+//        present(vc, animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
+        
     }
     
     // MARK: - Alert messages
