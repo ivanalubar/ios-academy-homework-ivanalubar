@@ -130,6 +130,7 @@ final class ShowDetailsViewController: UIViewController {
                 SVProgressHUD.showError(withStatus: "Failure")
         }
     }
+    
 }
 
 // MARK: - Extensions
@@ -151,11 +152,15 @@ extension ShowDetailsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+    
             print("CURRENT INDEX PATH BEING CONFIGURED: \(indexPath)")
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ShowDetailsTableCell.self), for: indexPath) as! ShowDetailsTableCell
+            let animation = AnimationFactory.makeSlideIn(duration: 0.5, delayFactor: 0.05)
+            let animator = Animator(animation: animation)
+            animator.animate(cell: cell, at: indexPath, in: tableView)
             cell.configure(with: episodeList[indexPath.row])
             return cell
+        
     }
 }
 
@@ -175,3 +180,43 @@ extension ShowDetailsViewController: NewEpiodeDelegate{
         loading()
     }
 }
+
+final class Animator {
+    
+    typealias Animation = (UITableViewCell, IndexPath, UITableView) -> Void
+
+    private var hasAnimatedAllCells = false
+    private let animation: Animation
+    
+    init(animation: @escaping Animation) {
+        self.animation = animation
+    }
+    
+    func animate(cell: UITableViewCell, at indexPath: IndexPath, in tableView: UITableView) {
+        guard !hasAnimatedAllCells else {
+            return
+        }
+        
+        animation(cell, indexPath, tableView)
+        
+    }
+}
+enum AnimationFactory {
+    
+    typealias Animation = (UITableViewCell, IndexPath, UITableView) -> Void
+    
+    static func makeSlideIn(duration: TimeInterval, delayFactor: Double) -> Animation {
+        return { cell, indexPath, tableView in
+            cell.transform = CGAffineTransform(translationX: tableView.bounds.width, y: 0)
+            
+            UIView.animate(
+                withDuration: duration,
+                delay: delayFactor * Double(indexPath.row),
+                options: [.curveEaseInOut],
+                animations: {
+                    cell.transform = CGAffineTransform(translationX: 0, y: 0)
+            })
+        }
+    }
+}
+
