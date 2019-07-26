@@ -12,6 +12,7 @@ import Alamofire
 import CodableAlamofire
 import PromiseKit
 import KeychainSwift
+import SkyFloatingLabelTextField
 
 private let cornerRadius: CGFloat = 5
 private let borderWidth: CGFloat = 1
@@ -27,6 +28,8 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet private weak var loginButton: UIButton!
     @IBOutlet private weak var createAccountButton: UIButton!
     @IBOutlet private weak var scrollView: UIScrollView!
+    var usernameSubview: SkyFloatingLabelTextField!
+    var passwordSubview: SkyFloatingLabelTextField!
     var token: String = ""
     var remember: Bool = false
     
@@ -37,10 +40,14 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             let keychain = KeychainSwift()
             keychain.synchronizable = true
             let s: String = keychain.get("token")!
+            setUsernameSubview()
+            setPasswordSubview()
             navigateToHome(token: s)
         } else
         {
             configureUI()
+            setUsernameSubview()
+            setPasswordSubview()
             keyboardManipulation()
         }
     }
@@ -60,6 +67,27 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         loginButton.layer.cornerRadius = cornerRadius
         loginButton.layer.borderWidth = borderWidth
         loginButton.layer.borderColor = UIColor.clear.cgColor
+    }
+    
+    private func setUsernameSubview(){
+        usernameSubview = SkyFloatingLabelTextField(frame: usernameTextField.frame)
+        usernameSubview.placeholder = "Username"
+        usernameSubview.title = "Your username"
+        usernameSubview.titleColor = UIColor.lightGray
+        usernameSubview.selectedTitleColor = UIColor.lightGray
+        self.usernameTextField.addSubview(usernameSubview)
+        self.usernameTextField.text = usernameSubview.text
+    }
+    
+    private func setPasswordSubview(){
+        passwordSubview = SkyFloatingLabelTextField(frame: passwordTextField.frame)
+        passwordSubview.placeholder = "Password"
+        passwordSubview.title = "Your pasword"
+        passwordSubview.titleColor = UIColor.lightGray
+        passwordSubview.selectedTitleColor = UIColor.lightGray
+        passwordSubview.isSecureTextEntry = true
+        self.passwordTextField.addSubview(passwordSubview)
+        self.passwordTextField.text = passwordSubview.text
     }
     
     private func keyboardManipulation(){
@@ -90,12 +118,12 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     
     @IBAction private func passwordShow() {
         
-        if passwordTextField.isSecureTextEntry {
+        if passwordSubview.isSecureTextEntry {
             passwordVisibilityButton.setImage(UIImage(named: Constants.Images.passwordHide), for: .normal)
-            passwordTextField.isSecureTextEntry = false
+            passwordSubview.isSecureTextEntry = false
         } else {
             passwordVisibilityButton.setImage(UIImage(named: Constants.Images.passwordShow), for: .normal)
-            passwordTextField.isSecureTextEntry = true
+            passwordSubview.isSecureTextEntry = true
         }
     }
     
@@ -123,8 +151,8 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBAction private func loginButtonClick() {
 
         guard
-            let username = usernameTextField.text,
-            let pass = passwordTextField.text
+            let username = usernameSubview.text,
+            let pass = passwordSubview.text
             else { return }
         loginUserWith(email: username, password: pass)
     }
@@ -132,8 +160,8 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBAction private func registerButtonClick() {
         
         guard
-            let username = usernameTextField.text,
-            let pass = passwordTextField.text
+            let username = usernameSubview.text,
+            let pass = passwordSubview.text
             else { return }
         registerUserWith(email: username, password: pass)
     }
