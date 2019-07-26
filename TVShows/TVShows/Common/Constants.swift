@@ -43,6 +43,7 @@ enum Constants {
         static let passwordShow = "ic-hide-password"
         static let checked = "ic-checkbox-filled"
         static let unchecked = "ic-checkbox-empty"
+        static let logout = "ic-logout"
     }
     
     enum ButtonNames {

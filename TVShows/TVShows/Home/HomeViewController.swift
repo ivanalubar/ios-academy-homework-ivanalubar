@@ -11,6 +11,7 @@ import SVProgressHUD
 import Alamofire
 import CodableAlamofire
 import PromiseKit
+import KeychainSwift
 
 private let TableViewRowHeight: CGFloat = 110
 
@@ -23,13 +24,9 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getApiShows()
-//        let logoutItem = UIBarButtonItem.init(image: UIImage(name: "ic-logout"),
-//                                                                style: .plain,
-//                                                                target: self,
-//                                                                action: #selector(_logotActionHandler))
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-           // title: "Logout",
-            image: UIImage(named: "ic-logout"),
+            image: UIImage(named: Constants.Images.logout),
             style: .plain,
             target: self,
             action: #selector(logotActionHandler)
@@ -37,12 +34,13 @@ final class HomeViewController: UIViewController {
     }
     
     @objc private func logotActionHandler(){
-
+        let keychain = KeychainSwift()
+        keychain.set("false", forKey: "loggedIn")
+        keychain.synchronizable = true
         print("Navigate to login")
         UserDefaults.standard.set(false, forKey: "isLoggedIn")
         UserDefaults.standard.synchronize()
-//        let vc = LoginViewController()
-//        present(vc, animated: true, completion: nil)
+
         self.dismiss(animated: true, completion: nil)
         
     }

@@ -32,9 +32,12 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if isLogged() {
+        if (isLogged() == "true" ){
             //let s: String = UserDefaults.standard.string(forKey: "token")!
-            navigateToHome(token: token)
+            let keychain = KeychainSwift()
+            keychain.synchronizable = true
+            let s: String = keychain.get("token")!
+            navigateToHome(token: s)
         } else
         {
             configureUI()
@@ -42,9 +45,13 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         }
     }
     
-    private func isLogged() -> Bool{
+    private func isLogged() -> String{
        // return false
-        return UserDefaults.standard.bool(forKey: "isLoggedIn")
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        
+        return keychain.get("loggedIn")!
+       // return UserDefaults.standard.bool(forKey: "isLoggedIn")
     }
     
     private func configureUI(){
@@ -186,10 +193,10 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 print("Success: \(loginData)")
                 self.token = loginData.token
                 if self.remember {
-//                    let keychain = KeychainSwift()
-//                    keychain.set(self.token, forKey: "loginKey")
-//                    print(keychain.get("loginKey"))
-//                    print("***************************************************")
+                    let keychain = KeychainSwift()
+                    keychain.set(self.token, forKey: "token")
+                    keychain.set("true", forKey: "loggedIn")
+                    keychain.synchronizable = true
                     UserDefaults.standard.set(true, forKey: "isLoggedIn")
                     UserDefaults.standard.set(loginData.token, forKey: "token")
                     UserDefaults.standard.synchronize()
