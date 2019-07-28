@@ -122,6 +122,12 @@ struct Comments: Codable {
         case id = "_id"
       }
 }
+struct Media: Codable {
+    let mediaId: String
+    enum CodingKeys: String, CodingKey {
+        case mediaId
+    }
+}
 
 
 

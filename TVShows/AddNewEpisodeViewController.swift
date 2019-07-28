@@ -143,9 +143,10 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        image = info [UIImagePickerController.InfoKey.originalImage] as! UIImage
+        image = info [UIImagePickerController.InfoKey.originalImage] as? UIImage
         let image = info [UIImagePickerController.InfoKey.originalImage]
         print(image!)
+        uploadImageOnAPI()
         print("*****************************************")
         picker.dismiss(animated: true, completion: nil)
     }
@@ -155,20 +156,8 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     }
     
     @IBAction func uploadPhotoActionHandler() {
-//        let sb = UIStoryboard(name: Constants.Storyboards.uiImagePicker, bundle: nil)
-//        guard
-//            let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.uiImagePickerViewController) as? UIImagePickerViewController
-//        else { return }
-//        viewController.delegate = self
-//        let navigationController = UINavigationController(rootViewController: viewController)
-//        present(navigationController, animated: true)
-//        print("Upload clicked")
+
         
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self as! UIImagePickerControllerDelegate & UINavigationControllerDelegate
-        pickerController.allowsEditing = true
-        pickerController.mediaTypes = ["public.image", "public.movie"]
-        pickerController.sourceType = .camera
     }
     
     @objc func didSelectCancel(){
@@ -232,36 +221,47 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         }
     }
     
-//    func uploadImageOnAPI() {
-//        SVProgressHUD.show()
-//        
-//        let keychain = KeychainSwift()
-//        keychain.synchronizable = true
-//        
-//        let someUIImage = image
-//        let imageByteData = image.pngData()!
-//        let headers: HTTPHeaders = ["Authorization": keychain.get("token")!]
-//        firstly {
-//            Alamofire
-//                .upload(multipartFormData: { multipartFormData in multipartFormData.append(
-//                    imageByteData,
-//                    withName: "file",
-//                    fileName: "image.png",
-//                    mimeType: "image/png")
-//                }, to: "https://api.infinum.academy/api/media",
-//                         method: .post,
-//                        headers: headers)
-//                { [weak self] result in
-//                    switch result {
-//                        case .success (let uploadRequest, _, _ ):
-//                            self?.procesUploadRequest(uploadRequest)
-//                        case .failure (let error):
-//                            print(error)
-//                    }
-//                    
-//            }
-//        }
-//    }
+    func uploadImageOnAPI() {
+        SVProgressHUD.show()
+        
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        
+        let someUIImage = image
+        let imageByteData = image.pngData()!
+        let headers: HTTPHeaders = ["Authorization": keychain.get("token")!]
+        
+            Alamofire
+                .upload(multipartFormData: { multipartFormData in multipartFormData.append(
+                    imageByteData,
+                    withName: "file",
+                    fileName: "image.png",
+                    mimeType: "image/png")
+                }, to: "https://api.infinum.academy/api/media",
+                         method: .post,
+                        headers: headers)
+                { [weak self] result in
+                    switch result {
+                        case .success (let uploadRequest, _, _ ):
+                            self?.processUploadRequest(uploadRequest)
+                        case .failure (let error):
+                            print("Fail: \(error)")
+                    }
+            }
+    }
+    func processUploadRequest(_ uploadRequest: UploadRequest){
+        uploadRequest
+            .responseDecodableObject(keyPath: "data"){
+                (response: DataResponse<Media>) in
+                switch response.result {
+                case .success (let media):
+                    print(media)
+                    print("This is what I get ****************")
+                case .failure (let error):
+                    print(error)
+                }
+        }
+    }
 }
 
 // MARK: - Color conversion
@@ -281,13 +281,6 @@ extension UIColor {
             green: (rgb >> 8) & 0xFF,
             blue: rgb & 0xFF
         )
-    }
-}
-
-extension AddNewEpisodeViewController: SelfDelegate{
-    
-    func getImageUpload(value: String) {
-        mediaId = value
     }
 }
 

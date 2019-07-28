@@ -25,7 +25,8 @@ final class ShowDetailsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var descriptionView: UITextView!
     @IBOutlet weak var imageView: UIImageView!
-    
+    private let refreshControl = UIRefreshControl()
+
     var currentShow: ShowDetails? = nil
     var selected: Shows! = nil
     var episodeList = [Episodes]()
@@ -48,6 +49,21 @@ final class ShowDetailsViewController: UIViewController {
         setupTableView()
         getShowEpisodes()
         getShowDetails()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+        tableView.addSubview(refreshControl) // not required when using UITableViewController
+    }
+    
+    @objc func refresh() {
+        // Code to refresh table view
+        setupTableView()
+        getShowEpisodes()
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(endRefreshing))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func endRefreshing(){
+        refreshControl.endRefreshing()
     }
     
     // MARK: - Navigation
@@ -149,8 +165,9 @@ extension ShowDetailsViewController: UITableViewDelegate {
             else { return }
         viewController.episodeID = item.id
         viewController.showID = id
-        self.navigationController?.setViewControllers([viewController], animated: true)
-        self.navigationController?.popViewController(animated: true)
+         self.navigationController?.present(viewController, animated: true, completion: nil)
+//        self.navigationController?.setViewControllers([viewController], animated: true)
+//        self.navigationController?.popViewController(animated: true)
         
     }
 }
