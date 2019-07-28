@@ -88,6 +88,42 @@ struct NewEpisode: Codable {
     }
 }
 
+struct EpisodeDetails: Codable {
+    let showId: String
+    let imageUrl: String
+    let title: String
+    let description: String
+    let episodeNumber: String
+    let season: String
+    let id: String
+    let type: String
+    
+    enum CodingKeys: String, CodingKey {
+        case showId
+        case imageUrl
+        case title
+        case description
+        case episodeNumber
+        case season
+        case id = "_id"
+        case type
+    }
+}
+
+struct Comments: Codable {
+    let text: String
+    let episodeId: String
+    let userEmail: String
+    let id: String
+    enum CodingKeys: String, CodingKey {
+        case text
+        case episodeId
+        case userEmail
+        case id = "_id"
+      }
+}
+
+
 
 
 

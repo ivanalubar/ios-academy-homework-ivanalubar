@@ -12,6 +12,7 @@ import Alamofire
 import CodableAlamofire
 import PromiseKit
 import Kingfisher
+import KeychainSwift
 
 private let TableViewRowHeight: CGFloat = 110
 
@@ -28,8 +29,7 @@ final class ShowDetailsViewController: UIViewController {
     var currentShow: ShowDetails? = nil
     var selected: Shows! = nil
     var episodeList = [Episodes]()
-    var token: String = ""
-    var showID: String = ""
+   // var showID: String = ""
     var showTitle: String = ""
     var id: String! = ""
     
@@ -57,7 +57,7 @@ final class ShowDetailsViewController: UIViewController {
         guard
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.homeViewConstroller) as? HomeViewController
             else { return }
-        viewController.token = token
+        
         self.navigationController?.navigationItem.hidesBackButton = true
         self.navigationController?.setViewControllers([viewController], animated: true)
         self.navigationController?.popViewController(animated: true)
@@ -70,7 +70,6 @@ final class ShowDetailsViewController: UIViewController {
         guard
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.addNewEpisodeViewConstroller) as? AddNewEpisodeViewController
             else { return }
-        viewController.token = token
         viewController.showID = id!
         viewController.showTitle = showTitle
         viewController.delegate = self
@@ -84,7 +83,9 @@ final class ShowDetailsViewController: UIViewController {
     
     func getShowDetails() {
         SVProgressHUD.show()
-        let headers: HTTPHeaders = ["Authorization": token]
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        let headers: HTTPHeaders = ["Authorization": keychain.get("token")!]
         firstly {
             Alamofire
                 .request("https://api.infinum.academy/api/shows/\(id!)",
@@ -139,8 +140,18 @@ extension ShowDetailsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let items = episodeList[indexPath.row]
-        print("Selected Item: \(items)")
+        let item = episodeList[indexPath.row]
+        print("Selected Item: \(item)")
+        
+        let sb = UIStoryboard(name: Constants.Storyboards.episodeDetails, bundle: nil)
+        guard
+            let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.episodeDetailsViewConstroller) as? EpisodeDetailsViewController
+            else { return }
+        viewController.episodeID = item.id
+        viewController.showID = id
+        self.navigationController?.setViewControllers([viewController], animated: true)
+        self.navigationController?.popViewController(animated: true)
+        
     }
 }
 
@@ -155,12 +166,11 @@ extension ShowDetailsViewController: UITableViewDataSource {
     
             print("CURRENT INDEX PATH BEING CONFIGURED: \(indexPath)")
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ShowDetailsTableCell.self), for: indexPath) as! ShowDetailsTableCell
-            let animation = AnimationFactory.makeSlideIn(duration: 0.5, delayFactor: 0.05)
+            let animation = AnimationFactory.makeSlideIn(duration: 0.08, delayFactor: 0.08)
             let animator = Animator(animation: animation)
             animator.animate(cell: cell, at: indexPath, in: tableView)
             cell.configure(with: episodeList[indexPath.row])
             return cell
-        
     }
 }
 

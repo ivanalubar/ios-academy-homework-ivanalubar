@@ -13,6 +13,7 @@ import CodableAlamofire
 import PromiseKit
 import KeychainSwift
 import SkyFloatingLabelTextField
+import TransitionButton
 
 private let cornerRadius: CGFloat = 5
 private let borderWidth: CGFloat = 1
@@ -28,23 +29,30 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet private weak var loginButton: UIButton!
     @IBOutlet private weak var createAccountButton: UIButton!
     @IBOutlet private weak var scrollView: UIScrollView!
+    
     var usernameSubview: SkyFloatingLabelTextField!
     var passwordSubview: SkyFloatingLabelTextField!
-    var token: String = ""
+    var button: TransitionButton!
     var remember: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if (isLogged() == "true" ){
-            //let s: String = UserDefaults.standard.string(forKey: "token")!
-            let keychain = KeychainSwift()
-            keychain.synchronizable = true
-            let s: String = keychain.get("token")!
+        
+         loading()
+        usernameSubview.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+    }
+    
+    private func loading() {
+        
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        print(keychain.get("loggedIn"))
+        print("*****************")
+        if (keychain.get("loggedIn") == "true" ){
             setUsernameSubview()
             setPasswordSubview()
-            navigateToHome(token: s)
-        } else
-        {
+            navigateToHome(token: keychain.get("token")!)
+        } else{
             configureUI()
             setUsernameSubview()
             setPasswordSubview()
@@ -52,13 +60,10 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         }
     }
     
-    private func isLogged() -> String{
-       // return false
+    private func isLogged() -> String {
         let keychain = KeychainSwift()
         keychain.synchronizable = true
-        
         return keychain.get("loggedIn")!
-       // return UserDefaults.standard.bool(forKey: "isLoggedIn")
     }
     
     private func configureUI(){
@@ -148,6 +153,19 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         }
     }
     
+    @objc func textFieldDidChange(_ textfield: UITextField) {
+
+        if let floatingLabelTextField = usernameSubview {
+                if(self.usernameSubview.text!.count < 3 || !self.usernameSubview.text!.contains("@")) {
+                    self.usernameSubview.errorMessage = "Invalid email"
+                }
+                else {
+                    floatingLabelTextField.errorMessage = ""
+                }
+            
+        }
+    }
+    
     @IBAction private func loginButtonClick() {
 
         guard
@@ -193,10 +211,10 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         guard
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.homeViewConstroller) as? HomeViewController
             else { return }
-        viewController.token = token
-        print(viewController.token)
+
         let navigationController = UINavigationController(rootViewController: viewController)
-        present(navigationController, animated: true)
+        self.present(navigationController, animated: true, completion: nil)
+
     }
     
     // MARK: - API calls
@@ -219,15 +237,12 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 self.navigateToHome(token: loginData.token)
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success: \(loginData)")
-                self.token = loginData.token
+                let keychain = KeychainSwift()
+                keychain.synchronizable = true
                 if self.remember {
-                    let keychain = KeychainSwift()
-                    keychain.set(self.token, forKey: "token")
+                    keychain.set(loginData.token, forKey: "token")
                     keychain.set("true", forKey: "loggedIn")
                     keychain.synchronizable = true
-                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
-                    UserDefaults.standard.set(loginData.token, forKey: "token")
-                    UserDefaults.standard.synchronize()
                 }
                 SVProgressHUD.dismiss()
             }.catch { error in
@@ -253,8 +268,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 .responseDecodable(User.self, keypath: "data")
             }.done { loginData in
                 SVProgressHUD.setDefaultMaskType(.black)
-                let vc = HomeViewController()
-                vc.token = loginData.type
                 print("Success: \(loginData)")
                 self.showRegisterSuccessdMessage()
                 SVProgressHUD.dismiss()
@@ -265,6 +278,8 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         }
     }
 }
+
+
 
 
     

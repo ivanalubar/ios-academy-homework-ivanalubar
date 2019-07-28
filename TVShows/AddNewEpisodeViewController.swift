@@ -12,6 +12,7 @@ import Alamofire
 import CodableAlamofire
 import PromiseKit
 import SkyFloatingLabelTextField
+import KeychainSwift
 
 protocol NewEpiodeDelegate: class {
     func episodeAdded()
@@ -31,12 +32,14 @@ final class AddNewEpisodeViewController: UIViewController {
     var episodeDescription: SkyFloatingLabelTextField!
     
     weak var delegate: NewEpiodeDelegate?
-    var token: String = ""
     var showID: String = ""
     var showTitle: String = ""
+    var mediaId: String = ""
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             title: Constants.ButtonNames.cancel,
             style: .plain,
@@ -53,6 +56,7 @@ final class AddNewEpisodeViewController: UIViewController {
         
         navigationItem.leftBarButtonItem?.tintColor = UIColor(rgb: 0xff758c)
         navigationItem.rightBarButtonItem?.tintColor = UIColor(rgb: 0xff758c)
+        
         episodeTitleSubview()
         episodeSeasonSubview()
         episodeNumberSubview()
@@ -110,6 +114,24 @@ final class AddNewEpisodeViewController: UIViewController {
         self.addNewEpisode(title: title, season: season, episode: episode, description: description)
     }
     
+    
+    @IBAction func uploadPhotoActionHandler() {
+//        let sb = UIStoryboard(name: Constants.Storyboards.uiImagePicker, bundle: nil)
+//        guard
+//            let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.uiImagePickerViewController) as? UIImagePickerViewController
+//        else { return }
+//        viewController.delegate = self
+//        let navigationController = UINavigationController(rootViewController: viewController)
+//        present(navigationController, animated: true)
+//        print("Upload clicked")
+        
+        let pickerController = UIImagePickerController()
+        pickerController.delegate = self as! UIImagePickerControllerDelegate & UINavigationControllerDelegate
+        pickerController.allowsEditing = true
+        pickerController.mediaTypes = ["public.image", "public.movie"]
+        pickerController.sourceType = .camera
+    }
+    
     @objc func didSelectCancel(){
         print("Clicked Cancel")
         let sb = UIStoryboard(name: Constants.Storyboards.showDetails, bundle: nil)
@@ -118,7 +140,6 @@ final class AddNewEpisodeViewController: UIViewController {
             else { return }
         
         viewController.id = showID
-        viewController.token = token
         viewController.showTitle = showTitle
         print(viewController.id!)
         self.dismiss(animated: true, completion: nil)
@@ -140,11 +161,16 @@ final class AddNewEpisodeViewController: UIViewController {
         let parameters: [String: String] = [
             "showId": showID,
             "title": title,
+            "mediaId": mediaId,
             "description": description,
             "episodeNumber": episode,
             "season": season
         ]
-        let headers: HTTPHeaders = ["Authorization": token]
+        
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        
+        let headers: HTTPHeaders = ["Authorization": keychain.get("token")!]
         firstly {
             Alamofire
                 .request("https://api.infinum.academy/api/episodes",
@@ -160,7 +186,6 @@ final class AddNewEpisodeViewController: UIViewController {
                 SVProgressHUD.dismiss()
                 self.delegate?.episodeAdded()
                 self.dismiss(animated: true)
-                //self.dismiss(animated: true, completion: nil)
             }.catch { error in
                 print("API failure: \(error)")
                 self.showFailureMessage()
@@ -188,3 +213,11 @@ extension UIColor {
         )
     }
 }
+
+extension AddNewEpisodeViewController: SelfDelegate{
+    
+    func getImageUpload(value: String) {
+        mediaId = value
+    }
+}
+

@@ -15,6 +15,9 @@ enum Constants {
         static let login = "Login"
         static let home = "Home"
         static let addNewEpisode = "AddNewEpisode"
+        static let episodeDetails = "EpisodeDetails"
+        static let comments = "Comments"
+        static let uiImagePicker = "UIImagePicker"
     }
     
     enum Controllers {
@@ -22,6 +25,9 @@ enum Constants {
         static let loginViewController = "LoginViewController"
         static let homeViewConstroller = "HomeViewController"
         static let addNewEpisodeViewConstroller = "AddNewEpisodeViewController"
+        static let episodeDetailsViewConstroller = "EpisodeDetailsViewController"
+        static let commentsViewConstroller = "CommentsViewController"
+        static let uiImagePickerViewController = "UIImagePickerViewController"
     }
     
     enum AlertMessages {
@@ -44,6 +50,7 @@ enum Constants {
         static let checked = "ic-checkbox-filled"
         static let unchecked = "ic-checkbox-empty"
         static let logout = "ic-logout"
+        static let navigateBack = "ic-navigate-back"
     }
     
     enum ButtonNames {

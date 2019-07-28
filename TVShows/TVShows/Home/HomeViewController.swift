@@ -12,19 +12,19 @@ import Alamofire
 import CodableAlamofire
 import PromiseKit
 import KeychainSwift
+//import TransitionButton
 
 private let TableViewRowHeight: CGFloat = 110
 
 final class HomeViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    public var token: String = ""
     private var items = [Shows]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         getApiShows()
-
+        UINavigationBar.appearance().tintColor = UIColor.darkGray
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(named: Constants.Images.logout),
             style: .plain,
@@ -35,12 +35,11 @@ final class HomeViewController: UIViewController {
     
     @objc private func logotActionHandler(){
         let keychain = KeychainSwift()
-        keychain.set("false", forKey: "loggedIn")
         keychain.synchronizable = true
+        keychain.set("false", forKey: "loggedIn")
+        
+        print(keychain.get("loggedIn"))
         print("Navigate to login")
-        UserDefaults.standard.set(false, forKey: "isLoggedIn")
-        UserDefaults.standard.synchronize()
-
         self.dismiss(animated: true, completion: nil)
         
     }
@@ -57,7 +56,9 @@ final class HomeViewController: UIViewController {
     
     func getApiShows() {
         SVProgressHUD.show()
-        let headers = [ "Authorization": token ]
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        let headers = [ "Authorization": keychain.get("token")! ]
         firstly {
             Alamofire
                 .request("https://api.infinum.academy/api/shows",
@@ -92,8 +93,6 @@ final class HomeViewController: UIViewController {
             else { return }
         
         viewController.selected = item
-        viewController.token = token
-        print(viewController.token)
         self.navigationController?.navigationItem.hidesBackButton = true
         self.navigationController?.setViewControllers([viewController], animated: true)
         self.navigationController?.popViewController(animated: true)
