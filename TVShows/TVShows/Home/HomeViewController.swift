@@ -23,7 +23,13 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         getApiShows()
+        loading()
+    }
+    
+    private func loading() {
+        setupTableView()
         UINavigationBar.appearance().tintColor = UIColor.darkGray
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(named: Constants.Images.logout),
@@ -34,11 +40,12 @@ final class HomeViewController: UIViewController {
     }
     
     @objc private func logotActionHandler(){
+        
         let keychain = KeychainSwift()
         keychain.synchronizable = true
         keychain.set("false", forKey: "loggedIn")
         
-        print(keychain.get("loggedIn"))
+        //print(keychain.get("loggedIn"))
         print("Navigate to login")
         self.dismiss(animated: true, completion: nil)
         
@@ -74,7 +81,8 @@ final class HomeViewController: UIViewController {
                 shows.forEach { show in
                     self.items.append(show)
                 }
-                self.setupTableView()
+                //self.setupTableView()
+                self.tableView.reloadData()
                 SVProgressHUD.dismiss()
             }.catch { error in
                 print("API failure: \(error)")

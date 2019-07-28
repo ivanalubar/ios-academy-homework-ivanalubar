@@ -31,7 +31,8 @@ final class CommentsViewController: UIViewController {
         setupTableView()
         getEpisodeComments()
         keyboardManipulation()
-        UINavigationBar.appearance().tintColor = UIColor.darkGray
+        UINavigationBar.appearance().backgroundColor = UIColor.clear
+        UINavigationBar.appearance().tintColor = .white
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(named: Constants.Images.navigateBack),
             style: .plain,

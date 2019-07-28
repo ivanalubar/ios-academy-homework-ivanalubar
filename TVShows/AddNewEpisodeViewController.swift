@@ -18,7 +18,7 @@ protocol NewEpiodeDelegate: class {
     func episodeAdded()
 }
 
-final class AddNewEpisodeViewController: UIViewController {
+final class AddNewEpisodeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // MARK: - Outlets
     
@@ -30,6 +30,7 @@ final class AddNewEpisodeViewController: UIViewController {
     var seasonNumber: SkyFloatingLabelTextField!
     var episodeNumber: SkyFloatingLabelTextField!
     var episodeDescription: SkyFloatingLabelTextField!
+    var image: UIImage!
     
     weak var delegate: NewEpiodeDelegate?
     var showID: String = ""
@@ -114,6 +115,44 @@ final class AddNewEpisodeViewController: UIViewController {
         self.addNewEpisode(title: title, season: season, episode: episode, description: description)
     }
     
+    @IBAction func imagePickerButton() {
+        
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        
+        let actionSheet = UIAlertController(title: "Photo source", message: "Choose a source", preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action:UIAlertAction) in
+            if UIImagePickerController.isSourceTypeAvailable(.camera){
+                imagePickerController.sourceType = .camera
+                self.present(imagePickerController, animated: true, completion: nil)
+            } else {
+                print("Camera not avaliable")
+            }
+            
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { (action:UIAlertAction) in
+            imagePickerController.sourceType = .photoLibrary
+            self.present(imagePickerController, animated: true, completion: nil)
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action:UIAlertAction) in
+            
+        }))
+        
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        image = info [UIImagePickerController.InfoKey.originalImage] as! UIImage
+        let image = info [UIImagePickerController.InfoKey.originalImage]
+        print(image!)
+        print("*****************************************")
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
     
     @IBAction func uploadPhotoActionHandler() {
 //        let sb = UIStoryboard(name: Constants.Storyboards.uiImagePicker, bundle: nil)
@@ -192,6 +231,37 @@ final class AddNewEpisodeViewController: UIViewController {
                 SVProgressHUD.dismiss()
         }
     }
+    
+//    func uploadImageOnAPI() {
+//        SVProgressHUD.show()
+//        
+//        let keychain = KeychainSwift()
+//        keychain.synchronizable = true
+//        
+//        let someUIImage = image
+//        let imageByteData = image.pngData()!
+//        let headers: HTTPHeaders = ["Authorization": keychain.get("token")!]
+//        firstly {
+//            Alamofire
+//                .upload(multipartFormData: { multipartFormData in multipartFormData.append(
+//                    imageByteData,
+//                    withName: "file",
+//                    fileName: "image.png",
+//                    mimeType: "image/png")
+//                }, to: "https://api.infinum.academy/api/media",
+//                         method: .post,
+//                        headers: headers)
+//                { [weak self] result in
+//                    switch result {
+//                        case .success (let uploadRequest, _, _ ):
+//                            self?.procesUploadRequest(uploadRequest)
+//                        case .failure (let error):
+//                            print(error)
+//                    }
+//                    
+//            }
+//        }
+//    }
 }
 
 // MARK: - Color conversion
@@ -220,4 +290,6 @@ extension AddNewEpisodeViewController: SelfDelegate{
         mediaId = value
     }
 }
+
+
 
