@@ -31,6 +31,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     var episodeNumber: SkyFloatingLabelTextField!
     var episodeDescription: SkyFloatingLabelTextField!
     var image: UIImage!
+    @IBOutlet weak var imageView: UIImageView!
     
     weak var delegate: NewEpiodeDelegate?
     var showID: String = ""
@@ -117,6 +118,25 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     
     @IBAction func imagePickerButton() {
         
+
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        image = info [UIImagePickerController.InfoKey.originalImage] as? UIImage
+        let image = info [UIImagePickerController.InfoKey.originalImage]
+        print(image!)
+        imageView.image = image as? UIImage
+        uploadImageOnAPI()
+        print("*****************************************")
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func uploadPhotoActionHandler() {
+        
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         
@@ -140,23 +160,6 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         }))
         
         self.present(actionSheet, animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        image = info [UIImagePickerController.InfoKey.originalImage] as? UIImage
-        let image = info [UIImagePickerController.InfoKey.originalImage]
-        print(image!)
-        uploadImageOnAPI()
-        print("*****************************************")
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func uploadPhotoActionHandler() {
-
         
     }
     
@@ -251,14 +254,21 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     }
     func processUploadRequest(_ uploadRequest: UploadRequest){
         uploadRequest
-            .responseDecodableObject(keyPath: "data"){
-                (response: DataResponse<Media>) in
+            .responseDecodableObject(keyPath: "data") { (response: DataResponse<Media>) in
+                
                 switch response.result {
                 case .success (let media):
+                    
+                    SVProgressHUD.dismiss()
+                    
                     print(media)
+                    self.mediaId = media.id
+                    print(media.path)
+                    
                     print("This is what I get ****************")
                 case .failure (let error):
                     print(error)
+                    SVProgressHUD.dismiss()
                 }
         }
     }

@@ -26,6 +26,7 @@ final class EpisodeDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getShowDetails()
+        
     }
     
     @IBAction func navigateBackButton() {
@@ -36,23 +37,25 @@ final class EpisodeDetailsViewController: UIViewController {
         viewController.id = showID
         self.dismiss(animated: true, completion: nil)
         print("Navigate back cliked")
+    
     }
     
-    @IBAction func commentsActionHandler() {
+    @IBAction func navigateToComments() {
+        print("Navigate to comments clicked")
         let sb = UIStoryboard(name: Constants.Storyboards.comments, bundle: nil)
         guard
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.commentsViewConstroller) as? CommentsViewController
             else { return }
         viewController.episodeID = episodeID
         viewController.showID = showID
-       self.present(viewController, animated: true, completion: nil)
-//        self.navigationController?.navigationItem.hidesBackButton = true
-//        self.navigationController?.setViewControllers([viewController], animated: true)
-//       // self.navigationController?.popViewController(animated: true)
-//       self.navigationController?.pushViewController(viewController, animated: true)
+        self.present(viewController, animated: true, completion: nil)
         
-        print("Navigate to comments clicked")
+        //        self.navigationController?.navigationItem.hidesBackButton = true
+        //        self.navigationController?.setViewControllers([viewController], animated: true)
+        //       // self.navigationController?.popViewController(animated: true)
+        //       self.navigationController?.pushViewController(viewController, animated: true)
     }
+    
     
     func getShowDetails() {
         SVProgressHUD.show()

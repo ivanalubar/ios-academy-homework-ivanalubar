@@ -101,6 +101,7 @@ final class HomeViewController: UIViewController {
             else { return }
         
         viewController.selected = item
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         self.navigationController?.navigationItem.hidesBackButton = true
         self.navigationController?.setViewControllers([viewController], animated: true)
         self.navigationController?.popViewController(animated: true)

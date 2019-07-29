@@ -123,13 +123,20 @@ struct Comments: Codable {
       }
 }
 struct Media: Codable {
-    let mediaId: String
+    let path: String
+    let type: String
+    let id: String
     enum CodingKeys: String, CodingKey {
-        case mediaId
+        case path
+        case type
+        case id = "_id"
     }
 }
 
-
+//"path": "1564409830059-office.jpg",
+//"type": "media",
+//"_id": "5sQpKw3q54ThiCEI"
+//
 
 
 

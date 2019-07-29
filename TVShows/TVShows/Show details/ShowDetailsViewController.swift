@@ -73,7 +73,7 @@ final class ShowDetailsViewController: UIViewController {
         guard
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.homeViewConstroller) as? HomeViewController
             else { return }
-        
+         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationController?.navigationItem.hidesBackButton = true
         self.navigationController?.setViewControllers([viewController], animated: true)
         self.navigationController?.popViewController(animated: true)
@@ -90,6 +90,7 @@ final class ShowDetailsViewController: UIViewController {
         viewController.showTitle = showTitle
         viewController.delegate = self
         print(viewController.showID)
+         self.navigationController?.setNavigationBarHidden(true, animated: true)
         let navigationController = UINavigationController(rootViewController: viewController)
         present(navigationController, animated: true)
         
@@ -138,7 +139,7 @@ final class ShowDetailsViewController: UIViewController {
             }.done { episodes in
                 SVProgressHUD.setDefaultMaskType(.black)
                 self.episodeList = episodes
-                self.episodeList.sort(by: { $0.season < $1.season })
+                self.episodeList.sort(by: { $0.season > $1.season })
                 self.tableView.reloadData()
                 print(self.episodeList)
                 SVProgressHUD.dismiss()
