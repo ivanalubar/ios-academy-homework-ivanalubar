@@ -133,10 +133,6 @@ struct Media: Codable {
     }
 }
 
-//"path": "1564409830059-office.jpg",
-//"type": "media",
-//"_id": "5sQpKw3q54ThiCEI"
-//
 
 
 

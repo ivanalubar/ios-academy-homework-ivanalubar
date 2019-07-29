@@ -22,16 +22,17 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     
     // MARK: - Outlets
     
-    @IBOutlet weak var episodeTitleLabel: UITextField!
-    @IBOutlet weak var seasonNumberLabel: UITextField!
-    @IBOutlet weak var episodeNumberLabel: UITextField!
-    @IBOutlet weak var episodeDescriptionLabel: UITextField!
+    @IBOutlet private weak var episodeTitleLabel: UITextField!
+    @IBOutlet private weak var seasonNumberLabel: UITextField!
+    @IBOutlet private weak var episodeNumberLabel: UITextField!
+    @IBOutlet private weak var episodeDescriptionLabel: UITextField!
     var episodeTitle: SkyFloatingLabelTextField!
     var seasonNumber: SkyFloatingLabelTextField!
     var episodeNumber: SkyFloatingLabelTextField!
     var episodeDescription: SkyFloatingLabelTextField!
     var image: UIImage!
     @IBOutlet weak var imageView: UIImageView!
+
     
     weak var delegate: NewEpiodeDelegate?
     var showID: String = ""
@@ -41,6 +42,10 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        setupNavigationBar()
+    }
+    
+    private func setupNavigationBar(){
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             title: Constants.ButtonNames.cancel,
@@ -71,8 +76,8 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         episodeTitle.title = "Episode title"
         episodeTitle.titleColor = UIColor.lightGray
         episodeTitle.selectedTitleColor = UIColor.lightGray
-        self.episodeTitleLabel.addSubview(episodeTitle)
-        self.episodeTitleLabel.text = episodeTitle.text
+        episodeTitleLabel.addSubview(episodeTitle)
+        episodeTitleLabel.text = episodeTitle.text
     }
     
     func episodeSeasonSubview(){
@@ -81,8 +86,8 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         seasonNumber.title = "Season number"
         seasonNumber.titleColor = UIColor.lightGray
         seasonNumber.selectedTitleColor = UIColor.lightGray
-        self.seasonNumberLabel.addSubview(seasonNumber)
-        self.seasonNumberLabel.text = seasonNumber.text
+        seasonNumberLabel.addSubview(seasonNumber)
+        seasonNumberLabel.text = seasonNumber.text
     }
     
     func episodeNumberSubview(){
@@ -91,8 +96,8 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         episodeNumber.title = "Episode number"
         episodeNumber.titleColor = UIColor.lightGray
         episodeNumber.selectedTitleColor = UIColor.lightGray
-        self.episodeNumberLabel.addSubview(episodeNumber)
-        self.episodeNumberLabel.text = episodeNumber.text
+        episodeNumberLabel.addSubview(episodeNumber)
+        episodeNumberLabel.text = episodeNumber.text
     }
     
     func episodeDescriptionSubview(){
@@ -101,8 +106,8 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         episodeDescription.title = "Episode description"
         episodeDescription.titleColor = UIColor.lightGray
         episodeDescription.selectedTitleColor = UIColor.lightGray
-        self.episodeDescriptionLabel.addSubview(episodeDescription)
-        self.episodeDescriptionLabel.text = episodeDescription.text
+        episodeDescriptionLabel.addSubview(episodeDescription)
+        episodeDescriptionLabel.text = episodeDescription.text
     }
     
     @objc func didSelectAddShow(){
@@ -113,7 +118,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
             let episode = episodeNumber.text,
             let description = episodeDescription.text
             else { return }
-        self.addNewEpisode(title: title, season: season, episode: episode, description: description)
+        addNewEpisode(title: title, season: season, episode: episode, description: description)
     }
     
     @IBAction func imagePickerButton() {
@@ -173,7 +178,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         viewController.id = showID
         viewController.showTitle = showTitle
         print(viewController.id!)
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Alert messagess
@@ -181,7 +186,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     func showFailureMessage(){
         let alert = UIAlertController(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.addEpisodeFailure, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
     
     // MARK: - API calls
@@ -211,15 +216,16 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
                          headers: headers)
                 .validate()
                 .responseData()
-            }.done { _ in
+            }.done { [weak self] _ in
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success:")
                 SVProgressHUD.dismiss()
-                self.delegate?.episodeAdded()
-                self.dismiss(animated: true)
-            }.catch { error in
+                self?.delegate?.episodeAdded()
+                self?.dismiss(animated: true)
+            }.catch {[weak self] error in
+
                 print("API failure: \(error)")
-                self.showFailureMessage()
+                self?.showFailureMessage()
                 SVProgressHUD.dismiss()
         }
     }
@@ -229,8 +235,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         
         let keychain = KeychainSwift()
         keychain.synchronizable = true
-        
-        let someUIImage = image
+        //let someUIImage = image
         let imageByteData = image.pngData()!
         let headers: HTTPHeaders = ["Authorization": keychain.get("token")!]
         
@@ -247,6 +252,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
                     switch result {
                         case .success (let uploadRequest, _, _ ):
                             self?.processUploadRequest(uploadRequest)
+                        print("UPLOAD SUCCES")
                         case .failure (let error):
                             print("Fail: \(error)")
                     }
@@ -263,7 +269,6 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
                     
                     print(media)
                     self.mediaId = media.id
-                    print(media.path)
                     
                     print("This is what I get ****************")
                 case .failure (let error):

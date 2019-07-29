@@ -20,12 +20,14 @@ final class ShowDetailsViewController: UIViewController {
     
     // MARK: - Outlets
     
-    @IBOutlet weak var numberOfEpisodesLabel: UILabel!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var descriptionView: UITextView!
-    @IBOutlet weak var imageView: UIImageView!
+
+    @IBOutlet private weak var numberOfEpisodesLabel: UILabel!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var descriptionView: UITextView!
+    @IBOutlet private weak var imageView: UIImageView!
     private let refreshControl = UIRefreshControl()
+
 
     var currentShow: ShowDetails? = nil
     var selected: Shows! = nil
@@ -36,17 +38,18 @@ final class ShowDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loading()
+        
+        loadShowInfo()
+        setupTableView()
     }
     
-    func loading(){
+    func loadShowInfo(){
         if selected != nil {
             id = selected.id
             titleLabel.text = selected.title
             showTitle = selected.title
         } else { titleLabel.text = showTitle }
         
-        setupTableView()
         getShowEpisodes()
         getShowDetails()
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -73,10 +76,10 @@ final class ShowDetailsViewController: UIViewController {
         guard
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.homeViewConstroller) as? HomeViewController
             else { return }
-         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationController?.navigationItem.hidesBackButton = true
         self.navigationController?.setViewControllers([viewController], animated: true)
-        self.navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Actions
@@ -111,14 +114,21 @@ final class ShowDetailsViewController: UIViewController {
                     headers:headers)
                 .validate()
                 .responseDecodable(ShowDetails.self, keypath: "data")
-            }.done { details in
+            }.done { [weak self] details in
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Ovo je details \(details)")
-                self.descriptionView.text = details.description
+                self?.descriptionView.text = details.description
                 print(details.description)
                 let url = URL(string: "https://api.infinum.academy/\(details.imageUrl)")
-                self.imageView.kf.setImage(with: url)
-                self.tableView.reloadData()
+                if (details.imageUrl != "")
+                {
+                    self?.imageView.kf.setImage(with: url)
+                }
+                else {
+                    self?.imageView.image = UIImage(named: "icImagePlaceholder")
+                }
+                self?.tableView.reloadData()
+
                 print("Success: \(details)")
                 SVProgressHUD.dismiss()
             }.catch { error in
@@ -136,12 +146,12 @@ final class ShowDetailsViewController: UIViewController {
                     encoding: JSONEncoding.default)
                 .validate()
                 .responseDecodable([Episodes].self, keypath: "data")
-            }.done { episodes in
+            }.done { [weak self] episodes in
                 SVProgressHUD.setDefaultMaskType(.black)
-                self.episodeList = episodes
-                self.episodeList.sort(by: { $0.season > $1.season })
-                self.tableView.reloadData()
-                print(self.episodeList)
+                self?.episodeList = episodes
+                self?.episodeList.sort(by: { $0.season < $1.season })
+                self?.tableView.reloadData()
+
                 SVProgressHUD.dismiss()
             }.catch { error in
                 print("API failure: \(error)")
@@ -205,7 +215,7 @@ private extension ShowDetailsViewController {
 
 extension ShowDetailsViewController: NewEpiodeDelegate{
     func episodeAdded() {
-        loading()
+        loadShowInfo()
     }
 }
 

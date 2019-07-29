@@ -121,6 +121,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="EqX-4w-NAY"/>
                     </view>
+                    <navigationItem key="navigationItem" id="g7d-b4-Fso"/>
                     <connections>
                         <outlet property="descriptionTextView" destination="nXm-Mt-CSM" id="twA-XH-37K"/>
                         <outlet property="episodeNumberLabel" destination="5e0-Ne-e0o" id="4ll-nC-oo7"/>
@@ -131,7 +132,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EOO-w7-dfQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1397.1014492753625" y="-276.5625"/>
+            <point key="canvasLocation" x="-486.95652173913049" y="-276.5625"/>
         </scene>
     </scenes>
     <resources>

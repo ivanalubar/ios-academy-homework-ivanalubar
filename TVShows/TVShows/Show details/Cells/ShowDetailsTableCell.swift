@@ -10,9 +10,9 @@ import UIKit
 
 final class ShowDetailsTableCell: UITableViewCell {
     
-    @IBOutlet weak var episodeLabel: UILabel!
-    @IBOutlet weak var episodeNumberLabel: UILabel!
-    @IBOutlet weak var seasonNumberLabel: UILabel!
+    @IBOutlet private weak var episodeLabel: UILabel!
+    @IBOutlet private weak var episodeNumberLabel: UILabel!
+    @IBOutlet private weak var seasonNumberLabel: UILabel!
     // MARK: - Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,7 +37,6 @@ extension ShowDetailsTableCell {
 // MARK: - Private
 private extension ShowDetailsTableCell {
     func setupUI() {
-       // thumbnail.layer.cornerRadius = 20
         episodeLabel.textColor = UIColor.black
     }
 }

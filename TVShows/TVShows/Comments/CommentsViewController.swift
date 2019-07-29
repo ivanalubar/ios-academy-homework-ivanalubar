@@ -16,21 +16,25 @@ final class CommentsViewController: UIViewController {
     
     var episodeID: String = ""
     var showID: String = ""
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
     var commentsList = [Comments]()
-    @IBOutlet weak var commentInput: UITextField!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var imagePlaceholderComments: UIImageView!
-    @IBOutlet weak var textPlaceholderComments: UITextView!
+    @IBOutlet private weak var commentInput: UITextField!
+    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var imagePlaceholderComments: UIImageView!
+    @IBOutlet private weak var textPlaceholderComments: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imagePlaceholderComments.isHidden = true
-        textPlaceholderComments.isHidden = true
         commentInput.becomeFirstResponder()
         setupTableView()
         getEpisodeComments()
         keyboardManipulation()
+        setupNavigationBar()
+        imagePlaceholderComments.isHidden = true
+        textPlaceholderComments.isHidden = true
+    }
+    
+    private func setupNavigationBar(){
         UINavigationBar.appearance().backgroundColor = UIColor.clear
         UINavigationBar.appearance().tintColor = .white
         navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -40,6 +44,7 @@ final class CommentsViewController: UIViewController {
             action: #selector(backIconActionHandler)
         )
     }
+    
     @objc private func backIconActionHandler(){
         
         let sb = UIStoryboard(name: Constants.Storyboards.episodeDetails, bundle: nil)
@@ -50,11 +55,7 @@ final class CommentsViewController: UIViewController {
         viewController.episodeID = episodeID
         viewController.showID = showID
         print("Navigate back")
-        
-       // viewController.dismiss(animated: true, completion: nil)
-        self.navigationController?.navigationItem.hidesBackButton = true
-        self.navigationController?.setViewControllers([viewController], animated: true)
-        self.navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     private func keyboardManipulation(){
@@ -107,16 +108,16 @@ final class CommentsViewController: UIViewController {
                     encoding: JSONEncoding.default)
                 .validate()
                 .responseDecodable([Comments].self, keypath: "data")
-            }.done { comments in
+            }.done { [weak self] comments in
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("List of comments \(comments)")
                 print(comments)
-                self.commentsList = comments
-                if (self.commentsList.count < 1) {
-                    self.imagePlaceholderComments.isHidden = false
-                    self.textPlaceholderComments.isHidden = false
+                self?.commentsList = comments
+                if ((self?.commentsList.count)! < 1) {
+                    self?.imagePlaceholderComments.isHidden = false
+                    self?.textPlaceholderComments.isHidden = false
                 }
-                self.tableView.reloadData()
+                self?.tableView.reloadData()
                 print("Success: \(comments)")
                 SVProgressHUD.dismiss()
             }.catch { error in

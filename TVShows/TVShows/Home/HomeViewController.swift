@@ -18,7 +18,9 @@ private let TableViewRowHeight: CGFloat = 110
 
 final class HomeViewController: UIViewController {
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
+    public var token: String = ""
+
     private var items = [Shows]()
     
     override func viewDidLoad() {
@@ -44,8 +46,6 @@ final class HomeViewController: UIViewController {
         let keychain = KeychainSwift()
         keychain.synchronizable = true
         keychain.set("false", forKey: "loggedIn")
-        
-        //print(keychain.get("loggedIn"))
         print("Navigate to login")
         self.dismiss(animated: true, completion: nil)
         
@@ -75,18 +75,18 @@ final class HomeViewController: UIViewController {
                          headers: headers)
                 .validate()
                 .responseDecodable([Shows].self, keypath: "data")
-            }.done { shows in
+            }.done { [weak self] shows in
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success: \(shows)")
                 shows.forEach { show in
-                    self.items.append(show)
+                    self?.items.append(show)
                 }
-                //self.setupTableView()
-                self.tableView.reloadData()
+                    (self?.tableView.reloadData())!
+
                 SVProgressHUD.dismiss()
-            }.catch { error in
+            }.catch { [weak self]  error in
                 print("API failure: \(error)")
-                self.showApiFailedMessage()
+                self?.showApiFailedMessage()
                 SVProgressHUD.dismiss()
         }
     }
@@ -104,14 +104,13 @@ final class HomeViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         self.navigationController?.navigationItem.hidesBackButton = true
         self.navigationController?.setViewControllers([viewController], animated: true)
-        self.navigationController?.popViewController(animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             print("Deleted")
-            self.items.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            items.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
 }
