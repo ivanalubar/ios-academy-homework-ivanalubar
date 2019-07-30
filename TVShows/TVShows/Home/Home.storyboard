@@ -73,7 +73,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qcm-cz-9aR"/>
                     </view>
-                    <navigationItem key="navigationItem" id="gUs-dn-dtb"/>
+                    <navigationItem key="navigationItem" title="Shows" id="gUs-dn-dtb"/>
                     <connections>
                         <outlet property="tableView" destination="Ye5-Dh-IO6" id="3Jj-UM-Sns"/>
                     </connections>

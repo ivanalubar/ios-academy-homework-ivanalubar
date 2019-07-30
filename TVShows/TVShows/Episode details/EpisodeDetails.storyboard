@@ -87,8 +87,11 @@
                                 </constraints>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9M8-gf-OZX">
-                                <rect key="frame" x="335" y="818" width="99" height="24"/>
-                                <state key="normal" title="Comments" image="ic-message-circle"/>
+                                <rect key="frame" x="20" y="818" width="99" height="24"/>
+                                <color key="tintColor" red="1" green="0.45882352939999999" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Comments" image="ic-message-circle">
+                                    <color key="titleColor" red="1" green="0.45882352939999999" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="navigateToComments" destination="OW2-9n-dpd" eventType="touchUpInside" id="fhX-MM-Pyo"/>
                                 </connections>
@@ -114,7 +117,7 @@
                             <constraint firstItem="tDz-zQ-o06" firstAttribute="leading" secondItem="EqX-4w-NAY" secondAttribute="leading" id="J0g-px-7Jd"/>
                             <constraint firstItem="tDz-zQ-o06" firstAttribute="width" secondItem="64E-7i-kpu" secondAttribute="width" id="PLA-Tj-wK9"/>
                             <constraint firstItem="tDz-zQ-o06" firstAttribute="trailing" secondItem="EqX-4w-NAY" secondAttribute="trailing" id="axy-qd-bsZ"/>
-                            <constraint firstItem="9M8-gf-OZX" firstAttribute="trailing" secondItem="EqX-4w-NAY" secondAttribute="trailing" constant="20" id="udM-ga-BYG"/>
+                            <constraint firstItem="9M8-gf-OZX" firstAttribute="leading" secondItem="EqX-4w-NAY" secondAttribute="leading" constant="20" id="m8F-r1-XgI"/>
                             <constraint firstItem="Eqb-8W-3nu" firstAttribute="leading" secondItem="EqX-4w-NAY" secondAttribute="leading" constant="40" id="ulJ-8T-eCJ"/>
                             <constraint firstItem="Eqb-8W-3nu" firstAttribute="top" secondItem="EqX-4w-NAY" secondAttribute="top" constant="20" id="zST-wZ-DLO"/>
                             <constraint firstItem="tDz-zQ-o06" firstAttribute="top" secondItem="64E-7i-kpu" secondAttribute="top" id="zSh-As-qaA"/>

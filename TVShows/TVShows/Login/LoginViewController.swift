@@ -39,7 +39,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         super.viewDidLoad()
         
          loading()
-        usernameSubview.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
     private func loading() {
@@ -51,13 +50,15 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         if (keychain.get("loggedIn") == "true" ){
             setUsernameSubview()
             setPasswordSubview()
-            navigateToHome(token: keychain.get("token")!)
+            navigateToHome()
         } else{
             configureUI()
             setUsernameSubview()
             setPasswordSubview()
             keyboardManipulation()
         }
+        
+        usernameSubview.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
     private func isLogged() -> String {
@@ -111,16 +112,8 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     
     @IBAction private func rememberMeActionHandler() {
         
-//        if rememberMeCheckBox.isSelected {
-//            rememberMeCheckBox.setImage(UIImage(named: Constants.Images.unchecked), for: .normal)
-//        } else {
-//            rememberMeCheckBox.setImage(UIImage(named: Constants.Images.checked), for: .normal)
-//        }
-//        rememberMeCheckBox.isSelected.toggle()
-        
-        let image = rememberMeCheckBox.isSelected ? UIImage(named: Constants.Images.checked) : UIImage(named: Constants.Images.unchecked)
+        let image = rememberMeCheckBox.isSelected ? UIImage(named: Constants.Images.unchecked) : UIImage(named: Constants.Images.checked)
         rememberMeCheckBox.setImage(image, for: .normal)
-        
         rememberMeCheckBox.isSelected.toggle()
     }
     
@@ -197,7 +190,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     
     // MARK: - Navigation
     
-    private func navigateToHome(token: String){
+    private func navigateToHome(){
         let sb = UIStoryboard(name: Constants.Storyboards.home, bundle: nil)
         guard
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.homeViewConstroller) as? HomeViewController
@@ -225,12 +218,12 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                 .validate()
                 .responseDecodable(LoginData.self, keypath: "data")
             }.done { [weak self] loginData in
-                self?.navigateToHome(token: loginData.token)
+                self?.navigateToHome()
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success: \(loginData)")
                 let keychain = KeychainSwift()
                 keychain.synchronizable = true
-                if self!.remember {
+                if self!.rememberMeCheckBox.isSelected {
                     keychain.set(loginData.token, forKey: "token")
                     keychain.set("true", forKey: "loggedIn")
                     keychain.synchronizable = true

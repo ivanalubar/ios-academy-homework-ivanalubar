@@ -51,6 +51,8 @@ enum Constants {
         static let unchecked = "ic-checkbox-empty"
         static let logout = "ic-logout"
         static let navigateBack = "ic-navigate-back"
+        static let listview = "ic-listview"
+        static let gridview = "ic-gridview"
     }
     
     enum ButtonNames {

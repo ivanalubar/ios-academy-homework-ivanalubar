@@ -98,6 +98,26 @@ final class CommentsViewController: UIViewController {
         }
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            print("Deleted")
+            let item = commentsList[indexPath.row]
+            print(item.id)
+            print("****************************")
+            deleteEpisodeComment(id: item.id)
+            commentsList.remove(at: indexPath.row)
+            print(indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true)
+//        let item = commentsList[indexPath.row]
+//        print("Selected Item: \(item)")
+//
+//    }
+    
     func getEpisodeComments() {
         SVProgressHUD.show()
         
@@ -150,6 +170,30 @@ final class CommentsViewController: UIViewController {
                 print("Success:")
                 SVProgressHUD.dismiss()
                 //self.tableView.reloadData()
+            }.catch { error in
+                print("API failure: \(error)")
+                SVProgressHUD.showError(withStatus: "Failure")
+        }
+    }
+    
+    func deleteEpisodeComment(id: String) {
+        SVProgressHUD.show()
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        let headers: HTTPHeaders = ["Authorization": keychain.get("token")!]
+        firstly {
+            Alamofire
+                .request("https://api.infinum.academy/comments/\(id)",
+                         method: .delete,
+                         encoding: JSONEncoding.default,
+                         headers: headers)
+                .validate()
+                .responseData()
+            }.done { [weak self]_ in
+                SVProgressHUD.setDefaultMaskType(.black)
+                print("Success: comment deleted!")
+                SVProgressHUD.dismiss()
+                self?.tableView.reloadData()
             }.catch { error in
                 print("API failure: \(error)")
                 SVProgressHUD.showError(withStatus: "Failure")

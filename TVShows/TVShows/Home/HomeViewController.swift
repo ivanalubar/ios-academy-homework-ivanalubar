@@ -19,26 +19,43 @@ private let TableViewRowHeight: CGFloat = 110
 final class HomeViewController: UIViewController {
     
     @IBOutlet private weak var tableView: UITableView!
-    public var token: String = ""
-
+    
     private var items = [Shows]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         getApiShows()
-        loading()
+        setupTableView()
+        loadShowInfo()
     }
     
-    private func loading() {
-        setupTableView()
+    private func loadShowInfo() {
+
         UINavigationBar.appearance().tintColor = UIColor.darkGray
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(named: Constants.Images.logout),
             style: .plain,
             target: self,
             action: #selector(logotActionHandler)
         )
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(named: Constants.Images.gridview),
+            style: .plain,
+            target: self,
+            action: #selector(collectionViewSwitcher)
+        )
+    }
+    
+    @objc private func collectionViewSwitcher(){
+        
+        if(navigationItem.rightBarButtonItem?.image == UIImage( named: Constants.Images.listview)){
+            navigationItem.rightBarButtonItem?.image = UIImage( named: Constants.Images.gridview)
+        } else {
+        navigationItem.rightBarButtonItem?.image = UIImage( named: Constants.Images.listview)
+        }
     }
     
     @objc private func logotActionHandler(){
@@ -46,6 +63,7 @@ final class HomeViewController: UIViewController {
         let keychain = KeychainSwift()
         keychain.synchronizable = true
         keychain.set("false", forKey: "loggedIn")
+        keychain.synchronizable = true
         print("Navigate to login")
         self.dismiss(animated: true, completion: nil)
         
@@ -138,7 +156,7 @@ extension HomeViewController: UITableViewDataSource {
         print("CURRENT INDEX PATH BEING CONFIGURED: \(indexPath)")
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TvShowsTableCell.self), for: indexPath) as! TvShowsTableCell
         cell.configure(with: items[indexPath.row])
-         return cell
+        return cell
     }
 }
 
