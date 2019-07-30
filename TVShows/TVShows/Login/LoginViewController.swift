@@ -58,11 +58,8 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     
     @IBAction private func rememberMeActionHandler() {
         
-        if rememberMeCheckBox.isSelected {
-            rememberMeCheckBox.setImage(UIImage(named: Constants.Images.unchecked), for: .normal)
-        } else {
-            rememberMeCheckBox.setImage(UIImage(named: Constants.Images.checked), for: .normal)
-        }
+        let image = rememberMeCheckBox.isSelected ? UIImage(named: Constants.Images.unchecked) : UIImage(named: Constants.Images.checked)
+        rememberMeCheckBox.setImage(image, for: .normal)
         rememberMeCheckBox.isSelected.toggle()
     }
     
@@ -94,7 +91,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     
     @objc private func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
+            self.view.frame.origin.y = .zero
         }
     }
     
@@ -119,24 +116,12 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     
     // MARK: - Alert messagess
     
-    func showLoginFailedMessage(){
-        let alert = UIAlertController(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.loginFailure, preferredStyle: .alert)
+    func showAlert(title: String, message: String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
         self.present(alert, animated: true)
     }
-    
-    func showRegisterFailedMessage(){
-        let alert = UIAlertController(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.registrationFaliure, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
-        self.present(alert, animated: true)
-    }
-    
-    func showRegisterSuccessdMessage(){
-        let alert = UIAlertController(title: Constants.AlertMessages.sucessMessageTitle, message: Constants.AlertMessages.registrationSuccess, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
-        self.present(alert, animated: true)
-    }
-    
+   
     // MARK: - Navigation
     
     private func navigateToHome(token: String){
@@ -166,15 +151,15 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                       encoding: JSONEncoding.default)
                 .validate()
                 .responseDecodable(LoginData.self, keypath: "data")
-            }.done { loginData in
-                self.navigateToHome(token: loginData.token)
+            }.done { [weak self] loginData in
+                self?.navigateToHome(token: loginData.token)
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success: \(loginData)")
                 SVProgressHUD.dismiss()
-            }.catch { error in
+            }.catch { [weak self] error in
                 print("API failure: \(error)")
                 SVProgressHUD.dismiss()
-                self.showLoginFailedMessage()
+                self?.showAlert(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.loginFailure)
         }
     }
     
@@ -192,17 +177,17 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
                          encoding: JSONEncoding.default)
                 .validate()
                 .responseDecodable(User.self, keypath: "data")
-            }.done { loginData in
+            }.done { [weak self] loginData in
                 SVProgressHUD.setDefaultMaskType(.black)
                 let vc = HomeViewController()
                 vc.token = loginData.type
                 print("Success: \(loginData)")
-                self.showRegisterSuccessdMessage()
+                self?.showAlert(title: Constants.AlertMessages.sucessMessageTitle, message: Constants.AlertMessages.registrationSuccess)
                 SVProgressHUD.dismiss()
-            }.catch { error in
+            }.catch {[weak self] error in
                 print("API failure: \(error)")
                 SVProgressHUD.dismiss()
-                self.showRegisterFailedMessage()
+                self?.showAlert(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.registrationFaliure)
         }
     }
 }

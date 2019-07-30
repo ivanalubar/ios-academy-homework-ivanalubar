@@ -20,10 +20,10 @@ final class AddNewEpisodeViewController: UIViewController {
     
     // MARK: - Outlets
     
-    @IBOutlet weak var episodeTitleLabel: UITextField!
-    @IBOutlet weak var seasonNumberLabel: UITextField!
-    @IBOutlet weak var episodeNumberLabel: UITextField!
-    @IBOutlet weak var episodeDescriptionLabel: UITextField!
+    @IBOutlet private weak var episodeTitleLabel: UITextField!
+    @IBOutlet private weak var seasonNumberLabel: UITextField!
+    @IBOutlet private weak var episodeNumberLabel: UITextField!
+    @IBOutlet private weak var episodeDescriptionLabel: UITextField!
     
     weak var delegate: NewEpiodeDelegate?
     var token: String = ""
@@ -32,6 +32,10 @@ final class AddNewEpisodeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationBar()
+    }
+    
+    func setupNavigationBar(){
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             title: Constants.ButtonNames.cancel,
             style: .plain,
@@ -58,7 +62,7 @@ final class AddNewEpisodeViewController: UIViewController {
             let episode = episodeNumberLabel.text,
             let description = episodeDescriptionLabel.text
             else { return }
-        self.addNewEpisode(title: title, season: season, episode: episode, description: description)
+        addNewEpisode(title: title, season: season, episode: episode, description: description)
     }
     
     @objc func didSelectCancel(){
@@ -105,16 +109,15 @@ final class AddNewEpisodeViewController: UIViewController {
                          headers: headers)
                 .validate()
                 .responseData()
-            }.done { _ in
+            }.done { [weak self] _ in
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success:")
                 SVProgressHUD.dismiss()
-                self.delegate?.episodeAdded()
-                self.dismiss(animated: true)
-                //self.dismiss(animated: true, completion: nil)
-            }.catch { error in
+                self?.delegate?.episodeAdded()
+                self?.dismiss(animated: true)
+            }.catch { [weak self] error in
                 print("API failure: \(error)")
-                self.showFailureMessage()
+                self?.showFailureMessage()
                 SVProgressHUD.dismiss()
         }
     }

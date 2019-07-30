@@ -16,7 +16,7 @@ private let TableViewRowHeight: CGFloat = 110
 
 final class HomeViewController: UIViewController {
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
     public var token: String = ""
     private var items = [Shows]()
     
@@ -30,7 +30,7 @@ final class HomeViewController: UIViewController {
     func showApiFailedMessage(){
         let alert = UIAlertController(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.getShowsFaliure, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
     
     // MARK: - API calls
@@ -47,17 +47,15 @@ final class HomeViewController: UIViewController {
                          headers: headers)
                 .validate()
                 .responseDecodable([Shows].self, keypath: "data")
-            }.done { shows in
+            }.done { [weak self] shows in
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success: \(shows)")
-                shows.forEach { show in
-                    self.items.append(show)
-                }
-                self.setupTableView()
+                self?.items = shows
+                self?.setupTableView()
                 SVProgressHUD.dismiss()
-            }.catch { error in
+            }.catch { [weak self] error in
                 print("API failure: \(error)")
-                self.showApiFailedMessage()
+                self?.showApiFailedMessage()
                 SVProgressHUD.dismiss()
         }
     }
@@ -74,16 +72,15 @@ final class HomeViewController: UIViewController {
         viewController.selected = item
         viewController.token = token
         print(viewController.token)
-        self.navigationController?.navigationItem.hidesBackButton = true
-        self.navigationController?.setViewControllers([viewController], animated: true)
-        self.navigationController?.popViewController(animated: true)
+        navigationController?.navigationItem.hidesBackButton = true
+        navigationController?.setViewControllers([viewController], animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             print("Deleted")
-            self.items.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            items.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
 }
