@@ -45,8 +45,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         
         let keychain = KeychainSwift()
         keychain.synchronizable = true
-        print(keychain.get("loggedIn"))
-        print("*****************")
         if (keychain.get("loggedIn") == "true" ){
             setUsernameSubview()
             setPasswordSubview()
@@ -74,11 +72,12 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         loginButton.layer.borderWidth = borderWidth
         loginButton.layer.borderColor = UIColor.clear.cgColor
     }
+
     
     private func setUsernameSubview(){
         usernameSubview = SkyFloatingLabelTextField(frame: usernameTextField.frame)
-        usernameSubview.placeholder = "Username"
-        usernameSubview.title = "Your username"
+        usernameSubview.placeholder = Constants.ButtonNames.username
+        usernameSubview.title = Constants.ButtonNames.username
         usernameSubview.titleColor = UIColor.lightGray
         usernameSubview.selectedTitleColor = UIColor.lightGray
         self.usernameTextField.addSubview(usernameSubview)
@@ -87,8 +86,8 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     
     private func setPasswordSubview(){
         passwordSubview = SkyFloatingLabelTextField(frame: passwordTextField.frame)
-        passwordSubview.placeholder = "Password"
-        passwordSubview.title = "Your pasword"
+        passwordSubview.placeholder = Constants.ButtonNames.password
+        passwordSubview.title = Constants.ButtonNames.password
         passwordSubview.titleColor = UIColor.lightGray
         passwordSubview.selectedTitleColor = UIColor.lightGray
         passwordSubview.isSecureTextEntry = true

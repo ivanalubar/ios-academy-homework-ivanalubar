@@ -58,6 +58,12 @@ enum Constants {
     enum ButtonNames {
         static let cancel = "Cancel"
         static let add = "Add"
+        static let username = "Username"
+        static let password = "Password"
+        static let episodeTitele = "Episode title"
+        static let seasonNumber = "Season number"
+        static let episodeNumber = "Episode number"
+        static let episodeDescription = "Episode description"
     }
 
 }

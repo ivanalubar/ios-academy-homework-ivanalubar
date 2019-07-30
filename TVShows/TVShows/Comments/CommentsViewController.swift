@@ -22,16 +22,25 @@ final class CommentsViewController: UIViewController {
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var imagePlaceholderComments: UIImageView!
     @IBOutlet private weak var textPlaceholderComments: UITextView!
+    private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadCommentsView()
+    }
+    
+    private func loadCommentsView(){
         commentInput.becomeFirstResponder()
         setupTableView()
         getEpisodeComments()
-        keyboardManipulation()
+//        keyboardManipulation()
         setupNavigationBar()
         imagePlaceholderComments.isHidden = true
         textPlaceholderComments.isHidden = true
+        refreshControl.tintColor = UIColor.darkGray
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+        tableView.addSubview(refreshControl) 
     }
     
     private func setupNavigationBar(){
@@ -43,6 +52,17 @@ final class CommentsViewController: UIViewController {
             target: self,
             action: #selector(backIconActionHandler)
         )
+    }
+    
+    @objc func refresh() {
+        setupTableView()
+        getEpisodeComments()
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(endRefreshing))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func endRefreshing(){
+        refreshControl.endRefreshing()
     }
     
     @objc private func backIconActionHandler(){
@@ -58,14 +78,13 @@ final class CommentsViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    private func keyboardManipulation(){
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-//        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-//        view.addGestureRecognizer(tap)
-    }
+    
+//    private func keyboardManipulation(){
+//
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+//
+//    }
     
     @objc private func dismissKeyboard() {
         view.endEditing(true)
@@ -79,24 +98,24 @@ final class CommentsViewController: UIViewController {
         backIconActionHandler()
     }
     
-    
-    
-    @objc private func keyboardWillShow(notification: NSNotification) {
+
+//
+//    @objc private func keyboardWillShow(notification: NSNotification) {
 //        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
 //            if self.view.frame.origin.y == 0 {
-//                self.view.frame.origin.y -= ( 20 )
+//                self.view.frame.origin.y -= ( keyboardSize.height - 150 )
 //            }
 //        }
-        if let keyboardSize = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect {
-            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-        }
-    }
-    
-    @objc private func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
-        }
-    }
+////        if let keyboardSize = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect {
+////            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+////        }
+//    }
+//
+//    @objc private func keyboardWillHide(notification: NSNotification) {
+//        if self.view.frame.origin.y != 0 {
+//            self.view.frame.origin.y = .zero
+//        }
+//    }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {

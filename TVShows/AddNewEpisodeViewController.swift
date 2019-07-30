@@ -70,10 +70,20 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         episodeDescriptionSubview()
     }
     
+//    func setSubview(frame: CGRect, placholder: String, textField: UITextField){
+//        episodeTitle = SkyFloatingLabelTextField(frame: frame)
+//        episodeTitle.placeholder = placholder
+//        episodeTitle.title = placholder
+//        episodeTitle.titleColor = UIColor.lightGray
+//        episodeTitle.selectedTitleColor = UIColor.lightGray
+//        episodeTitleLabel.addSubview(textField)
+//        episodeTitleLabel.text = textField.text
+//    }
+    
     func episodeTitleSubview(){
         episodeTitle = SkyFloatingLabelTextField(frame: episodeTitleLabel.frame)
-        episodeTitle.placeholder = "Episode title"
-        episodeTitle.title = "Episode title"
+        episodeTitle.placeholder = Constants.ButtonNames.episodeTitele
+        episodeTitle.title = Constants.ButtonNames.episodeTitele
         episodeTitle.titleColor = UIColor.lightGray
         episodeTitle.selectedTitleColor = UIColor.lightGray
         episodeTitleLabel.addSubview(episodeTitle)
@@ -82,8 +92,8 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     
     func episodeSeasonSubview(){
         seasonNumber = SkyFloatingLabelTextField(frame: seasonNumberLabel.frame)
-        seasonNumber.placeholder = "Season number"
-        seasonNumber.title = "Season number"
+        seasonNumber.placeholder = Constants.ButtonNames.seasonNumber
+        seasonNumber.title = Constants.ButtonNames.seasonNumber
         seasonNumber.titleColor = UIColor.lightGray
         seasonNumber.selectedTitleColor = UIColor.lightGray
         seasonNumberLabel.addSubview(seasonNumber)
@@ -92,8 +102,8 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     
     func episodeNumberSubview(){
         episodeNumber = SkyFloatingLabelTextField(frame: episodeNumberLabel.frame)
-        episodeNumber.placeholder = "Episode number"
-        episodeNumber.title = "Episode number"
+        episodeNumber.placeholder = Constants.ButtonNames.episodeNumber
+        episodeNumber.title = Constants.ButtonNames.episodeNumber
         episodeNumber.titleColor = UIColor.lightGray
         episodeNumber.selectedTitleColor = UIColor.lightGray
         episodeNumberLabel.addSubview(episodeNumber)
@@ -102,8 +112,8 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     
     func episodeDescriptionSubview(){
         episodeDescription = SkyFloatingLabelTextField(frame: episodeDescriptionLabel.frame)
-        episodeDescription.placeholder = "Episode description"
-        episodeDescription.title = "Episode description"
+        episodeDescription.placeholder = Constants.ButtonNames.episodeDescription
+        episodeDescription.title = Constants.ButtonNames.episodeDescription
         episodeDescription.titleColor = UIColor.lightGray
         episodeDescription.selectedTitleColor = UIColor.lightGray
         episodeDescriptionLabel.addSubview(episodeDescription)
