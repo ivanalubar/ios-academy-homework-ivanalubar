@@ -25,7 +25,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="408" height="877"/>
                                         <subviews>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sH2-G9-RBZ">
-                                                <rect key="frame" x="0.0" y="0.0" width="408" height="607"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="408" height="537"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentsTableCell" rowHeight="93" id="ExD-wO-VQA" customClass="CommentsTableCell" customModule="TVShows" customModuleProvider="target">
@@ -83,7 +83,7 @@
                                                 </prototypes>
                                             </tableView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tq9-53-W83">
-                                                <rect key="frame" x="0.0" y="627" width="408" height="30"/>
+                                                <rect key="frame" x="0.0" y="557" width="408" height="30"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Input comment..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2jA-0a-yqH">
                                                         <rect key="frame" x="0.0" y="0.0" width="358" height="30"/>
@@ -109,10 +109,10 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cil-3E-QDp">
-                                                <rect key="frame" x="0.0" y="677" width="408" height="200"/>
+                                                <rect key="frame" x="0.0" y="607" width="408" height="270"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="200" id="mVA-wx-0fZ"/>
+                                                    <constraint firstAttribute="height" constant="270" id="mVA-wx-0fZ"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -127,13 +127,13 @@
                                 </constraints>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img-placehoder-comments" translatesAutoresizingMaskIntoConstraints="NO" id="pSx-O1-cSF">
-                                <rect key="frame" x="127" y="188" width="160" height="160"/>
+                                <rect key="frame" x="126.99999999999999" y="188" width="160.00000000000003" height="160"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="160" id="Fz1-YX-xgp"/>
                                     <constraint firstAttribute="height" constant="160" id="Q3Q-Cd-2Da"/>
                                 </constraints>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Sorry, we don/t have any comments yet. Be first who will write a review." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIO-Pz-CeR">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Sorry, we don't have any comments yet. Be first who will write a review." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIO-Pz-CeR">
                                 <rect key="frame" x="65" y="368" width="284" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -161,6 +161,7 @@
                     <connections>
                         <outlet property="commentInput" destination="2jA-0a-yqH" id="Up4-Hz-sF5"/>
                         <outlet property="imagePlaceholderComments" destination="pSx-O1-cSF" id="ByS-nH-i5A"/>
+                        <outlet property="keyboardPlaceholder" destination="Cil-3E-QDp" id="H3N-MS-yaS"/>
                         <outlet property="tableView" destination="sH2-G9-RBZ" id="kjb-pl-9HD"/>
                         <outlet property="textPlaceholderComments" destination="bIO-Pz-CeR" id="zzR-Kz-buI"/>
                     </connections>

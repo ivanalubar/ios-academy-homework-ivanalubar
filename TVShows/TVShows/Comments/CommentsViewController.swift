@@ -22,8 +22,10 @@ final class CommentsViewController: UIViewController {
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var imagePlaceholderComments: UIImageView!
     @IBOutlet private weak var textPlaceholderComments: UITextView!
-    private let refreshControl = UIRefreshControl()
     
+    @IBOutlet private weak var keyboardPlaceholder: UIView!
+    private let refreshControl = UIRefreshControl()
+    private var keyboardHeight: CGFloat = 270
     override func viewDidLoad() {
         super.viewDidLoad()
         loadCommentsView()
@@ -40,7 +42,16 @@ final class CommentsViewController: UIViewController {
         refreshControl.tintColor = UIColor.darkGray
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
-        tableView.addSubview(refreshControl) 
+        tableView.addSubview(refreshControl)
+        
+        textPlaceholderComments.frame.size.height = keyboardHeight
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            keyboardHeight = keyboardRectangle.height
+        }
     }
     
     private func setupNavigationBar(){
