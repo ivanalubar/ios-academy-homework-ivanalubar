@@ -111,12 +111,6 @@ final class CommentsViewController: UIViewController {
         }
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//        let item = commentsList[indexPath.row]
-//        print("Selected Item: \(item)")
-//
-//    }
     
     func getEpisodeComments() {
         SVProgressHUD.show()
@@ -191,6 +185,7 @@ final class CommentsViewController: UIViewController {
                 .responseData()
             }.done { [weak self]_ in
                 SVProgressHUD.setDefaultMaskType(.black)
+                
                 print("Success: comment deleted!")
                 SVProgressHUD.dismiss()
                 self?.tableView.reloadData()

@@ -20,7 +20,7 @@ final class ShowDetailsViewController: UIViewController {
     
     // MARK: - Outlets
     
-
+    @IBOutlet private weak var likesLabel: UILabel!
     @IBOutlet private weak var numberOfEpisodesLabel: UILabel!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
@@ -84,6 +84,15 @@ final class ShowDetailsViewController: UIViewController {
     
     // MARK: - Actions
     
+    @IBAction func postLike() {
+        postLikeOnShow()
+    }
+    
+    
+    @IBAction func postDislike(_ sender: Any) {
+        postDisikeOnShow()
+    }
+    
     @IBAction func addNewEpisodeButton() {
         let sb = UIStoryboard(name: Constants.Storyboards.addNewEpisode, bundle: nil)
         guard
@@ -118,6 +127,7 @@ final class ShowDetailsViewController: UIViewController {
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Ovo je details \(details)")
                 self?.descriptionView.text = details.description
+                self?.likesLabel.text = String(details.likesCount)
                 print(details.description)
                 let url = URL(string: "https://api.infinum.academy/\(details.imageUrl)")
                 if (details.imageUrl != "")
@@ -128,7 +138,7 @@ final class ShowDetailsViewController: UIViewController {
                     self?.imageView.image = UIImage(named: "icImagePlaceholder")
                 }
                 self?.tableView.reloadData()
-
+                
                 print("Success: \(details)")
                 SVProgressHUD.dismiss()
             }.catch { error in
@@ -159,6 +169,53 @@ final class ShowDetailsViewController: UIViewController {
         }
     }
     
+    func postLikeOnShow() {
+        SVProgressHUD.show()
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        let headers: HTTPHeaders = ["Authorization": keychain.get("token")!]
+        firstly {
+            Alamofire
+                .request("https://api.infinum.academy/api/shows/\(id!)/like",
+                         method: .post,
+                         encoding: JSONEncoding.default,
+                         headers: headers)
+                .validate()
+                .responseData()
+            }.done { [weak self] _ in
+                SVProgressHUD.setDefaultMaskType(.black)
+                self?.getShowDetails()
+                print("Success:")
+                SVProgressHUD.dismiss()
+            }.catch { error in
+                print("API failure: \(error)")
+                SVProgressHUD.dismiss()
+        }
+    }
+    
+    func postDisikeOnShow() {
+        SVProgressHUD.show()
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        let headers: HTTPHeaders = ["Authorization": keychain.get("token")!]
+        firstly {
+            Alamofire
+                .request("https://api.infinum.academy/api/shows/\(id!)/dislike",
+                    method: .post,
+                    encoding: JSONEncoding.default,
+                    headers: headers)
+                .validate()
+                .responseData()
+            }.done { [weak self] _ in
+                SVProgressHUD.setDefaultMaskType(.black)
+                self?.getShowDetails()
+                print("Success:")
+                SVProgressHUD.dismiss()
+            }.catch { error in
+                print("API failure: \(error)")
+                SVProgressHUD.dismiss()
+        }
+    }
 }
 
 // MARK: - Extensions
