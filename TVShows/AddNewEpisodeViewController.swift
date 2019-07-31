@@ -15,8 +15,10 @@ import SkyFloatingLabelTextField
 import KeychainSwift
 
 protocol NewEpiodeDelegate: class {
+    
     func episodeAdded()
 }
+
 
 final class AddNewEpisodeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -33,6 +35,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     var image: UIImage!
     @IBOutlet weak var imageView: UIImageView!
 
+    @IBOutlet private weak var scrollView: UIScrollView!
     
     weak var delegate: NewEpiodeDelegate?
     var showID: String = ""
@@ -43,6 +46,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         
         super.viewDidLoad()
         setupNavigationBar()
+        keyboardManipulation()
     }
     
     private func setupNavigationBar(){
@@ -69,16 +73,30 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         episodeNumberSubview()
         episodeDescriptionSubview()
     }
+    private func keyboardManipulation(){
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
     
-//    func setSubview(frame: CGRect, placholder: String, textField: UITextField){
-//        episodeTitle = SkyFloatingLabelTextField(frame: frame)
-//        episodeTitle.placeholder = placholder
-//        episodeTitle.title = placholder
-//        episodeTitle.titleColor = UIColor.lightGray
-//        episodeTitle.selectedTitleColor = UIColor.lightGray
-//        episodeTitleLabel.addSubview(textField)
-//        episodeTitleLabel.text = textField.text
-//    }
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect {
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        }
+    }
+    
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = .zero
+        }
+    }
     
     func episodeTitleSubview(){
         episodeTitle = SkyFloatingLabelTextField(frame: episodeTitleLabel.frame)
@@ -121,6 +139,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     }
     
     @objc func didSelectAddShow(){
+    
         print("Clicked Add Show")
         guard
             let title = episodeTitle.text,
@@ -129,11 +148,6 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
             let description = episodeDescription.text
             else { return }
         addNewEpisode(title: title, season: season, episode: episode, description: description)
-    }
-    
-    @IBAction func imagePickerButton() {
-        
-
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -245,7 +259,6 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         
         let keychain = KeychainSwift()
         keychain.synchronizable = true
-        //let someUIImage = image
         let imageByteData = image.pngData()!
         let headers: HTTPHeaders = ["Authorization": keychain.get("token")!]
         
@@ -268,6 +281,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
                     }
             }
     }
+    
     func processUploadRequest(_ uploadRequest: UploadRequest){
         uploadRequest
             .responseDecodableObject(keyPath: "data") { (response: DataResponse<Media>) in

@@ -185,6 +185,7 @@
                         <outlet property="episodeNumberLabel" destination="cWu-nN-gel" id="06s-GN-Iyp"/>
                         <outlet property="episodeTitleLabel" destination="5ge-x7-HTi" id="RJU-nD-diY"/>
                         <outlet property="imageView" destination="Mez-tC-zhg" id="Kic-GD-Rns"/>
+                        <outlet property="scrollView" destination="1QH-E6-NnB" id="WLB-8s-w0x"/>
                         <outlet property="seasonNumberLabel" destination="xeA-be-2Dc" id="1Lt-7Z-vZK"/>
                     </connections>
                 </viewController>

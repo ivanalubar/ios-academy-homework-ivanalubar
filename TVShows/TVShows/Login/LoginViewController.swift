@@ -13,12 +13,11 @@ import CodableAlamofire
 import PromiseKit
 import KeychainSwift
 import SkyFloatingLabelTextField
-import TransitionButton
 
 private let cornerRadius: CGFloat = 5
 private let borderWidth: CGFloat = 1
 
-final class LoginViewController: UIViewController, UITextFieldDelegate{
+final class LoginViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Outlets
     
@@ -32,7 +31,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     
     var usernameSubview: SkyFloatingLabelTextField!
     var passwordSubview: SkyFloatingLabelTextField!
-    var button: TransitionButton!
     var remember: Bool = false
     
     override func viewDidLoad() {
@@ -42,7 +40,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     }
     
     private func loading() {
-        
         let keychain = KeychainSwift()
         keychain.synchronizable = true
         if (keychain.get("loggedIn") == "true" ){
@@ -58,6 +55,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         
         usernameSubview.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
+
     
     private func isLogged() -> String {
         let keychain = KeychainSwift()
@@ -190,9 +188,9 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     // MARK: - Navigation
     
     private func navigateToHome(){
-        let sb = UIStoryboard(name: Constants.Storyboards.home, bundle: nil)
+        let sb = UIStoryboard(name: Constants.Storyboards.collectionHome, bundle: nil)
         guard
-            let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.homeViewConstroller) as? HomeViewController
+            let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.collectionHomeViewController) as? CollectionViewHomeController
             else { return }
 
         let navigationController = UINavigationController(rootViewController: viewController)
@@ -262,9 +260,5 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     }
 }
 
-
-
-
-    
 
 

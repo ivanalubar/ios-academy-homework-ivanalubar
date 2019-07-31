@@ -10,6 +10,6 @@ target 'TVShows' do
   pod 'Kingfisher', '~> 4.2'
   pod 'KeychainSwift'
   pod 'SkyFloatingLabelTextField', '~> 3.0'
-  pod 'TransitionButton'
+  pod 'JTMaterialTransition'
 
 end

@@ -244,6 +244,7 @@
                         <viewLayoutGuide key="safeArea" id="sof-56-gJ1"/>
                     </view>
                     <connections>
+                        <outlet property="addButton" destination="iQr-ed-XEI" id="SLF-wH-x86"/>
                         <outlet property="descriptionView" destination="KKv-MX-ym0" id="ZeJ-8R-XIx"/>
                         <outlet property="imageView" destination="5Oc-t1-27e" id="iko-sd-sQk"/>
                         <outlet property="likesLabel" destination="HPe-rA-wuR" id="dN1-zw-EVl"/>
@@ -254,7 +255,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x2s-ZM-E5r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2849.275362318841" y="-1004.4642857142857"/>
+            <point key="canvasLocation" x="-3294" y="-1130"/>
         </scene>
     </scenes>
     <resources>

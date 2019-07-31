@@ -1,16 +1,14 @@
 //
-//  TvShowsTableCell.swift
+//  TvShowsListCollectionCell.swift
 //  TVShows
 //
-//  Created by Infinum on 18/07/2019.
+//  Created by Infinum on 31/07/2019.
 //  Copyright © 2019 Infinum. All rights reserved.
 //
 
 import UIKit
 
-final class TvShowsTableCell: UITableViewCell {
-    
-    // MARK: - Private UI
+class TvShowsListCollectionCell: UICollectionViewCell {
     
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var thumbnail: UIImageView!
@@ -27,22 +25,21 @@ final class TvShowsTableCell: UITableViewCell {
         thumbnail.image = nil
         title.text = nil
     }
-    
+
 }
 
 // MARK: - Configure
-extension TvShowsTableCell {
+extension TvShowsListCollectionCell {
     func configure(with item: Shows) {
         let url = URL(string: "https://api.infinum.academy/\(item.imageUrl)")
-        self.thumbnail.kf.setImage(with: url)
+        thumbnail.kf.setImage(with: url)
         title.text = item.title
     }
 }
 
 // MARK: - Private
-private extension TvShowsTableCell {
+private extension TvShowsListCollectionCell {
     func setupUI() {
-        thumbnail.layer.cornerRadius = 20
+        thumbnail.layer.cornerRadius = 10
     }
 }
-

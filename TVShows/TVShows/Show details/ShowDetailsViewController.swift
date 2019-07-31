@@ -13,6 +13,7 @@ import CodableAlamofire
 import PromiseKit
 import Kingfisher
 import KeychainSwift
+import JTMaterialTransition
 
 private let TableViewRowHeight: CGFloat = 110
 
@@ -20,6 +21,7 @@ final class ShowDetailsViewController: UIViewController {
     
     // MARK: - Outlets
     
+    @IBOutlet private weak var addButton: UIButton!
     @IBOutlet private weak var likesLabel: UILabel!
     @IBOutlet private weak var numberOfEpisodesLabel: UILabel!
     @IBOutlet private weak var titleLabel: UILabel!
@@ -28,6 +30,7 @@ final class ShowDetailsViewController: UIViewController {
     @IBOutlet private weak var imageView: UIImageView!
     private let refreshControl = UIRefreshControl()
 
+    var transition: JTMaterialTransition?
 
     var currentShow: ShowDetails? = nil
     var selected: Shows! = nil
@@ -38,7 +41,8 @@ final class ShowDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.transition = JTMaterialTransition(animatedView: self.addButton)
+
         loadShowInfo()
         setupTableView()
     }
@@ -49,7 +53,7 @@ final class ShowDetailsViewController: UIViewController {
             titleLabel.text = selected.title
             showTitle = selected.title
         } else { titleLabel.text = showTitle }
-        
+
         getShowEpisodes()
         getShowDetails()
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -72,9 +76,9 @@ final class ShowDetailsViewController: UIViewController {
     // MARK: - Navigation
     
     @IBAction func navigateBackButton() {
-        let sb = UIStoryboard(name: Constants.Storyboards.home, bundle: nil)
+        let sb = UIStoryboard(name: Constants.Storyboards.collectionHome, bundle: nil)
         guard
-            let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.homeViewConstroller) as? HomeViewController
+            let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.collectionHomeViewController) as? CollectionViewHomeController
             else { return }
         navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationController?.navigationItem.hidesBackButton = true
@@ -102,10 +106,12 @@ final class ShowDetailsViewController: UIViewController {
         viewController.showTitle = showTitle
         viewController.delegate = self
         print(viewController.showID)
-         self.navigationController?.setNavigationBarHidden(true, animated: true)
+        viewController.modalPresentationStyle = .custom
+        viewController.transitioningDelegate = self.transition
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         let navigationController = UINavigationController(rootViewController: viewController)
         present(navigationController, animated: true)
-        
+       // var startFrame = animatedView.superview?.convert(animatedView.frame, to: nil)
     }
     
     // MARK: - API calls
@@ -238,6 +244,10 @@ extension ShowDetailsViewController: UITableViewDelegate {
 //        self.navigationController?.popViewController(animated: true)
         
     }
+}
+
+extension ShowDetailsViewController: UIScrollViewDelegate {
+    // check direction
 }
 
 extension ShowDetailsViewController: UITableViewDataSource {

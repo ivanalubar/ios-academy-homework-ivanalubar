@@ -18,6 +18,7 @@ enum Constants {
         static let episodeDetails = "EpisodeDetails"
         static let comments = "Comments"
         static let uiImagePicker = "UIImagePicker"
+        static let collectionHome = "CollectionViewHome"
     }
     
     enum Controllers {
@@ -28,6 +29,7 @@ enum Constants {
         static let episodeDetailsViewConstroller = "EpisodeDetailsViewController"
         static let commentsViewConstroller = "CommentsViewController"
         static let uiImagePickerViewController = "UIImagePickerViewController"
+        static let collectionHomeViewController = "CollectionViewHomeController"
     }
     
     enum AlertMessages {
