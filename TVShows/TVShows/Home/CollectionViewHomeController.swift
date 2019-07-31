@@ -13,25 +13,33 @@ import PromiseKit
 import KeychainSwift
 
 class CollectionViewHomeController: UIViewController {
-    
-    private let CollectionViewRowHeight: CGFloat = 110
-    
+        
     @IBOutlet private weak var collectionView: UICollectionView!
-    
     private var items = [Shows]()
     private var grid: Bool = false
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
+        loadShowInfo()
         getApiShows()
         setupCollectionView()
-        loadShowInfo()
+        setTheme()
     }
     
     private func loadShowInfo() {
         
-        UINavigationBar.appearance().tintColor = UIColor.darkGray
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        var image: UIImage!
+        
+        if (keychain.get("grid") == "true"){
+            image = UIImage(named: Constants.Images.listview)
+        } else {
+            image = UIImage(named: Constants.Images.gridview)
+        }
+        
+        UINavigationBar.appearance().tintColor = UIColor.gray
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(named: Constants.Images.logout),
@@ -41,11 +49,29 @@ class CollectionViewHomeController: UIViewController {
         )
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(named: Constants.Images.gridview),
+            image: image,
             style: .plain,
             target: self,
             action: #selector(collectionViewSwitcher)
         )
+    }
+    
+    @objc private func setTheme(){
+        
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+
+        if(keychain.get("theme") == "dark"){
+            keychain.set("dark", forKey: "theme")
+            keychain.synchronizable = true
+            view.backgroundColor = .darkGray
+            collectionView.backgroundColor = .darkGray
+        } else {
+            keychain.set("light", forKey: "theme")
+            keychain.synchronizable = true
+            view.backgroundColor = .white
+            collectionView.backgroundColor = .white
+        }
     }
     
     func showApiFailedMessage(){
@@ -71,9 +97,7 @@ class CollectionViewHomeController: UIViewController {
             }.done { [weak self] shows in
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success: \(shows)")
-                shows.forEach { show in
-                    self?.items.append(show)
-                }
+                self?.items = shows
                 (self?.collectionView.reloadData())!
                 
                 SVProgressHUD.dismiss()
@@ -110,12 +134,17 @@ class CollectionViewHomeController: UIViewController {
     
     @objc private func collectionViewSwitcher(){
         
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        
         if(navigationItem.rightBarButtonItem?.image == UIImage( named: Constants.Images.listview)){
             navigationItem.rightBarButtonItem?.image = UIImage( named: Constants.Images.gridview)
+            keychain.set("false", forKey: "grid")
             grid = false
         } else {
             navigationItem.rightBarButtonItem?.image = UIImage( named: Constants.Images.listview)
             grid = true
+            keychain.set("true", forKey: "grid")
         }
         collectionView.reloadData()
     }
@@ -141,7 +170,10 @@ extension CollectionViewHomeController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         print("CURRENT INDEX PATH BEING CONFIGURED: \(indexPath)")
         
-        if (grid) {
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        let t = keychain.get("grid")
+        if (t == "true") {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TvShowsCollectionCell.self), for: indexPath) as! TvShowsCollectionCell
             cell.configure(with: items[indexPath.row])
             return cell
@@ -161,10 +193,13 @@ extension CollectionViewHomeController: UICollectionViewDataSource {
 extension CollectionViewHomeController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if grid {
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        let t = keychain.get("grid")
+        if (t == "true") {
             return CGSize(width: 160, height: 248)
         } else {
-            return CGSize(width: 414, height: 133)
+            return CGSize(width: 414, height: 150)
         }
     }
 }
@@ -172,7 +207,6 @@ extension CollectionViewHomeController: UICollectionViewDelegateFlowLayout {
 private extension CollectionViewHomeController {
     
     func setupCollectionView() {
-
         collectionView.delegate = self
         collectionView.dataSource = self
     }

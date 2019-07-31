@@ -21,6 +21,7 @@ final class ShowDetailsViewController: UIViewController {
     
     // MARK: - Outlets
     
+    @IBOutlet private weak var viewUnderTableView: UIView!
     @IBOutlet private weak var addButton: UIButton!
     @IBOutlet private weak var likesLabel: UILabel!
     @IBOutlet private weak var numberOfEpisodesLabel: UILabel!
@@ -45,6 +46,31 @@ final class ShowDetailsViewController: UIViewController {
 
         loadShowInfo()
         setupTableView()
+        setTheme()
+    }
+    
+    @objc private func setTheme(){
+        
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        
+        if(keychain.get("theme") == "dark"){
+            view.backgroundColor = .darkGray
+            tableView.backgroundColor = .darkGray
+            descriptionView.backgroundColor = .darkGray
+            descriptionView.textColor = .lightGray
+            titleLabel.textColor = .white
+            titleLabel.backgroundColor = .darkGray
+            viewUnderTableView.backgroundColor = .darkGray
+        } else {
+            view.backgroundColor = .white
+            tableView.backgroundColor = .white
+            descriptionView.backgroundColor = .white
+            descriptionView.textColor = .darkGray
+            titleLabel.textColor = .black
+            titleLabel.backgroundColor = .white
+            viewUnderTableView.backgroundColor = .white
+        }
     }
     
     func loadShowInfo(){
@@ -240,8 +266,6 @@ extension ShowDetailsViewController: UITableViewDelegate {
         viewController.episodeID = item.id
         viewController.showID = id
          self.navigationController?.present(viewController, animated: true, completion: nil)
-//        self.navigationController?.setViewControllers([viewController], animated: true)
-//        self.navigationController?.popViewController(animated: true)
         
     }
 }
@@ -264,6 +288,14 @@ extension ShowDetailsViewController: UITableViewDataSource {
             let animation = AnimationFactory.makeSlideIn(duration: 0.08, delayFactor: 0.08)
             let animator = Animator(animation: animation)
             animator.animate(cell: cell, at: indexPath, in: tableView)
+            let keychain = KeychainSwift()
+            keychain.synchronizable = true
+        
+            if(keychain.get("theme") == "dark"){
+                cell.backgroundColor = .darkGray
+            } else {
+                cell.backgroundColor = .white
+            }
             cell.configure(with: episodeList[indexPath.row])
             return cell
     }

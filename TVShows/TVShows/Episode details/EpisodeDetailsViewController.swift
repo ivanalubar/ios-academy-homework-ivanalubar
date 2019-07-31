@@ -12,6 +12,7 @@ import CodableAlamofire
 import PromiseKit
 import SVProgressHUD
 import Kingfisher
+import KeychainSwift
 
 final class EpisodeDetailsViewController: UIViewController {
     
@@ -26,9 +27,21 @@ final class EpisodeDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getShowDetails()
-        
+        setTheme()
     }
-    
+    @objc private func setTheme(){
+        
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        
+        if(keychain.get("theme") == "dark"){
+            view.backgroundColor = .darkGray
+            descriptionTextView.textColor = .lightGray
+        } else {
+            view.backgroundColor = .white
+            descriptionTextView.textColor = .darkGray
+        }
+    }
     @IBAction func navigateBackButton() {
         let sb = UIStoryboard(name: Constants.Storyboards.showDetails, bundle: nil)
         guard

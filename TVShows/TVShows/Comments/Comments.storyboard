@@ -26,9 +26,9 @@
                                         <subviews>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sH2-G9-RBZ">
                                                 <rect key="frame" x="0.0" y="0.0" width="408" height="537"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <prototypes>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentsTableCell" rowHeight="93" id="ExD-wO-VQA" customClass="CommentsTableCell" customModule="TVShows" customModuleProvider="target">
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentsTableCell" rowHeight="93" id="ExD-wO-VQA" customClass="CommentsTableCell" customModule="TVShows" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="28" width="408" height="93"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ExD-wO-VQA" id="KBG-Gk-jxX">
@@ -36,7 +36,7 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="QIc-0c-ydI">
-                                                                    <rect key="frame" x="20" y="5" width="375" height="82.5"/>
+                                                                    <rect key="frame" x="20" y="5" width="368" height="82.5"/>
                                                                     <subviews>
                                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gC4-gV-Zpx">
                                                                             <rect key="frame" x="0.0" y="0.0" width="80" height="82.5"/>
@@ -46,27 +46,31 @@
                                                                             </constraints>
                                                                         </imageView>
                                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="QYB-th-6U0">
-                                                                            <rect key="frame" x="100" y="0.0" width="275" height="82.5"/>
+                                                                            <rect key="frame" x="100" y="0.0" width="268" height="82.5"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bKK-rT-Eoh">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="275" height="20.5"/>
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="268" height="20.5"/>
+                                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                                     <color key="textColor" red="1" green="0.45882352939999999" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
                                                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EXZ-vK-AgQ">
-                                                                                    <rect key="frame" x="0.0" y="20.5" width="275" height="62"/>
-                                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                    <rect key="frame" x="0.0" y="20.5" width="268" height="62"/>
+                                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                    <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                    <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                                                 </textView>
                                                                             </subviews>
                                                                         </stackView>
                                                                     </subviews>
+                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 </stackView>
                                                             </subviews>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstItem="QIc-0c-ydI" firstAttribute="top" secondItem="KBG-Gk-jxX" secondAttribute="top" constant="5" id="GdZ-Dh-GYz"/>
                                                                 <constraint firstAttribute="bottom" secondItem="QIc-0c-ydI" secondAttribute="bottom" constant="5" id="Qiq-YX-Wki"/>
@@ -74,6 +78,7 @@
                                                                 <constraint firstItem="QIc-0c-ydI" firstAttribute="leading" secondItem="KBG-Gk-jxX" secondAttribute="leading" constant="20" id="pac-aZ-1uy"/>
                                                             </constraints>
                                                         </tableViewCellContentView>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <connections>
                                                             <outlet property="commentTextfield" destination="EXZ-vK-AgQ" id="tbM-Qe-hAt"/>
                                                             <outlet property="imageComment" destination="gC4-gV-Zpx" id="YeE-w5-ozt"/>
@@ -87,6 +92,8 @@
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Input comment..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2jA-0a-yqH">
                                                         <rect key="frame" x="0.0" y="0.0" width="358" height="30"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="tintColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
@@ -135,7 +142,7 @@
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Sorry, we don't have any comments yet. Be first who will write a review." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIO-Pz-CeR">
                                 <rect key="frame" x="65" y="368" width="284" height="50"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="zom-ur-xVV"/>
                                 </constraints>
@@ -160,6 +167,7 @@
                     <navigationItem key="navigationItem" title="Comments" id="HAt-zL-gP7"/>
                     <connections>
                         <outlet property="commentInput" destination="2jA-0a-yqH" id="Up4-Hz-sF5"/>
+                        <outlet property="contentView" destination="SGp-9r-FVr" id="gdC-Uk-q0w"/>
                         <outlet property="imagePlaceholderComments" destination="pSx-O1-cSF" id="ByS-nH-i5A"/>
                         <outlet property="keyboardPlaceholder" destination="Cil-3E-QDp" id="H3N-MS-yaS"/>
                         <outlet property="tableView" destination="sH2-G9-RBZ" id="kjb-pl-9HD"/>

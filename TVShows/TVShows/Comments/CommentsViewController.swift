@@ -17,6 +17,7 @@ final class CommentsViewController: UIViewController {
     var episodeID: String = ""
     var showID: String = ""
     @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var contentView: UIView!
     var commentsList = [Comments]()
     @IBOutlet private weak var commentInput: UITextField!
     @IBOutlet private weak var scrollView: UIScrollView!
@@ -29,6 +30,25 @@ final class CommentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadCommentsView()
+        setTheme()
+    }
+    
+    @objc private func setTheme(){
+        
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        
+        if(keychain.get("theme") == "dark"){
+            view.backgroundColor = .darkGray
+            tableView.backgroundColor = .darkGray
+            contentView.backgroundColor = .darkGray
+            UITextField.appearance().keyboardAppearance = .dark
+        } else {
+            view.backgroundColor = .white
+            tableView.backgroundColor = .white
+            contentView.backgroundColor = .white
+            UITextField.appearance().keyboardAppearance = .light
+        }
     }
     
     private func loadCommentsView(){
@@ -68,6 +88,7 @@ final class CommentsViewController: UIViewController {
     @objc func refresh() {
         setupTableView()
         getEpisodeComments()
+        tableView.reloadData()
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(endRefreshing))
         view.addGestureRecognizer(tap)
     }
@@ -106,7 +127,7 @@ final class CommentsViewController: UIViewController {
             return
         }
         postEpisodeComments(text: text, episodeID: episodeID)
-        backIconActionHandler()
+       // backIconActionHandler()
     }
     
 
@@ -189,11 +210,13 @@ final class CommentsViewController: UIViewController {
                      headers: headers)
                 .validate()
                 .responseData()
-            }.done { _ in
+            }.done { [weak self] _ in
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success:")
                 SVProgressHUD.dismiss()
-                //self.tableView.reloadData()
+                self?.imagePlaceholderComments.isHidden = true
+                self?.textPlaceholderComments.isHidden = true
+                self?.refresh()
             }.catch { error in
                 print("API failure: \(error)")
                 SVProgressHUD.showError(withStatus: "Failure")

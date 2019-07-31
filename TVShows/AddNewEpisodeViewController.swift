@@ -47,6 +47,21 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         super.viewDidLoad()
         setupNavigationBar()
         keyboardManipulation()
+        setTheme()
+    }
+    
+    @objc private func setTheme(){
+        
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        
+        if(keychain.get("theme") == "dark"){
+            view.backgroundColor = .darkGray
+            UITextField.appearance().keyboardAppearance = .dark
+        } else {
+            view.backgroundColor = .white
+            UITextField.appearance().keyboardAppearance = .light
+        }
     }
     
     private func setupNavigationBar(){

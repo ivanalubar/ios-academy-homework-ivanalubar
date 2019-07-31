@@ -7,13 +7,13 @@
 //
 
 import UIKit
+import KeychainSwift
 
 final class CommentsTableCell: UITableViewCell {
     
-
-    @IBOutlet weak var imageComment: UIImageView!
-    @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var commentTextfield: UITextView!
+    @IBOutlet private weak var imageComment: UIImageView!
+    @IBOutlet private weak var usernameLabel: UILabel!
+    @IBOutlet private weak var commentTextfield: UITextView!
     
     var userImages: [UIImage] = []
     // MARK: - Lifecycle
@@ -25,6 +25,21 @@ final class CommentsTableCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         commentTextfield.text = nil
+        setTheme()
+    }
+    
+    @objc private func setTheme(){
+        
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        
+        if(keychain.get("theme") == "dark"){
+            commentTextfield.backgroundColor = .darkGray
+          //  commentTextfield.textColor = .white
+        } else {
+           commentTextfield.backgroundColor = .white
+         //   commentTextfield.textColor = .black
+        }
     }
 }
 

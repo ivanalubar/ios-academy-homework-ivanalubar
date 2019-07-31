@@ -20,7 +20,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cTx-uM-dIN">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="dob-0U-4ei">
                                     <size key="itemSize" width="157" height="248"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -39,31 +39,31 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="133"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="SWG-H1-ADM">
-                                                            <rect key="frame" x="18" y="10" width="381" height="110"/>
+                                                            <rect key="frame" x="30" y="10" width="369" height="110"/>
                                                             <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zg6-pw-1qv">
                                                                     <rect key="frame" x="0.0" y="0.0" width="80" height="110"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" priority="999" constant="100" id="5Wk-fg-6jF"/>
                                                                         <constraint firstAttribute="width" constant="80" id="RTB-9u-WQg"/>
                                                                     </constraints>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dkS-T9-VY3">
-                                                                    <rect key="frame" x="100" y="0.0" width="281" height="110"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                    <nil key="textColor"/>
+                                                                    <rect key="frame" x="100" y="0.0" width="269" height="110"/>
+                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="381" id="d46-ul-rPq"/>
                                                                 <constraint firstAttribute="height" priority="999" constant="110" id="mZL-pZ-sQ6"/>
                                                             </constraints>
                                                         </stackView>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstItem="SWG-H1-ADM" firstAttribute="leading" secondItem="kp3-6y-HUa" secondAttribute="leading" constant="18" id="2KI-hv-35m"/>
+                                                        <constraint firstItem="SWG-H1-ADM" firstAttribute="leading" secondItem="kp3-6y-HUa" secondAttribute="leading" constant="30" id="2KI-hv-35m"/>
                                                         <constraint firstAttribute="bottom" secondItem="SWG-H1-ADM" secondAttribute="bottom" constant="13" id="NMO-4B-CDo"/>
                                                         <constraint firstAttribute="trailing" secondItem="SWG-H1-ADM" secondAttribute="trailing" constant="15" id="Y9x-Lp-2cn"/>
                                                         <constraint firstItem="SWG-H1-ADM" firstAttribute="top" secondItem="kp3-6y-HUa" secondAttribute="top" constant="10" id="nba-3p-Ofg"/>
@@ -71,6 +71,7 @@
                                                 </view>
                                             </subviews>
                                         </view>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="kp3-6y-HUa" firstAttribute="leading" secondItem="pcr-WJ-fUR" secondAttribute="leading" id="3XP-kI-dfX"/>
                                             <constraint firstItem="kp3-6y-HUa" firstAttribute="top" secondItem="pcr-WJ-fUR" secondAttribute="top" id="WNC-E5-veV"/>
@@ -81,6 +82,7 @@
                                         <connections>
                                             <outlet property="thumbnail" destination="zg6-pw-1qv" id="sx6-VZ-V7G"/>
                                             <outlet property="title" destination="dkS-T9-VY3" id="541-sH-C4I"/>
+                                            <outlet property="viewCell" destination="kp3-6y-HUa" id="mZP-LJ-S7q"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TvShowsCollectionCell" id="htG-bM-nsg" customClass="TvShowsCollectionCell" customModule="TVShows" customModuleProvider="target">
@@ -95,6 +97,7 @@
                                                 </imageView>
                                             </subviews>
                                         </view>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="1uY-bv-xdr" firstAttribute="leading" secondItem="htG-bM-nsg" secondAttribute="leadingMargin" constant="10" id="2fN-aQ-zAB"/>
                                             <constraint firstAttribute="bottomMargin" secondItem="1uY-bv-xdr" secondAttribute="bottom" constant="10" id="9ef-4e-3Ge"/>
@@ -113,6 +116,7 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="cTx-uM-dIN" firstAttribute="trailing" secondItem="TGu-aM-n7K" secondAttribute="trailing" id="4uX-eS-GDG"/>
                             <constraint firstItem="cTx-uM-dIN" firstAttribute="leading" secondItem="TGu-aM-n7K" secondAttribute="leading" id="AGO-XR-hJR"/>

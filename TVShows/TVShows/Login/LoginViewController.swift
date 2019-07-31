@@ -20,7 +20,11 @@ private let borderWidth: CGFloat = 1
 final class LoginViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Outlets
-    
+    @IBOutlet private weak var topViewSpacing: UIView!
+    @IBOutlet private weak var bottomViewSpacing: UIView!
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var rememberMeLabel: UILabel!
+    @IBOutlet private weak var orLabel: UILabel!
     @IBOutlet private weak var usernameTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
     @IBOutlet private weak var passwordVisibilityButton: UIButton!
@@ -35,11 +39,84 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
          loading()
+         setNavigationBar()
+    }
+    
+    private func setNavigationBar() {
+        
+        UINavigationBar.appearance().tintColor = UIColor.darkGray
+        
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        var text: String = ""
+        if (keychain.get("theme") == "dark"){
+            text = "Light theme"
+        } else {
+            text = "Dark theme"
+        }
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: text,
+            style: .done,
+            target: self,
+            action: #selector(changeTheme)
+        )
+        navigationItem.leftBarButtonItem?.tintColor = .gray
+    }
+    
+    @objc private func changeTheme(){
+        
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        
+        if(keychain.get("theme") == "dark"){
+            keychain.set("light", forKey: "theme")
+            keychain.synchronizable = true
+            setTheme()
+        } else {
+            keychain.set("dark", forKey: "theme")
+            keychain.synchronizable = true
+            setTheme()
+        }
+        
+    }
+    
+    @objc private func setTheme(){
+        
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        
+        if(keychain.get("theme") == "dark"){
+            keychain.set("dark", forKey: "theme")
+            keychain.synchronizable = true
+            view.backgroundColor = .darkGray
+            containerView.backgroundColor = .darkGray
+            topViewSpacing.backgroundColor = .darkGray
+            bottomViewSpacing.backgroundColor = .darkGray
+            rememberMeLabel.textColor = .white
+            orLabel.textColor = .white
+            navigationItem.leftBarButtonItem?.title = "Light theme"
+            UINavigationBar.appearance().backgroundColor = .lightGray
+            UITextField.appearance().keyboardAppearance = .dark
+        } else {
+            keychain.set("light", forKey: "theme")
+            keychain.synchronizable = true
+            view.backgroundColor = .white
+            containerView.backgroundColor = .white
+            topViewSpacing.backgroundColor = .white
+            bottomViewSpacing.backgroundColor = .white
+            rememberMeLabel.textColor = .darkGray
+            orLabel.textColor = .darkGray
+            navigationItem.leftBarButtonItem?.title = "Dark theme"
+            UINavigationBar.appearance().backgroundColor = .lightGray
+            UITextField.appearance().keyboardAppearance = .light
+        }
+        
     }
     
     private func loading() {
+        setTheme()
         let keychain = KeychainSwift()
         keychain.synchronizable = true
         if (keychain.get("loggedIn") == "true" ){
@@ -54,6 +131,8 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
         }
         
         usernameSubview.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        
+        
     }
 
     
@@ -78,6 +157,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
         usernameSubview.title = Constants.ButtonNames.username
         usernameSubview.titleColor = UIColor.lightGray
         usernameSubview.selectedTitleColor = UIColor.lightGray
+        usernameSubview.keyboardType = .emailAddress
         self.usernameTextField.addSubview(usernameSubview)
         self.usernameTextField.text = usernameSubview.text
     }
