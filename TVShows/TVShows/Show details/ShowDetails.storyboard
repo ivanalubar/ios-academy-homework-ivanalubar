@@ -75,7 +75,7 @@
                                                             </constraints>
                                                             <state key="normal" title="Button" image="ic-thumbs-down"/>
                                                             <connections>
-                                                                <action selector="postDislike:" destination="JsY-I2-wvw" eventType="touchUpInside" id="NJQ-v8-PCo"/>
+                                                                <action selector="postDislike" destination="JsY-I2-wvw" eventType="touchUpInside" id="A5c-mH-rX8"/>
                                                             </connections>
                                                         </button>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WcU-Nw-5uo">
@@ -247,7 +247,9 @@
                     <connections>
                         <outlet property="addButton" destination="iQr-ed-XEI" id="SLF-wH-x86"/>
                         <outlet property="descriptionView" destination="KKv-MX-ym0" id="ZeJ-8R-XIx"/>
+                        <outlet property="dislikeButton" destination="zLd-ob-Kds" id="aSG-ha-b7B"/>
                         <outlet property="imageView" destination="5Oc-t1-27e" id="iko-sd-sQk"/>
+                        <outlet property="likeButton" destination="vw8-Hn-CpX" id="Wyo-Qh-jrE"/>
                         <outlet property="likesLabel" destination="HPe-rA-wuR" id="dN1-zw-EVl"/>
                         <outlet property="numberOfEpisodesLabel" destination="sZg-99-iwc" id="wTJ-7N-Crl"/>
                         <outlet property="tableView" destination="0rY-5e-WB5" id="gaE-Ug-CsU"/>

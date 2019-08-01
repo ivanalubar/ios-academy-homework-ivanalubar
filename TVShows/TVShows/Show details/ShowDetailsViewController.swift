@@ -21,6 +21,9 @@ final class ShowDetailsViewController: UIViewController {
     
     // MARK: - Outlets
     
+    
+    @IBOutlet private weak var likeButton: UIButton!
+    @IBOutlet private weak var dislikeButton: UIButton!
     @IBOutlet private weak var viewUnderTableView: UIView!
     @IBOutlet private weak var addButton: UIButton!
     @IBOutlet private weak var likesLabel: UILabel!
@@ -29,14 +32,13 @@ final class ShowDetailsViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var descriptionView: UITextView!
     @IBOutlet private weak var imageView: UIImageView!
+    
     private let refreshControl = UIRefreshControl()
 
     var transition: JTMaterialTransition?
-
     var currentShow: ShowDetails? = nil
     var selected: Shows! = nil
     var episodeList = [Episodes]()
-   // var showID: String = ""
     var showTitle: String = ""
     var id: String! = ""
     
@@ -74,6 +76,7 @@ final class ShowDetailsViewController: UIViewController {
     }
     
     func loadShowInfo(){
+        
         if selected != nil {
             id = selected.id
             titleLabel.text = selected.title
@@ -84,15 +87,17 @@ final class ShowDetailsViewController: UIViewController {
         getShowDetails()
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
-        tableView.addSubview(refreshControl) // not required when using UITableViewController
+        //tableView.addSubview(refreshControl) // not required when using UITableViewController
     }
     
     @objc func refresh() {
         // Code to refresh table view
-        setupTableView()
+       // setupTableView()
         getShowEpisodes()
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(endRefreshing))
-        view.addGestureRecognizer(tap)
+        getShowDetails()
+//
+//        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(endRefreshing))
+//        view.addGestureRecognizer(tap)
     }
     
     @objc func endRefreshing(){
@@ -118,8 +123,7 @@ final class ShowDetailsViewController: UIViewController {
         postLikeOnShow()
     }
     
-    
-    @IBAction func postDislike(_ sender: Any) {
+    @IBAction func postDislike() {
         postDisikeOnShow()
     }
     
@@ -161,6 +165,8 @@ final class ShowDetailsViewController: UIViewController {
                 self?.descriptionView.text = details.description
                 self?.likesLabel.text = String(details.likesCount)
                 print(details.description)
+                SVProgressHUD.dismiss()
+                self?.endRefreshing()
                 let url = URL(string: "https://api.infinum.academy/\(details.imageUrl)")
                 if (details.imageUrl != "")
                 {
@@ -172,7 +178,6 @@ final class ShowDetailsViewController: UIViewController {
                 self?.tableView.reloadData()
                 
                 print("Success: \(details)")
-                SVProgressHUD.dismiss()
             }.catch { error in
                 print("API failure: \(error)")
                 SVProgressHUD.showError(withStatus: "Failure")
@@ -218,6 +223,9 @@ final class ShowDetailsViewController: UIViewController {
                 SVProgressHUD.setDefaultMaskType(.black)
                 self?.getShowDetails()
                 print("Success:")
+                self?.likeButton.isEnabled = false
+                self?.dislikeButton.tintColor = .gray
+                self?.dislikeButton.isEnabled = true
                 SVProgressHUD.dismiss()
             }.catch { error in
                 print("API failure: \(error)")
@@ -242,6 +250,9 @@ final class ShowDetailsViewController: UIViewController {
                 SVProgressHUD.setDefaultMaskType(.black)
                 self?.getShowDetails()
                 print("Success:")
+                self?.dislikeButton.isEnabled = false
+                self?.likeButton.tintColor = .gray
+                self?.likeButton.isEnabled = true
                 SVProgressHUD.dismiss()
             }.catch { error in
                 print("API failure: \(error)")
@@ -265,7 +276,7 @@ extension ShowDetailsViewController: UITableViewDelegate {
             else { return }
         viewController.episodeID = item.id
         viewController.showID = id
-         self.navigationController?.present(viewController, animated: true, completion: nil)
+        self.navigationController?.present(viewController, animated: true, completion: nil)
         
     }
 }
@@ -285,9 +296,9 @@ extension ShowDetailsViewController: UITableViewDataSource {
     
             print("CURRENT INDEX PATH BEING CONFIGURED: \(indexPath)")
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ShowDetailsTableCell.self), for: indexPath) as! ShowDetailsTableCell
-            let animation = AnimationFactory.makeSlideIn(duration: 0.08, delayFactor: 0.08)
-            let animator = Animator(animation: animation)
-            animator.animate(cell: cell, at: indexPath, in: tableView)
+//            let animation = AnimationFactory.makeSlideIn(duration: 0.08, delayFactor: 0.08)
+//            let animator = Animator(animation: animation)
+//            animator.animate(cell: cell, at: indexPath, in: tableView)
             let keychain = KeychainSwift()
             keychain.synchronizable = true
         

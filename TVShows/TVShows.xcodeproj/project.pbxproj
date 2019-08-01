@@ -24,6 +24,11 @@
 		427B1FB122F18586006D6109 /* CollectionViewHome.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 427B1FB022F18586006D6109 /* CollectionViewHome.storyboard */; };
 		427B1FB422F185B1006D6109 /* TvShowsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FB322F185B1006D6109 /* TvShowsCollectionCell.swift */; };
 		427B1FB822F19C52006D6109 /* TvShowsListCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FB722F19C52006D6109 /* TvShowsListCollectionCell.swift */; };
+		427B1FE822F32FFE006D6109 /* SpinerLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FE322F32FFE006D6109 /* SpinerLayer.swift */; };
+		427B1FE922F32FFE006D6109 /* CGRectEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FE422F32FFE006D6109 /* CGRectEx.swift */; };
+		427B1FEA22F32FFE006D6109 /* TransitionSubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FE522F32FFE006D6109 /* TransitionSubmitButton.swift */; };
+		427B1FEB22F32FFE006D6109 /* FadeTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FE622F32FFE006D6109 /* FadeTransition.swift */; };
+		427B1FEC22F32FFE006D6109 /* TimerEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FE722F32FFE006D6109 /* TimerEx.swift */; };
 		42D5FDF622EBBAD4001F3C6E /* EpisodeDetails.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42D5FDF522EBBAD4001F3C6E /* EpisodeDetails.storyboard */; };
 		42D5FDFA22EBBB4C001F3C6E /* EpisodeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5FDF922EBBB4C001F3C6E /* EpisodeDetailsViewController.swift */; };
 		42D5FDFD22ECA51E001F3C6E /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5FDFC22ECA51E001F3C6E /* CommentsViewController.swift */; };
@@ -53,6 +58,11 @@
 		427B1FB022F18586006D6109 /* CollectionViewHome.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CollectionViewHome.storyboard; sourceTree = "<group>"; };
 		427B1FB322F185B1006D6109 /* TvShowsCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvShowsCollectionCell.swift; sourceTree = "<group>"; };
 		427B1FB722F19C52006D6109 /* TvShowsListCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvShowsListCollectionCell.swift; sourceTree = "<group>"; };
+		427B1FE322F32FFE006D6109 /* SpinerLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpinerLayer.swift; sourceTree = "<group>"; };
+		427B1FE422F32FFE006D6109 /* CGRectEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGRectEx.swift; sourceTree = "<group>"; };
+		427B1FE522F32FFE006D6109 /* TransitionSubmitButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionSubmitButton.swift; sourceTree = "<group>"; };
+		427B1FE622F32FFE006D6109 /* FadeTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FadeTransition.swift; sourceTree = "<group>"; };
+		427B1FE722F32FFE006D6109 /* TimerEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerEx.swift; sourceTree = "<group>"; };
 		42D5FDF522EBBAD4001F3C6E /* EpisodeDetails.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EpisodeDetails.storyboard; sourceTree = "<group>"; };
 		42D5FDF922EBBB4C001F3C6E /* EpisodeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeDetailsViewController.swift; sourceTree = "<group>"; };
 		42D5FDFC22ECA51E001F3C6E /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +105,7 @@
 		42387B0022CE53AA00C829B9 /* TVShows */ = {
 			isa = PBXGroup;
 			children = (
+				427B1FE222F32FFE006D6109 /* Classes */,
 				424F001D22DF240B00F91BDE /* Common */,
 				42D5FDFB22ECA503001F3C6E /* Comments */,
 				4257525C22E7BFC10012CD3D /* Add new episode */,
@@ -174,6 +185,19 @@
 				427B1FB722F19C52006D6109 /* TvShowsListCollectionCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		427B1FE222F32FFE006D6109 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				427B1FE322F32FFE006D6109 /* SpinerLayer.swift */,
+				427B1FE422F32FFE006D6109 /* CGRectEx.swift */,
+				427B1FE522F32FFE006D6109 /* TransitionSubmitButton.swift */,
+				427B1FE622F32FFE006D6109 /* FadeTransition.swift */,
+				427B1FE722F32FFE006D6109 /* TimerEx.swift */,
+			);
+			name = Classes;
+			path = Common/Classes;
 			sourceTree = "<group>";
 		};
 		42D5FDF422EBBABC001F3C6E /* Episode details */ = {
@@ -342,17 +366,22 @@
 			files = (
 				427B1FB822F19C52006D6109 /* TvShowsListCollectionCell.swift in Sources */,
 				42D5FE0222ECB2BF001F3C6E /* CommentsTableCell.swift in Sources */,
+				427B1FEA22F32FFE006D6109 /* TransitionSubmitButton.swift in Sources */,
 				427B1FAF22F18573006D6109 /* CollectionViewHomeController.swift in Sources */,
 				426C134B22DCC5FE000D971A /* User.swift in Sources */,
+				427B1FEC22F32FFE006D6109 /* TimerEx.swift in Sources */,
 				4257525E22E7BFDD0012CD3D /* AddNewEpisodeViewController.swift in Sources */,
 				424F001F22DF244200F91BDE /* PromiseKit+KeyPath.swift in Sources */,
 				42387B1F22CFE59F00C829B9 /* LoginViewController.swift in Sources */,
 				42387B0222CE53AA00C829B9 /* AppDelegate.swift in Sources */,
 				42D5FDFA22EBBB4C001F3C6E /* EpisodeDetailsViewController.swift in Sources */,
+				427B1FEB22F32FFE006D6109 /* FadeTransition.swift in Sources */,
 				42391C9522E710B4006ECD14 /* ShowDetailsTableCell.swift in Sources */,
 				42D5FDFD22ECA51E001F3C6E /* CommentsViewController.swift in Sources */,
 				42391C8922E50CF9006ECD14 /* ShowDetailsViewController.swift in Sources */,
 				427B1FB422F185B1006D6109 /* TvShowsCollectionCell.swift in Sources */,
+				427B1FE822F32FFE006D6109 /* SpinerLayer.swift in Sources */,
+				427B1FE922F32FFE006D6109 /* CGRectEx.swift in Sources */,
 				42391C9222E7069F006ECD14 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

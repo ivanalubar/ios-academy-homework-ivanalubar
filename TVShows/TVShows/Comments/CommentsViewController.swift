@@ -27,6 +27,7 @@ final class CommentsViewController: UIViewController {
     @IBOutlet private weak var keyboardPlaceholder: UIView!
     private let refreshControl = UIRefreshControl()
     private var keyboardHeight: CGFloat = 270
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadCommentsView()
@@ -55,16 +56,21 @@ final class CommentsViewController: UIViewController {
         commentInput.becomeFirstResponder()
         setupTableView()
         getEpisodeComments()
-//        keyboardManipulation()
         setupNavigationBar()
         imagePlaceholderComments.isHidden = true
         textPlaceholderComments.isHidden = true
+        textPlaceholderComments.frame.size.height = keyboardHeight
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(startRefrshing), for: UIControl.Event.valueChanged)
+        tableView.addSubview(refreshControl) // not required when using UITableViewController
+    }
+    
+    @objc func startRefrshing(){
         refreshControl.tintColor = UIColor.darkGray
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+        tableView.refreshControl = refreshControl
         tableView.addSubview(refreshControl)
-        
-        textPlaceholderComments.frame.size.height = keyboardHeight
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
@@ -155,10 +161,10 @@ final class CommentsViewController: UIViewController {
             let item = commentsList[indexPath.row]
             print(item.id)
             print("****************************")
-            deleteEpisodeComment(id: item.id)
-            commentsList.remove(at: indexPath.row)
+            deleteEpisodeComment(id: item.id, row: indexPath)
+           // commentsList.remove(at: indexPath.row)
             print(indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            //tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
     
@@ -184,6 +190,7 @@ final class CommentsViewController: UIViewController {
                 }
                 self?.tableView.reloadData()
                 print("Success: \(comments)")
+                self?.endRefreshing()
                 SVProgressHUD.dismiss()
             }.catch { error in
                 print("API failure: \(error)")
@@ -223,25 +230,28 @@ final class CommentsViewController: UIViewController {
         }
     }
     
-    func deleteEpisodeComment(id: String) {
+    func deleteEpisodeComment(id: String, row: IndexPath) {
         SVProgressHUD.show()
         let keychain = KeychainSwift()
         keychain.synchronizable = true
         let headers: HTTPHeaders = ["Authorization": keychain.get("token")!]
         firstly {
             Alamofire
-                .request("https://api.infinum.academy/comments/\(id)",
+                .request("https://api.infinum.academy/api/comments/\(id)",
                          method: .delete,
                          encoding: JSONEncoding.default,
                          headers: headers)
                 .validate()
                 .responseData()
-            }.done { [weak self]_ in
+            }.done { [weak self] response in
                 SVProgressHUD.setDefaultMaskType(.black)
-                
-                print("Success: comment deleted!")
                 SVProgressHUD.dismiss()
-                self?.tableView.reloadData()
+                print("Success: comment deleted!")
+                self?.commentInput.text = ""
+                self?.tableView.beginUpdates()
+                self?.commentsList.remove(at: row.row)
+                self?.tableView.deleteRows(at: [row], with: UITableView.RowAnimation.fade)
+                self?.tableView.endUpdates()
             }.catch { error in
                 print("API failure: \(error)")
                 SVProgressHUD.showError(withStatus: "Failure")

@@ -13,11 +13,12 @@ import CodableAlamofire
 import PromiseKit
 import KeychainSwift
 import SkyFloatingLabelTextField
+import TKSubmitTransition
 
 private let cornerRadius: CGFloat = 5
 private let borderWidth: CGFloat = 1
 
-final class LoginViewController: UIViewController, UITextFieldDelegate {
+final class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControllerTransitioningDelegate {
     
     // MARK: - Outlets
     @IBOutlet private weak var topViewSpacing: UIView!
@@ -29,7 +30,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet private weak var passwordTextField: UITextField!
     @IBOutlet private weak var passwordVisibilityButton: UIButton!
     @IBOutlet private weak var rememberMeCheckBox: UIButton!
-    @IBOutlet private weak var loginButton: UIButton!
+    @IBOutlet private weak var loginButton: TKTransitionSubmitButton!
     @IBOutlet private weak var createAccountButton: UIButton!
     @IBOutlet private weak var scrollView: UIScrollView!
     
@@ -112,7 +113,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
             UINavigationBar.appearance().backgroundColor = .lightGray
             UITextField.appearance().keyboardAppearance = .light
         }
-        
     }
     
     private func loading() {
@@ -131,10 +131,41 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
         }
         
         usernameSubview.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        
-        
     }
 
+    func didStartYourLoading() {
+        loginButton.startLoadingAnimation()
+    }
+    
+    func didFinishYourLoading() {
+        loginButton.startFinishAnimation(0.5){
+            self.navigateToHome()
+        }
+    }
+    
+    
+    
+    func didNotFinishYourLoading() {
+        loginButton.setOriginalState()
+        loginButton.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+        UIView.animate(withDuration: 2.0,
+                       delay: 0,
+                       usingSpringWithDamping: 0.2,
+                       initialSpringVelocity: 8.0,
+                       options: .allowUserInteraction,
+                       animations: { [weak self] in
+                        self?.loginButton.transform = .identity
+            },
+                       completion: nil)
+    }
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return TKFadeInAnimator(transitionDuration: 0.5, startingAlpha: 0.8)
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return nil
+    }
     
     private func isLogged() -> String {
         let keychain = KeychainSwift()
@@ -246,6 +277,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
             let pass = passwordSubview.text
             else { return }
         loginUserWith(email: username, password: pass)
+       // loginButton.startLoadingAnimation()
     }
     
     @IBAction private func registerButtonClick() {
@@ -272,7 +304,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
         guard
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.collectionHomeViewController) as? CollectionViewHomeController
             else { return }
-
+        viewController.transitioningDelegate = self
         let navigationController = UINavigationController(rootViewController: viewController)
         self.present(navigationController, animated: true, completion: nil)
 
@@ -281,7 +313,8 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
     // MARK: - API calls
     
     func loginUserWith(email: String, password: String) {
-        SVProgressHUD.show()
+        loginButton.startLoadingAnimation()
+        //SVProgressHUD.show()
         let parameters: [String: String] = [
             "email": email,
             "password": password
@@ -295,8 +328,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
                 .validate()
                 .responseDecodable(LoginData.self, keypath: "data")
             }.done { [weak self] loginData in
-                self?.navigateToHome()
-                SVProgressHUD.setDefaultMaskType(.black)
+               // SVProgressHUD.setDefaultMaskType(.black)
                 print("Success: \(loginData)")
                 let keychain = KeychainSwift()
                 keychain.synchronizable = true
@@ -305,11 +337,13 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
                     keychain.set("true", forKey: "loggedIn")
                     keychain.synchronizable = true
                 }
-                SVProgressHUD.dismiss()
+               // SVProgressHUD.dismiss()
+                self?.didFinishYourLoading()
             }.catch { [weak self]  error in
                 print("API failure: \(error)")
                 SVProgressHUD.dismiss()
-                self?.showAlert(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.loginFailure)
+                self?.didNotFinishYourLoading()
+                //self?.showAlert(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.loginFailure)
         }
     }
     

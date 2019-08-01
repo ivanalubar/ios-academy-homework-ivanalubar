@@ -86,6 +86,10 @@
                                                         </connections>
                                                     </tableViewCell>
                                                 </prototypes>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="b10-DK-e8W" id="33z-xp-Wi0"/>
+                                                    <outlet property="delegate" destination="b10-DK-e8W" id="iur-fH-xEe"/>
+                                                </connections>
                                             </tableView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tq9-53-W83">
                                                 <rect key="frame" x="0.0" y="557" width="408" height="30"/>

@@ -65,7 +65,7 @@
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="BaP-gN-hjt" userLabel="Episode title SV">
                                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="41"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="fill" placeholder="Episode title" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5ge-x7-HTi">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="fill" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5ge-x7-HTi">
                                                                         <rect key="frame" x="0.0" y="0.0" width="374" height="40"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="40" id="Mfk-Fe-Yqs"/>
@@ -86,7 +86,7 @@
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="nvz-iy-acI" userLabel="Season number SV">
                                                                 <rect key="frame" x="0.0" y="61" width="374" height="41"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="fill" placeholder="Season n." clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xeA-be-2Dc">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="fill" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xeA-be-2Dc">
                                                                         <rect key="frame" x="0.0" y="0.0" width="374" height="40"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="40" id="oN5-ml-RkH"/>
@@ -107,7 +107,7 @@
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="FrQ-G4-aHb" userLabel="Episode number SV">
                                                                 <rect key="frame" x="0.0" y="122" width="374" height="41"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="fill" placeholder="Episode n." clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cWu-nN-gel">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="fill" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cWu-nN-gel">
                                                                         <rect key="frame" x="0.0" y="0.0" width="374" height="40"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="40" id="v73-HR-Clj"/>
@@ -128,7 +128,7 @@
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="CuN-ny-s7s" userLabel="Episode description SV">
                                                                 <rect key="frame" x="0.0" y="183" width="374" height="41"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="fill" placeholder="Episode description" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tuf-h5-Ipb">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="fill" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tuf-h5-Ipb">
                                                                         <rect key="frame" x="0.0" y="0.0" width="374" height="40"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="40" id="LJI-aE-7fP"/>

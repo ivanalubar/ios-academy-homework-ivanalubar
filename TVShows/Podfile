@@ -11,5 +11,6 @@ target 'TVShows' do
   pod 'KeychainSwift'
   pod 'SkyFloatingLabelTextField', '~> 3.0'
   pod 'JTMaterialTransition'
+  pod 'TKSubmitTransition' , :git => 'https://github.com/entotsu/TKSubmitTransition.git', :branch => 'swift4'
 
 end

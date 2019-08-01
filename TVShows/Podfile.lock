@@ -11,6 +11,7 @@ PODS:
   - PromiseKit/CorePromise (6.10.0)
   - SkyFloatingLabelTextField (3.7.0)
   - SVProgressHUD (2.2.5)
+  - TKSubmitTransition (2.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -22,6 +23,7 @@ DEPENDENCIES:
   - PromiseKit/CorePromise (~> 6.0)
   - SkyFloatingLabelTextField (~> 3.0)
   - SVProgressHUD
+  - TKSubmitTransition (from `https://github.com/entotsu/TKSubmitTransition.git`, branch `swift4`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -34,6 +36,16 @@ SPEC REPOS:
     - SkyFloatingLabelTextField
     - SVProgressHUD
 
+EXTERNAL SOURCES:
+  TKSubmitTransition:
+    :branch: swift4
+    :git: https://github.com/entotsu/TKSubmitTransition.git
+
+CHECKOUT OPTIONS:
+  TKSubmitTransition:
+    :commit: 29fac6072451a4def5cde567075bfc62a728bb1f
+    :git: https://github.com/entotsu/TKSubmitTransition.git
+
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   CodableAlamofire: b587c1198562824abb1f468aed34feb00d6cecd8
@@ -43,7 +55,8 @@ SPEC CHECKSUMS:
   PromiseKit: 1fdaeb6c0a94a5114fcb814ff3d772b86886ad4e
   SkyFloatingLabelTextField: 4b46db0ab1ccde0919cded29c656e6b4805eda04
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  TKSubmitTransition: 647b907508da58ba864141e3c4382442ec536d40
 
-PODFILE CHECKSUM: b3061197f5eaf625696650f038a7296a36bcc720
+PODFILE CHECKSUM: 9055e98459398f104f4ece776159c04bb1ce7022
 
-COCOAPODS: 1.7.4
+COCOAPODS: 1.7.5

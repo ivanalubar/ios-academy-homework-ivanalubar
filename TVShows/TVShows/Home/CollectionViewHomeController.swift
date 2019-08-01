@@ -24,7 +24,7 @@ class CollectionViewHomeController: UIViewController {
         loadShowInfo()
         getApiShows()
         setupCollectionView()
-        setTheme()
+        //setTheme()
     }
     
     private func loadShowInfo() {
