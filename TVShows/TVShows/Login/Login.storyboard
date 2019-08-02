@@ -83,7 +83,7 @@
                                                                             <constraint firstAttribute="height" constant="20" id="oIc-j0-iB5"/>
                                                                         </constraints>
                                                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        <state key="normal" image="eye-visible">
+                                                                        <state key="normal" image="ic-hide-password">
                                                                             <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
                                                                         <connections>
@@ -217,9 +217,10 @@
                     <connections>
                         <outlet property="createAccountButton" destination="d7k-Zw-zca" id="D7M-UE-Rke"/>
                         <outlet property="loginButton" destination="kBB-cb-aTq" id="qPz-VL-dxo"/>
-                        <outlet property="passwordTextfield" destination="KKC-iV-2KE" id="SeX-qv-19M"/>
+                        <outlet property="passwordTextField" destination="KKC-iV-2KE" id="SeX-qv-19M"/>
                         <outlet property="passwordVisibilityButton" destination="b2j-ip-oNo" id="HjZ-6D-clr"/>
                         <outlet property="rememberMeCheckBox" destination="fNK-jh-2J3" id="nBe-0L-krp"/>
+                        <outlet property="scrollView" destination="Vw9-da-8h4" id="rd1-qw-bcT"/>
                         <outlet property="usernameTextField" destination="zeZ-PF-Mc8" id="rCZ-Pk-cvY"/>
                     </connections>
                 </viewController>
@@ -247,8 +248,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="eye-visible" width="32" height="32"/>
         <image name="ic-checkbox-empty" width="24" height="24"/>
+        <image name="ic-hide-password" width="24" height="24"/>
         <image name="login-logo" width="75" height="80"/>
     </resources>
 </document>
