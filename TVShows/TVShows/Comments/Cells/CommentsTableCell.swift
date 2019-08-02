@@ -15,8 +15,8 @@ final class CommentsTableCell: UITableViewCell {
     @IBOutlet private weak var usernameLabel: UILabel!
     @IBOutlet private weak var commentTextfield: UITextView!
     
-    var userImages: [UIImage] = []
-    // MARK: - Lifecycle
+    private var userImages: [UIImage] = []
+
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
@@ -35,10 +35,8 @@ final class CommentsTableCell: UITableViewCell {
         
         if(keychain.get("theme") == "dark"){
             commentTextfield.backgroundColor = .darkGray
-          //  commentTextfield.textColor = .white
         } else {
            commentTextfield.backgroundColor = .white
-         //   commentTextfield.textColor = .black
         }
     }
 }
@@ -61,10 +59,8 @@ extension CommentsTableCell {
 // MARK: - Private
 private extension CommentsTableCell {
     func setupUI() {
-        // thumbnail.layer.cornerRadius = 20
-       // episodeLabel.textColor = UIColor.black
-        userImages.append(UIImage(imageLiteralResourceName: "img-placeholder-user1"))
-        userImages.append(UIImage(imageLiteralResourceName: "img-placeholder-user2"))
-        userImages.append(UIImage(imageLiteralResourceName: "img-placeholder-user3"))
+        userImages.append(UIImage(imageLiteralResourceName: Constants.Images.userPlaceholder1))
+        userImages.append(UIImage(imageLiteralResourceName: Constants.Images.userPlaceholder2))
+        userImages.append(UIImage(imageLiteralResourceName: Constants.Images.userPlaceholder3))
     }
 }

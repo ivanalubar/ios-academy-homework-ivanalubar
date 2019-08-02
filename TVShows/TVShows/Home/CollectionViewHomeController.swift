@@ -38,7 +38,6 @@ class CollectionViewHomeController: UIViewController {
         } else {
             image = UIImage(named: Constants.Images.gridview)
         }
-        
         UINavigationBar.appearance().tintColor = UIColor.gray
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -57,7 +56,6 @@ class CollectionViewHomeController: UIViewController {
     }
     
     @objc private func setTheme(){
-        
         let keychain = KeychainSwift()
         keychain.synchronizable = true
 
@@ -74,13 +72,13 @@ class CollectionViewHomeController: UIViewController {
         }
     }
     
-    func showApiFailedMessage(){
+    private func showApiFailedMessage(){
         let alert = UIAlertController(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.getShowsFaliure, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
         self.present(alert, animated: true)
     }
     
-    func getApiShows() {
+    private func getApiShows() {
         SVProgressHUD.show()
         let keychain = KeychainSwift()
         keychain.synchronizable = true

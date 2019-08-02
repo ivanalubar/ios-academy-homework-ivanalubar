@@ -37,11 +37,9 @@ class TvShowsListCollectionCell: UICollectionViewCell {
         if(keychain.get("theme") == "dark"){
             keychain.set("dark", forKey: "theme")
             keychain.synchronizable = true
-            viewCell.backgroundColor = .darkGray
         } else {
             keychain.set("light", forKey: "theme")
             keychain.synchronizable = true
-            viewCell.backgroundColor = .white
         }
     }
 

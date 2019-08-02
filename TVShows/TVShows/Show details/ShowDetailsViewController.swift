@@ -21,7 +21,6 @@ final class ShowDetailsViewController: UIViewController {
     
     // MARK: - Outlets
     
-    
     @IBOutlet private weak var likeButton: UIButton!
     @IBOutlet private weak var dislikeButton: UIButton!
     @IBOutlet private weak var viewUnderTableView: UIView!
@@ -45,59 +44,50 @@ final class ShowDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.transition = JTMaterialTransition(animatedView: self.addButton)
-
         loadShowInfo()
         setupTableView()
         setTheme()
     }
     
     @objc private func setTheme(){
-        
         let keychain = KeychainSwift()
         keychain.synchronizable = true
-        
         if(keychain.get("theme") == "dark"){
             view.backgroundColor = .darkGray
-            tableView.backgroundColor = .darkGray
-            descriptionView.backgroundColor = .darkGray
-            descriptionView.textColor = .lightGray
-            titleLabel.textColor = .white
-            titleLabel.backgroundColor = .darkGray
-            viewUnderTableView.backgroundColor = .darkGray
+//            tableView.backgroundColor = .darkGray
+//            descriptionView.backgroundColor = .darkGray
+//            descriptionView.textColor = .lightGray
+//            titleLabel.textColor = .white
+//            titleLabel.backgroundColor = .darkGray
+//            viewUnderTableView.backgroundColor = .darkGray
         } else {
             view.backgroundColor = .white
-            tableView.backgroundColor = .white
-            descriptionView.backgroundColor = .white
-            descriptionView.textColor = .darkGray
-            titleLabel.textColor = .black
-            titleLabel.backgroundColor = .white
-            viewUnderTableView.backgroundColor = .white
+//            tableView.backgroundColor = .white
+//            descriptionView.backgroundColor = .white
+//            descriptionView.textColor = .darkGray
+//            titleLabel.textColor = .black
+//            titleLabel.backgroundColor = .white
+//            viewUnderTableView.backgroundColor = .white
         }
     }
     
-    func loadShowInfo(){
-        
+    private func loadShowInfo(){
         if selected != nil {
             id = selected.id
             titleLabel.text = selected.title
             showTitle = selected.title
         } else { titleLabel.text = showTitle }
-
-        getShowEpisodes()
-        getShowDetails()
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
-        //tableView.addSubview(refreshControl) // not required when using UITableViewController
+        tableView.addSubview(refreshControl)
+        getShowEpisodes()
+        getShowDetails()
     }
     
     @objc func refresh() {
-        // Code to refresh table view
-       // setupTableView()
+        setupTableView()
         getShowEpisodes()
         getShowDetails()
-//
-//        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(endRefreshing))
-//        view.addGestureRecognizer(tap)
     }
     
     @objc func endRefreshing(){
@@ -146,7 +136,7 @@ final class ShowDetailsViewController: UIViewController {
     
     // MARK: - API calls
     
-    func getShowDetails() {
+    private func getShowDetails() {
         SVProgressHUD.show()
         let keychain = KeychainSwift()
         keychain.synchronizable = true
@@ -184,7 +174,7 @@ final class ShowDetailsViewController: UIViewController {
         }
     }
     
-    func getShowEpisodes() {
+    private func getShowEpisodes() {
         SVProgressHUD.show()
         firstly {
             Alamofire
@@ -206,7 +196,7 @@ final class ShowDetailsViewController: UIViewController {
         }
     }
     
-    func postLikeOnShow() {
+    private func postLikeOnShow() {
         SVProgressHUD.show()
         let keychain = KeychainSwift()
         keychain.synchronizable = true
@@ -233,7 +223,7 @@ final class ShowDetailsViewController: UIViewController {
         }
     }
     
-    func postDisikeOnShow() {
+    private func postDisikeOnShow() {
         SVProgressHUD.show()
         let keychain = KeychainSwift()
         keychain.synchronizable = true
@@ -269,7 +259,6 @@ extension ShowDetailsViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         let item = episodeList[indexPath.row]
         print("Selected Item: \(item)")
-        
         let sb = UIStoryboard(name: Constants.Storyboards.episodeDetails, bundle: nil)
         guard
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.episodeDetailsViewConstroller) as? EpisodeDetailsViewController
@@ -286,7 +275,6 @@ extension ShowDetailsViewController: UIScrollViewDelegate {
 }
 
 extension ShowDetailsViewController: UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         numberOfEpisodesLabel.text = String(episodeList.count)
         return episodeList.count
@@ -296,12 +284,11 @@ extension ShowDetailsViewController: UITableViewDataSource {
     
             print("CURRENT INDEX PATH BEING CONFIGURED: \(indexPath)")
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ShowDetailsTableCell.self), for: indexPath) as! ShowDetailsTableCell
-//            let animation = AnimationFactory.makeSlideIn(duration: 0.08, delayFactor: 0.08)
+//            let animation = AnimationFactory.makeSlideIn(duration: 0.09, delayFactor: 0.09)
 //            let animator = Animator(animation: animation)
 //            animator.animate(cell: cell, at: indexPath, in: tableView)
             let keychain = KeychainSwift()
             keychain.synchronizable = true
-        
             if(keychain.get("theme") == "dark"){
                 cell.backgroundColor = .darkGray
             } else {
@@ -313,7 +300,6 @@ extension ShowDetailsViewController: UITableViewDataSource {
 }
 
 private extension ShowDetailsViewController {
-    
     func setupTableView() {
         tableView.estimatedRowHeight = TableViewRowHeight
         tableView.rowHeight = UITableView.automaticDimension

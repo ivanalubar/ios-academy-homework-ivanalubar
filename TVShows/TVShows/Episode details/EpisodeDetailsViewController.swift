@@ -16,14 +16,15 @@ import KeychainSwift
 
 final class EpisodeDetailsViewController: UIViewController {
     
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var seasonNumberLabel: UILabel!
-    @IBOutlet weak var episodeNumberLabel: UILabel!
-    @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var seasonNumberLabel: UILabel!
+    @IBOutlet private weak var episodeNumberLabel: UILabel!
+    @IBOutlet private weak var descriptionTextView: UITextView!
     
     var episodeID: String = ""
     var showID: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         getShowDetails()
@@ -61,21 +62,13 @@ final class EpisodeDetailsViewController: UIViewController {
             else { return }
         viewController.episodeID = episodeID
         viewController.showID = showID
-        //present(viewController, animated: true, completion: nil)
         let navigationController = UINavigationController(rootViewController: viewController)
-        self.present(navigationController, animated: true, completion: nil)
-      // navigationController?.pushViewController(viewController, animated: true)
-        
-                //navigationController?.navigationItem.hidesBackButton = true
-               // self.navigationController?.setViewControllers([viewController], animated: true)
-               // self.navigationController?.popViewController(animated: true)
-       
+        present(navigationController, animated: true, completion: nil)
     }
     
     
-    func getShowDetails() {
+    private func getShowDetails() {
         SVProgressHUD.show()
-        
         firstly {
             Alamofire
                 .request("https://api.infinum.academy/api/episodes/\(episodeID)",

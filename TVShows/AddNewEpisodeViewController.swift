@@ -15,7 +15,6 @@ import SkyFloatingLabelTextField
 import KeychainSwift
 
 protocol NewEpiodeDelegate: class {
-    
     func episodeAdded()
 }
 
@@ -28,22 +27,20 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     @IBOutlet private weak var seasonNumberLabel: UITextField!
     @IBOutlet private weak var episodeNumberLabel: UITextField!
     @IBOutlet private weak var episodeDescriptionLabel: UITextField!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var scrollView: UIScrollView!
+    
     var episodeTitle: SkyFloatingLabelTextField!
     var seasonNumber: SkyFloatingLabelTextField!
     var episodeNumber: SkyFloatingLabelTextField!
     var episodeDescription: SkyFloatingLabelTextField!
     var image: UIImage!
-    @IBOutlet weak var imageView: UIImageView!
-
-    @IBOutlet private weak var scrollView: UIScrollView!
-    
     weak var delegate: NewEpiodeDelegate?
     var showID: String = ""
     var showTitle: String = ""
     var mediaId: String = ""
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         setupNavigationBar()
         keyboardManipulation()
@@ -113,7 +110,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         }
     }
     
-    func episodeTitleSubview(){
+    private func episodeTitleSubview(){
         episodeTitle = SkyFloatingLabelTextField(frame: episodeTitleLabel.frame)
         episodeTitle.placeholder = Constants.ButtonNames.episodeTitele
         episodeTitle.title = Constants.ButtonNames.episodeTitele
@@ -123,7 +120,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         episodeTitleLabel.text = episodeTitle.text
     }
     
-    func episodeSeasonSubview(){
+    private func episodeSeasonSubview(){
         seasonNumber = SkyFloatingLabelTextField(frame: seasonNumberLabel.frame)
         seasonNumber.placeholder = Constants.ButtonNames.seasonNumber
         seasonNumber.title = Constants.ButtonNames.seasonNumber
@@ -143,7 +140,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         episodeNumberLabel.text = episodeNumber.text
     }
     
-    func episodeDescriptionSubview(){
+    private func episodeDescriptionSubview(){
         episodeDescription = SkyFloatingLabelTextField(frame: episodeDescriptionLabel.frame)
         episodeDescription.placeholder = Constants.ButtonNames.episodeDescription
         episodeDescription.title = Constants.ButtonNames.episodeDescription
@@ -165,7 +162,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         addNewEpisode(title: title, season: season, episode: episode, description: description)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         image = info [UIImagePickerController.InfoKey.originalImage] as? UIImage
         let image = info [UIImagePickerController.InfoKey.originalImage]
         print(image!)
@@ -175,7 +172,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    internal func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
     
@@ -222,7 +219,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     
     // MARK: - Alert messagess
     
-    func showFailureMessage(){
+    private func showFailureMessage(){
         let alert = UIAlertController(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.addEpisodeFailure, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
         present(alert, animated: true)
@@ -230,7 +227,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     
     // MARK: - API calls
     
-    func addNewEpisode(title: String, season: String, episode: String, description: String) {
+    private func addNewEpisode(title: String, season: String, episode: String, description: String) {
         SVProgressHUD.show()
         
         let parameters: [String: String] = [
@@ -269,7 +266,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         }
     }
     
-    func uploadImageOnAPI() {
+    private func uploadImageOnAPI() {
         SVProgressHUD.show()
         
         let keychain = KeychainSwift()
@@ -297,7 +294,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
             }
     }
     
-    func processUploadRequest(_ uploadRequest: UploadRequest){
+    private func processUploadRequest(_ uploadRequest: UploadRequest){
         uploadRequest
             .responseDecodableObject(keyPath: "data") { (response: DataResponse<Media>) in
                 

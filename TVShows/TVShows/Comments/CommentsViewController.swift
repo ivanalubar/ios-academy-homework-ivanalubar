@@ -18,13 +18,14 @@ final class CommentsViewController: UIViewController {
     var showID: String = ""
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var contentView: UIView!
-    var commentsList = [Comments]()
     @IBOutlet private weak var commentInput: UITextField!
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var imagePlaceholderComments: UIImageView!
     @IBOutlet private weak var textPlaceholderComments: UITextView!
-    
     @IBOutlet private weak var keyboardPlaceholder: UIView!
+    @IBOutlet private weak var inputBottomConstraint: NSLayoutConstraint!
+    
+    private var commentsList = [Comments]()
     private let refreshControl = UIRefreshControl()
     private var keyboardHeight: CGFloat = 270
     
@@ -41,19 +42,15 @@ final class CommentsViewController: UIViewController {
         
         if(keychain.get("theme") == "dark"){
             view.backgroundColor = .darkGray
-            tableView.backgroundColor = .darkGray
-            contentView.backgroundColor = .darkGray
             UITextField.appearance().keyboardAppearance = .dark
         } else {
             view.backgroundColor = .white
-            tableView.backgroundColor = .white
-            contentView.backgroundColor = .white
             UITextField.appearance().keyboardAppearance = .light
         }
     }
     
     private func loadCommentsView(){
-        commentInput.becomeFirstResponder()
+       // commentInput.becomeFirstResponder()
         setupTableView()
         getEpisodeComments()
         setupNavigationBar()
@@ -62,7 +59,6 @@ final class CommentsViewController: UIViewController {
         textPlaceholderComments.frame.size.height = keyboardHeight
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(startRefrshing), for: UIControl.Event.valueChanged)
-        tableView.addSubview(refreshControl) // not required when using UITableViewController
     }
     
     @objc func startRefrshing(){
@@ -71,13 +67,6 @@ final class CommentsViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
         tableView.refreshControl = refreshControl
         tableView.addSubview(refreshControl)
-    }
-    
-    @objc func keyboardWillShow(_ notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            keyboardHeight = keyboardRectangle.height
-        }
     }
     
     private func setupNavigationBar(){
@@ -117,12 +106,12 @@ final class CommentsViewController: UIViewController {
     }
     
     
-//    private func keyboardManipulation(){
-//
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-//
-//    }
+    private func keyboardManipulation(){
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+    }
     
     @objc private func dismissKeyboard() {
         view.endEditing(true)
@@ -133,43 +122,40 @@ final class CommentsViewController: UIViewController {
             return
         }
         postEpisodeComments(text: text, episodeID: episodeID)
-       // backIconActionHandler()
     }
     
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= ( keyboardSize.height - 150 )
+            }
+        }
+        inputBottomConstraint.constant = 500
+    }
 
-//
-//    @objc private func keyboardWillShow(notification: NSNotification) {
-//        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-//            if self.view.frame.origin.y == 0 {
-//                self.view.frame.origin.y -= ( keyboardSize.height - 150 )
-//            }
-//        }
-////        if let keyboardSize = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect {
-////            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-////        }
-//    }
-//
-//    @objc private func keyboardWillHide(notification: NSNotification) {
-//        if self.view.frame.origin.y != 0 {
-//            self.view.frame.origin.y = .zero
-//        }
-//    }
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = .zero
+        }
+    }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    internal func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             print("Deleted")
             let item = commentsList[indexPath.row]
             print(item.id)
-            print("****************************")
             deleteEpisodeComment(id: item.id, row: indexPath)
-           // commentsList.remove(at: indexPath.row)
             print(indexPath.row)
-            //tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
     
+    private func showAlert(title: String, message: String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
+        present(alert, animated: true)
+    }
     
-    func getEpisodeComments() {
+    private func getEpisodeComments() {
         SVProgressHUD.show()
         
         firstly {
@@ -198,7 +184,7 @@ final class CommentsViewController: UIViewController {
         }
     }
     
-    func postEpisodeComments(text: String, episodeID: String) {
+    private func postEpisodeComments(text: String, episodeID: String) {
         SVProgressHUD.show()
         let parameters: [String: String] = [
             "text": text,
@@ -221,6 +207,7 @@ final class CommentsViewController: UIViewController {
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success:")
                 SVProgressHUD.dismiss()
+                self?.commentInput.text = ""
                 self?.imagePlaceholderComments.isHidden = true
                 self?.textPlaceholderComments.isHidden = true
                 self?.refresh()
@@ -230,7 +217,7 @@ final class CommentsViewController: UIViewController {
         }
     }
     
-    func deleteEpisodeComment(id: String, row: IndexPath) {
+    private func deleteEpisodeComment(id: String, row: IndexPath) {
         SVProgressHUD.show()
         let keychain = KeychainSwift()
         keychain.synchronizable = true
@@ -252,9 +239,11 @@ final class CommentsViewController: UIViewController {
                 self?.commentsList.remove(at: row.row)
                 self?.tableView.deleteRows(at: [row], with: UITableView.RowAnimation.fade)
                 self?.tableView.endUpdates()
-            }.catch { error in
+                self?.refresh()
+            }.catch { [weak self] error in
                 print("API failure: \(error)")
-                SVProgressHUD.showError(withStatus: "Failure")
+                self?.showAlert(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.deleteFail)
+                SVProgressHUD.dismiss()
         }
     }
 }
@@ -265,7 +254,6 @@ extension CommentsViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         let item = commentsList[indexPath.row]
         print("Selected Item: \(item)")
-                
     }
 }
 
@@ -279,9 +267,6 @@ extension CommentsViewController: UITableViewDataSource {
         
         print("CURRENT INDEX PATH BEING CONFIGURED: \(indexPath)")
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CommentsTableCell.self), for: indexPath) as! CommentsTableCell
-//        let animation = AnimationFactory.makeSlideIn(duration: 0.5, delayFactor: 0.05)
-//        let animator = Animator(animation: animation)
-//        animator.animate(cell: cell, at: indexPath, in: tableView)
         cell.configure(with: commentsList[indexPath.row])
         return cell
         
@@ -291,7 +276,6 @@ extension CommentsViewController: UITableViewDataSource {
 private extension CommentsViewController {
     
     func setupTableView() {
-       // tableView.estimatedRowHeight = TableViewRowHeight
         tableView.rowHeight = UITableView.automaticDimension
         tableView.tableFooterView = UIView()
         tableView.delegate = self

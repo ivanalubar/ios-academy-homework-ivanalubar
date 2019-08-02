@@ -10,7 +10,7 @@ import UIKit
 
 class TvShowsCollectionCell: UICollectionViewCell {
     
-    @IBOutlet weak var thumbnail: UIImageView!
+    @IBOutlet private weak var thumbnail: UIImageView!
     
     // MARK: - Lifecycle
     override func awakeFromNib() {

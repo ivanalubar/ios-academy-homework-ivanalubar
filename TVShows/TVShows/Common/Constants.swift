@@ -44,6 +44,7 @@ enum Constants {
         static let loginSuccess = "You are logged in"
         static let registrationSuccess = "Registration succeeded"
         static let addEpisodeSuccess = "Episode has been successfully added"
+        static let deleteFail = "You don't have permission to delete this comment"
     }
     
     enum Images {
@@ -55,6 +56,9 @@ enum Constants {
         static let navigateBack = "ic-navigate-back"
         static let listview = "ic-listview"
         static let gridview = "ic-gridview"
+        static let userPlaceholder1 = "img-placeholder-user1"
+        static let userPlaceholder2 = "img-placeholder-user2"
+        static let userPlaceholder3 = "img-placeholder-user2"
     }
     
     enum ButtonNames {
