@@ -16,6 +16,9 @@ final class CommentsViewController: UIViewController {
     
     var episodeID: String = ""
     var showID: String = ""
+    
+    // MARK: - Outlets
+    
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var contentView: UIView!
     @IBOutlet private weak var commentInput: UITextField!
@@ -23,18 +26,20 @@ final class CommentsViewController: UIViewController {
     @IBOutlet private weak var imagePlaceholderComments: UIImageView!
     @IBOutlet private weak var textPlaceholderComments: UITextView!
     @IBOutlet private weak var keyboardPlaceholder: UIView!
-    @IBOutlet private weak var inputBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var bottomConstraint: NSLayoutConstraint!
     
     private var commentsList = [Comments]()
     private let refreshControl = UIRefreshControl()
-    private var keyboardHeight: CGFloat = 270
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         loadCommentsView()
         setTheme()
         keyboardManipulation()
     }
+    
+    // MARK: - UI Setup
     
     @objc private func setTheme(){
         
@@ -44,25 +49,27 @@ final class CommentsViewController: UIViewController {
         if(keychain.get("theme") == "dark"){
             view.backgroundColor = .darkGray
             UITextField.appearance().keyboardAppearance = .dark
+            tableView.backgroundColor = .darkGray
         } else {
             view.backgroundColor = .white
             UITextField.appearance().keyboardAppearance = .light
+            tableView.backgroundColor = .white
         }
     }
     
     private func loadCommentsView(){
-       // commentInput.becomeFirstResponder()
+        
         setupTableView()
         getEpisodeComments()
         setupNavigationBar()
         imagePlaceholderComments.isHidden = true
         textPlaceholderComments.isHidden = true
-        textPlaceholderComments.frame.size.height = keyboardHeight
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(startRefrshing), for: UIControl.Event.valueChanged)
     }
     
     @objc func startRefrshing(){
+        
         refreshControl.tintColor = UIColor.darkGray
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
@@ -71,6 +78,7 @@ final class CommentsViewController: UIViewController {
     }
     
     private func setupNavigationBar(){
+        
         UINavigationBar.appearance().backgroundColor = UIColor.clear
         UINavigationBar.appearance().tintColor = .white
         navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -81,15 +89,27 @@ final class CommentsViewController: UIViewController {
         )
     }
     
-    @objc func refresh() {
+    // MARK: - Actions
+    
+    @IBAction private func commentPostActionHandler() {
+        
+        guard let text = commentInput?.text else {
+            return
+        }
+        postEpisodeComments(text: text, episodeID: episodeID)
+    }
+    
+    @objc private func refresh() {
+        
         setupTableView()
         getEpisodeComments()
         tableView.reloadData()
+        
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(endRefreshing))
         view.addGestureRecognizer(tap)
     }
     
-    @objc func endRefreshing(){
+    @objc private func endRefreshing(){
         refreshControl.endRefreshing()
     }
     
@@ -106,6 +126,14 @@ final class CommentsViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    private func showAlert(title: String, message: String){
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
+        present(alert, animated: true)
+    }
+    
+    // MARK: - Keyboard Setup
     
     private func keyboardManipulation(){
 
@@ -119,6 +147,7 @@ final class CommentsViewController: UIViewController {
     }
     
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
         commentInput.delegate = self as? UITextFieldDelegate
         self.view.endEditing(true)
         dismissKeyboard()
@@ -126,33 +155,29 @@ final class CommentsViewController: UIViewController {
     }
     
     @objc private func dismissKeyboard() {
+        
         commentInput.endEditing(true)
         view.endEditing(true)
-        inputBottomConstraint.constant = 0
+        bottomConstraint.constant = 0
         
     }
     
-    @IBAction func commentPostActionHandler() {
-        guard let text = commentInput?.text else {
-            return
-        }
-        postEpisodeComments(text: text, episodeID: episodeID)
-    }
-    
     @objc private func keyboardWillShow(notification: NSNotification) {
+        
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            inputBottomConstraint.constant = keyboardSize.height - view.safeAreaInsets.bottom
+            bottomConstraint.constant = keyboardSize.height - view.safeAreaInsets.bottom
         }
     }
 
     @objc private func keyboardWillHide(notification: NSNotification) {
+        
         if self.view.frame.origin.y != 0 {
-           // self.view.frame.origin.y = .zero
-           inputBottomConstraint.constant = 0
+           bottomConstraint.constant = 0
         }
     }
     
     internal func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
         if editingStyle == .delete {
             print("Deleted")
             let item = commentsList[indexPath.row]
@@ -161,12 +186,8 @@ final class CommentsViewController: UIViewController {
             print(indexPath.row)
         }
     }
-    
-    private func showAlert(title: String, message: String){
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
-        present(alert, animated: true)
-    }
+
+    // MARK: - Api calls
     
     private func getEpisodeComments() {
         SVProgressHUD.show()
@@ -199,12 +220,15 @@ final class CommentsViewController: UIViewController {
     
     private func postEpisodeComments(text: String, episodeID: String) {
         SVProgressHUD.show()
+        
         let parameters: [String: String] = [
             "text": text,
             "episodeId": episodeID
         ]
+        
         let keychain = KeychainSwift()
         keychain.synchronizable = true
+        
         let headers: HTTPHeaders = ["Authorization": keychain.get("token")!]
 
         firstly {
@@ -232,9 +256,12 @@ final class CommentsViewController: UIViewController {
     
     private func deleteEpisodeComment(id: String, row: IndexPath) {
         SVProgressHUD.show()
+        
         let keychain = KeychainSwift()
         keychain.synchronizable = true
+        
         let headers: HTTPHeaders = ["Authorization": keychain.get("token")!]
+        
         firstly {
             Alamofire
                 .request("https://api.infinum.academy/api/comments/\(id)",
@@ -260,6 +287,8 @@ final class CommentsViewController: UIViewController {
         }
     }
 }
+
+// MARK: - Extensions
 
 extension CommentsViewController: UITableViewDelegate {
     

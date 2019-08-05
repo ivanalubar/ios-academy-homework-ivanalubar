@@ -30,22 +30,25 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var scrollView: UIScrollView!
     
-    var episodeTitle: SkyFloatingLabelTextField!
-    var seasonNumber: SkyFloatingLabelTextField!
-    var episodeNumber: SkyFloatingLabelTextField!
-    var episodeDescription: SkyFloatingLabelTextField!
-    var image: UIImage!
+    private var episodeTitle: SkyFloatingLabelTextField!
+    private var seasonNumber: SkyFloatingLabelTextField!
+    private var episodeNumber: SkyFloatingLabelTextField!
+    private var episodeDescription: SkyFloatingLabelTextField!
+    private var image: UIImage!
     weak var delegate: NewEpiodeDelegate?
     var showID: String = ""
     var showTitle: String = ""
     var mediaId: String = ""
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         setupNavigationBar()
         keyboardManipulation()
         setTheme()
     }
+    
+    // MARK: - UI Setup
     
     @objc private func setTheme(){
         
@@ -76,38 +79,13 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
             target: self,
             action: #selector(didSelectAddShow)
         )
-        
-        navigationItem.leftBarButtonItem?.tintColor = UIColor(rgb: 0xff758c)
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(rgb: 0xff758c)
+        navigationItem.leftBarButtonItem?.tintColor = UIColor(red: 255/255, green: 117/255, blue: 140/255, alpha: 1.0)
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(red: 255/255, green: 117/255, blue: 140/255, alpha: 1.0)
         
         episodeTitleSubview()
         episodeSeasonSubview()
         episodeNumberSubview()
         episodeDescriptionSubview()
-    }
-    private func keyboardManipulation(){
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
-    
-    @objc private func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect {
-            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-        }
-    }
-    
-    @objc private func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = .zero
-        }
     }
     
     private func episodeTitleSubview(){
@@ -149,6 +127,35 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         episodeDescriptionLabel.addSubview(episodeDescription)
         episodeDescriptionLabel.text = episodeDescription.text
     }
+    
+    // MARK: - Keyboard Setup
+    
+    private func keyboardManipulation(){
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect {
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        }
+    }
+    
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = .zero
+        }
+    }
+    
+    // MARK: - Actions
     
     @objc func didSelectAddShow(){
     
@@ -312,26 +319,6 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
                     SVProgressHUD.dismiss()
                 }
         }
-    }
-}
-
-// MARK: - Color conversion
-
-extension UIColor {
-    convenience init(red: Int, green: Int, blue: Int) {
-        assert(red >= 0 && red <= 255, "Invalid red component")
-        assert(green >= 0 && green <= 255, "Invalid green component")
-        assert(blue >= 0 && blue <= 255, "Invalid blue component")
-        
-        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
-    }
-    
-    convenience init(rgb: Int) {
-        self.init(
-            red: (rgb >> 16) & 0xFF,
-            green: (rgb >> 8) & 0xFF,
-            blue: rgb & 0xFF
-        )
     }
 }
 

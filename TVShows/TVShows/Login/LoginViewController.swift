@@ -46,6 +46,8 @@ final class LoginViewController: UIViewController, UITextFieldDelegate, UIViewCo
          setNavigationBar()
     }
     
+    // MARK: - UI Setup
+    
     private func setNavigationBar() {
         UINavigationBar.appearance().tintColor = UIColor.darkGray
         let keychain = KeychainSwift()
@@ -66,9 +68,12 @@ final class LoginViewController: UIViewController, UITextFieldDelegate, UIViewCo
     }
     
     private func checkTokenInfo() {
+        
         setTheme()
+        
         let keychain = KeychainSwift()
         keychain.synchronizable = true
+        
         if (keychain.get("loggedIn") == "true" ){
             setUsernameSubview()
             setPasswordSubview()
@@ -282,7 +287,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate, UIViewCo
         registerUserWith(email: username, password: pass)
     }
     
-    // MARK: - Alert messagess
+    // MARK: - Alert message
     
     private func showAlert(title: String, message: String){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -295,7 +300,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate, UIViewCo
     private func navigateToHome(){
         let sb = UIStoryboard(name: Constants.Storyboards.collectionHome, bundle: nil)
         guard
-            let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.collectionHomeViewController) as? CollectionViewHomeController
+            let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.homeViewController) as? HomeViewController
             else { return }
         viewController.transitioningDelegate = self
         let navigationController = UINavigationController(rootViewController: viewController)
@@ -307,6 +312,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate, UIViewCo
     
     private func loginUserWith(email: String, password: String) {
         loginButton.startLoadingAnimation()
+        
         let parameters: [String: String] = [
             "email": email,
             "password": password
@@ -319,6 +325,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate, UIViewCo
                       encoding: JSONEncoding.default)
                 .validate()
                 .responseDecodable(LoginData.self, keypath: "data")
+            
             }.done { [weak self] loginData in
                 print("Success: \(loginData)")
                 let keychain = KeychainSwift()
@@ -329,6 +336,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate, UIViewCo
                     keychain.synchronizable = true
                 }
                 self?.didFinishYourLoading()
+                
             }.catch { [weak self]  error in
                 print("API failure: \(error)")
                 SVProgressHUD.dismiss()
@@ -338,6 +346,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate, UIViewCo
     
     private func registerUserWith(email: String, password: String) {
         SVProgressHUD.show()
+        
         let parameters: [String: String] = [
             "email": email,
             "password": password
@@ -350,11 +359,13 @@ final class LoginViewController: UIViewController, UITextFieldDelegate, UIViewCo
                          encoding: JSONEncoding.default)
                 .validate()
                 .responseDecodable(User.self, keypath: "data")
+            
             }.done { [weak self]  loginData in
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success: \(loginData)")
                 self?.showAlert(title: Constants.AlertMessages.sucessMessageTitle, message: Constants.AlertMessages.registrationSuccess)
                 SVProgressHUD.dismiss()
+                
             }.catch { [weak self] error in
                 print("API failure: \(error)")
                 SVProgressHUD.dismiss()

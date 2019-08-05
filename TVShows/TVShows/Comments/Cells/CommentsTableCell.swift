@@ -11,6 +11,8 @@ import KeychainSwift
 
 final class CommentsTableCell: UITableViewCell {
     
+    // MARK: - Outlets
+    
     @IBOutlet private weak var imageComment: UIImageView!
     @IBOutlet private weak var usernameLabel: UILabel!
     @IBOutlet private weak var commentTextfield: UITextView!
@@ -42,6 +44,7 @@ final class CommentsTableCell: UITableViewCell {
 }
 
 // MARK: - Configure
+
 extension CommentsTableCell {
     func configure(with item: Comments) {
         let string = item.userEmail
@@ -57,6 +60,7 @@ extension CommentsTableCell {
 }
 
 // MARK: - Private
+
 private extension CommentsTableCell {
     func setupUI() {
         userImages.append(UIImage(imageLiteralResourceName: Constants.Images.userPlaceholder1))

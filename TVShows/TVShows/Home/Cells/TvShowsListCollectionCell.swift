@@ -16,6 +16,7 @@ class TvShowsListCollectionCell: UICollectionViewCell {
     @IBOutlet private weak var thumbnail: UIImageView!
     
     // MARK: - Lifecycle
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
@@ -46,6 +47,7 @@ class TvShowsListCollectionCell: UICollectionViewCell {
 }
 
 // MARK: - Configure
+
 extension TvShowsListCollectionCell {
     func configure(with item: Shows) {
         let url = URL(string: "https://api.infinum.academy/\(item.imageUrl)")
@@ -55,6 +57,7 @@ extension TvShowsListCollectionCell {
 }
 
 // MARK: - Private
+
 private extension TvShowsListCollectionCell {
     func setupUI() {
         thumbnail.layer.cornerRadius = 15

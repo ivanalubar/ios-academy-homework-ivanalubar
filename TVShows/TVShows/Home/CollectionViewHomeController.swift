@@ -12,8 +12,10 @@ import CodableAlamofire
 import PromiseKit
 import KeychainSwift
 
-class CollectionViewHomeController: UIViewController {
-        
+class HomeViewController: UIViewController {
+    
+    // MARK: - Outlets
+    
     @IBOutlet private weak var collectionView: UICollectionView!
     private var items = [Shows]()
     private var grid: Bool = false
@@ -25,8 +27,9 @@ class CollectionViewHomeController: UIViewController {
         loadShowInfo()
         getApiShows()
         setupCollectionView()
-        //setTheme()
     }
+    
+    // MARK: - UI Setup
     
     private func loadShowInfo() {
         
@@ -45,7 +48,7 @@ class CollectionViewHomeController: UIViewController {
             image: UIImage(named: Constants.Images.logout),
             style: .plain,
             target: self,
-            action: #selector(logotActionHandler)
+            action: #selector(logoutActionHandler)
         )
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -57,9 +60,10 @@ class CollectionViewHomeController: UIViewController {
     }
     
     @objc private func setTheme(){
+        
         let keychain = KeychainSwift()
         keychain.synchronizable = true
-
+        
         if(keychain.get("theme") == "dark"){
             keychain.set("dark", forKey: "theme")
             keychain.synchronizable = true
@@ -73,14 +77,19 @@ class CollectionViewHomeController: UIViewController {
         }
     }
     
+    // MARK: - Alert message
+    
     private func showApiFailedMessage(){
         let alert = UIAlertController(title: Constants.AlertMessages.failMessageTitle, message: Constants.AlertMessages.getShowsFaliure, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Constants.AlertMessages.ok, style: .default, handler: nil))
         self.present(alert, animated: true)
     }
     
+    // MARK: - Api calls
+    
     private func getApiShows() {
         SVProgressHUD.show()
+        
         let keychain = KeychainSwift()
         keychain.synchronizable = true
         let headers = [ "Authorization": keychain.get("token")! ]
@@ -93,19 +102,22 @@ class CollectionViewHomeController: UIViewController {
                          headers: headers)
                 .validate()
                 .responseDecodable([Shows].self, keypath: "data")
+            
             }.done { [weak self] shows in
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success: \(shows)")
                 self?.items = shows
                 (self?.collectionView.reloadData())!
-                
                 SVProgressHUD.dismiss()
+                
             }.catch { [weak self]  error in
                 print("API failure: \(error)")
                 self?.showApiFailedMessage()
                 SVProgressHUD.dismiss()
         }
     }
+    
+    // MARK: - Navigation
     
     private func navigateToDetails(item: Shows){
         let sb = UIStoryboard(name: Constants.Storyboards.showDetails, bundle: nil)
@@ -120,7 +132,9 @@ class CollectionViewHomeController: UIViewController {
         self.navigationController?.setViewControllers([viewController], animated: true)
     }
     
-    @objc private func logotActionHandler(){
+    // MARK: - Actions
+    
+    @objc private func logoutActionHandler(){
         
         let keychain = KeychainSwift()
         keychain.synchronizable = true
@@ -151,7 +165,7 @@ class CollectionViewHomeController: UIViewController {
 
 // MARK: - Extensions
 
-extension CollectionViewHomeController: UICollectionViewDelegate {
+extension HomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -161,7 +175,7 @@ extension CollectionViewHomeController: UICollectionViewDelegate {
     }
 }
 
-extension CollectionViewHomeController: UICollectionViewDataSource {
+extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
     }
@@ -173,7 +187,7 @@ extension CollectionViewHomeController: UICollectionViewDataSource {
         keychain.synchronizable = true
         let t = keychain.get("grid")
         if (t == "true") {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TvShowsCollectionCell.self), for: indexPath) as! TvShowsCollectionCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TvShowsGridCollectionCell.self), for: indexPath) as! TvShowsGridCollectionCell
             cell.configure(with: items[indexPath.row])
             return cell
         }
@@ -189,7 +203,7 @@ extension CollectionViewHomeController: UICollectionViewDataSource {
     }
 }
 
-extension CollectionViewHomeController: UICollectionViewDelegateFlowLayout {
+extension HomeViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let keychain = KeychainSwift()
@@ -203,10 +217,13 @@ extension CollectionViewHomeController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-private extension CollectionViewHomeController {
+private extension HomeViewController {
     
     func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
     }
 }
+
+
+

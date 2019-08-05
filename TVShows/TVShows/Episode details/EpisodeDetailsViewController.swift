@@ -16,6 +16,8 @@ import KeychainSwift
 
 final class EpisodeDetailsViewController: UIViewController {
     
+    // MARK: - Outlets
+    
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var seasonNumberLabel: UILabel!
@@ -30,6 +32,9 @@ final class EpisodeDetailsViewController: UIViewController {
         getShowDetails()
         setTheme()
     }
+    
+    // MARK: - UI Setup
+    
     @objc private func setTheme(){
         
         let keychain = KeychainSwift()
@@ -43,7 +48,11 @@ final class EpisodeDetailsViewController: UIViewController {
             descriptionTextView.textColor = .darkGray
         }
     }
-    @IBAction func navigateBackButton() {
+    
+    // MARK: - Actions
+    
+    @IBAction private func navigateBackButton() {
+        
         let sb = UIStoryboard(name: Constants.Storyboards.showDetails, bundle: nil)
         guard
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.showDetailsViewConstroller) as? ShowDetailsViewController
@@ -54,7 +63,8 @@ final class EpisodeDetailsViewController: UIViewController {
     
     }
     
-    @IBAction func navigateToComments() {
+    @IBAction private func navigateToComments() {
+        
         print("Navigate to comments clicked")
         let sb = UIStoryboard(name: Constants.Storyboards.comments, bundle: nil)
         guard
@@ -66,9 +76,11 @@ final class EpisodeDetailsViewController: UIViewController {
         present(navigationController, animated: true, completion: nil)
     }
     
+    // MARK: - Api calls
     
     private func getShowDetails() {
         SVProgressHUD.show()
+        
         firstly {
             Alamofire
                 .request("https://api.infinum.academy/api/episodes/\(episodeID)",
@@ -76,6 +88,7 @@ final class EpisodeDetailsViewController: UIViewController {
                     encoding: JSONEncoding.default)
                 .validate()
                 .responseDecodable(EpisodeDetails.self, keypath: "data")
+            
             }.done { details in
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Ovo je details \(details)")
@@ -107,6 +120,7 @@ final class EpisodeDetailsViewController: UIViewController {
                 }
                 print("Success: \(details)")
                 SVProgressHUD.dismiss()
+                
             }.catch { error in
                 print("API failure: \(error)")
                 SVProgressHUD.showError(withStatus: "Failure")

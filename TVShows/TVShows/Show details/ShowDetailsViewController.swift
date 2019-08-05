@@ -42,6 +42,7 @@ final class ShowDetailsViewController: UIViewController {
     var id: String! = ""
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         self.transition = JTMaterialTransition(animatedView: self.addButton)
         loadShowInfo()
@@ -49,29 +50,34 @@ final class ShowDetailsViewController: UIViewController {
         setTheme()
     }
     
+    // MARK: - UI Setup
+    
     @objc private func setTheme(){
+        
         let keychain = KeychainSwift()
         keychain.synchronizable = true
+        
         if(keychain.get("theme") == "dark"){
             view.backgroundColor = .darkGray
-//            tableView.backgroundColor = .darkGray
-//            descriptionView.backgroundColor = .darkGray
-//            descriptionView.textColor = .lightGray
-//            titleLabel.textColor = .white
-//            titleLabel.backgroundColor = .darkGray
-//            viewUnderTableView.backgroundColor = .darkGray
+            tableView.backgroundColor = .darkGray
+            descriptionView.backgroundColor = .darkGray
+            descriptionView.textColor = .lightGray
+            titleLabel.textColor = .white
+            titleLabel.backgroundColor = .darkGray
+            viewUnderTableView.backgroundColor = .darkGray
         } else {
             view.backgroundColor = .white
-//            tableView.backgroundColor = .white
-//            descriptionView.backgroundColor = .white
-//            descriptionView.textColor = .darkGray
-//            titleLabel.textColor = .black
-//            titleLabel.backgroundColor = .white
-//            viewUnderTableView.backgroundColor = .white
+            tableView.backgroundColor = .white
+            descriptionView.backgroundColor = .white
+            descriptionView.textColor = .darkGray
+            titleLabel.textColor = .black
+            titleLabel.backgroundColor = .white
+            viewUnderTableView.backgroundColor = .white
         }
     }
     
     private func loadShowInfo(){
+        
         if selected != nil {
             id = selected.id
             titleLabel.text = selected.title
@@ -84,22 +90,13 @@ final class ShowDetailsViewController: UIViewController {
         getShowDetails()
     }
     
-    @objc func refresh() {
-        setupTableView()
-        getShowEpisodes()
-        getShowDetails()
-    }
-    
-    @objc func endRefreshing(){
-        refreshControl.endRefreshing()
-    }
-    
     // MARK: - Navigation
     
-    @IBAction func navigateBackButton() {
+    @IBAction private func navigateBackButton() {
+        
         let sb = UIStoryboard(name: Constants.Storyboards.collectionHome, bundle: nil)
         guard
-            let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.collectionHomeViewController) as? CollectionViewHomeController
+            let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.homeViewController) as? HomeViewController
             else { return }
         navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationController?.navigationItem.hidesBackButton = true
@@ -109,15 +106,16 @@ final class ShowDetailsViewController: UIViewController {
     
     // MARK: - Actions
     
-    @IBAction func postLike() {
+    @IBAction private func postLike() {
         postLikeOnShow()
     }
     
-    @IBAction func postDislike() {
+    @IBAction private func postDislike() {
         postDisikeOnShow()
     }
     
-    @IBAction func addNewEpisodeButton() {
+    @IBAction private func addNewEpisodeButton() {
+        
         let sb = UIStoryboard(name: Constants.Storyboards.addNewEpisode, bundle: nil)
         guard
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.addNewEpisodeViewConstroller) as? AddNewEpisodeViewController
@@ -131,13 +129,24 @@ final class ShowDetailsViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         let navigationController = UINavigationController(rootViewController: viewController)
         present(navigationController, animated: true)
-       // var startFrame = animatedView.superview?.convert(animatedView.frame, to: nil)
+    }
+    
+    @objc func refresh() {
+        
+        setupTableView()
+        getShowEpisodes()
+        getShowDetails()
+    }
+    
+    @objc func endRefreshing(){
+        refreshControl.endRefreshing()
     }
     
     // MARK: - API calls
     
     private func getShowDetails() {
         SVProgressHUD.show()
+        
         let keychain = KeychainSwift()
         keychain.synchronizable = true
         let headers: HTTPHeaders = ["Authorization": keychain.get("token")!]
@@ -149,6 +158,7 @@ final class ShowDetailsViewController: UIViewController {
                     headers:headers)
                 .validate()
                 .responseDecodable(ShowDetails.self, keypath: "data")
+            
             }.done { [weak self] details in
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Ovo je details \(details)")
@@ -166,8 +176,8 @@ final class ShowDetailsViewController: UIViewController {
                     self?.imageView.image = UIImage(named: "icImagePlaceholder")
                 }
                 self?.tableView.reloadData()
-                
                 print("Success: \(details)")
+                
             }.catch { error in
                 print("API failure: \(error)")
                 SVProgressHUD.showError(withStatus: "Failure")
@@ -284,9 +294,6 @@ extension ShowDetailsViewController: UITableViewDataSource {
     
             print("CURRENT INDEX PATH BEING CONFIGURED: \(indexPath)")
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ShowDetailsTableCell.self), for: indexPath) as! ShowDetailsTableCell
-//            let animation = AnimationFactory.makeSlideIn(duration: 0.09, delayFactor: 0.09)
-//            let animator = Animator(animation: animation)
-//            animator.animate(cell: cell, at: indexPath, in: tableView)
             let keychain = KeychainSwift()
             keychain.synchronizable = true
             if(keychain.get("theme") == "dark"){
@@ -312,45 +319,6 @@ private extension ShowDetailsViewController {
 extension ShowDetailsViewController: NewEpiodeDelegate{
     func episodeAdded() {
         loadShowInfo()
-    }
-}
-
-final class Animator {
-    
-    typealias Animation = (UITableViewCell, IndexPath, UITableView) -> Void
-
-    private var hasAnimatedAllCells = false
-    private let animation: Animation
-    
-    init(animation: @escaping Animation) {
-        self.animation = animation
-    }
-    
-    func animate(cell: UITableViewCell, at indexPath: IndexPath, in tableView: UITableView) {
-        guard !hasAnimatedAllCells else {
-            return
-        }
-        
-        animation(cell, indexPath, tableView)
-        
-    }
-}
-enum AnimationFactory {
-    
-    typealias Animation = (UITableViewCell, IndexPath, UITableView) -> Void
-    
-    static func makeSlideIn(duration: TimeInterval, delayFactor: Double) -> Animation {
-        return { cell, indexPath, tableView in
-            cell.transform = CGAffineTransform(translationX: tableView.bounds.width, y: 0)
-            
-            UIView.animate(
-                withDuration: duration,
-                delay: delayFactor * Double(indexPath.row),
-                options: [.curveEaseInOut],
-                animations: {
-                    cell.transform = CGAffineTransform(translationX: 0, y: 0)
-            })
-        }
     }
 }
 

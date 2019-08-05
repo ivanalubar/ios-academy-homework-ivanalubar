@@ -8,11 +8,12 @@
 
 import UIKit
 
-class TvShowsCollectionCell: UICollectionViewCell {
+class TvShowsGridCollectionCell: UICollectionViewCell {
     
     @IBOutlet private weak var thumbnail: UIImageView!
     
     // MARK: - Lifecycle
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
@@ -26,7 +27,8 @@ class TvShowsCollectionCell: UICollectionViewCell {
 }
 
 // MARK: - Configure
-extension TvShowsCollectionCell {
+
+extension TvShowsGridCollectionCell {
     func configure(with item: Shows) {
         let url = URL(string: "https://api.infinum.academy/\(item.imageUrl)")
         self.thumbnail.kf.setImage(with: url)
@@ -34,7 +36,8 @@ extension TvShowsCollectionCell {
 }
 
 // MARK: - Private
-private extension TvShowsCollectionCell {
+
+private extension TvShowsGridCollectionCell {
     func setupUI() {
         thumbnail.layer.cornerRadius = 15
         clipsToBounds = false

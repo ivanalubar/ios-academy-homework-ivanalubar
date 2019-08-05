@@ -11,11 +11,13 @@ import KeychainSwift
 
 final class ShowDetailsTableCell: UITableViewCell {
     
+    // MARK: - Outlets
+    
     @IBOutlet private weak var episodeLabel: UILabel!
     @IBOutlet private weak var episodeNumberLabel: UILabel!
     @IBOutlet private weak var seasonNumberLabel: UILabel!
     @IBOutlet private weak var contentViewCell: UIView!
-    // MARK: - Lifecycle
+  
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
@@ -48,6 +50,7 @@ final class ShowDetailsTableCell: UITableViewCell {
 }
 
 // MARK: - Configure
+
 extension ShowDetailsTableCell {
     func configure(with item: Episodes) {
         seasonNumberLabel.text = "S" + item.season
@@ -57,6 +60,7 @@ extension ShowDetailsTableCell {
 }
 
 // MARK: - Private
+
 private extension ShowDetailsTableCell {
     func setupUI() {
         episodeLabel.textColor = UIColor.black

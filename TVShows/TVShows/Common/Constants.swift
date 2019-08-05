@@ -24,12 +24,11 @@ enum Constants {
     enum Controllers {
         static let showDetailsViewConstroller = "ShowDetailsViewController"
         static let loginViewController = "LoginViewController"
-        static let homeViewConstroller = "HomeViewController"
         static let addNewEpisodeViewConstroller = "AddNewEpisodeViewController"
         static let episodeDetailsViewConstroller = "EpisodeDetailsViewController"
         static let commentsViewConstroller = "CommentsViewController"
         static let uiImagePickerViewController = "UIImagePickerViewController"
-        static let collectionHomeViewController = "CollectionViewHomeController"
+        static let homeViewController = "HomeViewController"
     }
     
     enum AlertMessages {
