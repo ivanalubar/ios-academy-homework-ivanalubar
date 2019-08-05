@@ -33,6 +33,7 @@ final class CommentsViewController: UIViewController {
         super.viewDidLoad()
         loadCommentsView()
         setTheme()
+        keyboardManipulation()
     }
     
     @objc private func setTheme(){
@@ -110,11 +111,25 @@ final class CommentsViewController: UIViewController {
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 200
 
     }
     
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        commentInput.delegate = self as? UITextFieldDelegate
+        self.view.endEditing(true)
+        dismissKeyboard()
+        return false
+    }
+    
     @objc private func dismissKeyboard() {
+        commentInput.endEditing(true)
         view.endEditing(true)
+        inputBottomConstraint.constant = 0
+        
     }
     
     @IBAction func commentPostActionHandler() {
@@ -126,16 +141,14 @@ final class CommentsViewController: UIViewController {
     
     @objc private func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= ( keyboardSize.height - 150 )
-            }
+            inputBottomConstraint.constant = keyboardSize.height - view.safeAreaInsets.bottom
         }
-        inputBottomConstraint.constant = 500
     }
 
     @objc private func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = .zero
+           // self.view.frame.origin.y = .zero
+           inputBottomConstraint.constant = 0
         }
     }
     

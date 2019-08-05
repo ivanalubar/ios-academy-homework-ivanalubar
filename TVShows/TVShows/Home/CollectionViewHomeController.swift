@@ -17,6 +17,7 @@ class CollectionViewHomeController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     private var items = [Shows]()
     private var grid: Bool = false
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -197,7 +198,7 @@ extension CollectionViewHomeController: UICollectionViewDelegateFlowLayout {
         if (t == "true") {
             return CGSize(width: 160, height: 248)
         } else {
-            return CGSize(width: 414, height: 150)
+            return CGSize(width: 414, height: 248)
         }
     }
 }

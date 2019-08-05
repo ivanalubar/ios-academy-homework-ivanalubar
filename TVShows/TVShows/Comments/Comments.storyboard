@@ -21,11 +21,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SGp-9r-FVr">
                                 <rect key="frame" x="0.0" y="38" width="414" height="824"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="p8I-OT-HzC">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="p8I-OT-HzC">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="824"/>
                                         <subviews>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sH2-G9-RBZ">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="790"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="789"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentsTableCell" rowHeight="93" id="ExD-wO-VQA" customClass="CommentsTableCell" customModule="TVShows" customModuleProvider="target">
@@ -120,9 +120,6 @@
                                                 </constraints>
                                             </stackView>
                                         </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="tq9-53-W83" secondAttribute="bottom" id="ODt-ym-08V"/>
-                                        </constraints>
                                     </stackView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -134,7 +131,7 @@
                                 </constraints>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img-placehoder-comments" translatesAutoresizingMaskIntoConstraints="NO" id="pSx-O1-cSF">
-                                <rect key="frame" x="127" y="188" width="160" height="160"/>
+                                <rect key="frame" x="126.99999999999999" y="188" width="160.00000000000003" height="160"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="160" id="Fz1-YX-xgp"/>
                                     <constraint firstAttribute="height" constant="160" id="Q3Q-Cd-2Da"/>
@@ -169,7 +166,7 @@
                         <outlet property="commentInput" destination="2jA-0a-yqH" id="Up4-Hz-sF5"/>
                         <outlet property="contentView" destination="SGp-9r-FVr" id="gdC-Uk-q0w"/>
                         <outlet property="imagePlaceholderComments" destination="pSx-O1-cSF" id="ByS-nH-i5A"/>
-                        <outlet property="inputBottomConstraint" destination="ODt-ym-08V" id="1ru-qO-hjt"/>
+                        <outlet property="inputBottomConstraint" destination="UHL-Hi-Po5" id="0Bu-l8-Vjf"/>
                         <outlet property="tableView" destination="sH2-G9-RBZ" id="kjb-pl-9HD"/>
                         <outlet property="textPlaceholderComments" destination="bIO-Pz-CeR" id="zzR-Kz-buI"/>
                     </connections>
