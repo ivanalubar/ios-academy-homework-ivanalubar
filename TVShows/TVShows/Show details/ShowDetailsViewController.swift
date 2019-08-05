@@ -99,8 +99,8 @@ final class ShowDetailsViewController: UIViewController {
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.homeViewController) as? HomeViewController
             else { return }
         navigationController?.setNavigationBarHidden(false, animated: true)
-        self.navigationController?.navigationItem.hidesBackButton = true
-        self.navigationController?.setViewControllers([viewController], animated: true)
+        navigationController?.navigationItem.hidesBackButton = true
+        navigationController?.setViewControllers([viewController], animated: true)
         navigationController?.popViewController(animated: true)
     }
     
@@ -120,10 +120,10 @@ final class ShowDetailsViewController: UIViewController {
         guard
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.addNewEpisodeViewConstroller) as? AddNewEpisodeViewController
             else { return }
-        viewController.showID = id!
+        viewController.episodeDetails = Current(showID: selected.id , episodeID: "")
         viewController.showTitle = showTitle
         viewController.delegate = self
-        print(viewController.showID)
+        print(viewController.episodeDetails.showID)
         viewController.modalPresentationStyle = .custom
         viewController.transitioningDelegate = self.transition
         self.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -273,8 +273,7 @@ extension ShowDetailsViewController: UITableViewDelegate {
         guard
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.episodeDetailsViewConstroller) as? EpisodeDetailsViewController
             else { return }
-        viewController.episodeID = item.id
-        viewController.showID = id
+        viewController.episodeDetails = Current(showID: selected.id, episodeID: item.id)
         self.navigationController?.present(viewController, animated: true, completion: nil)
         
     }

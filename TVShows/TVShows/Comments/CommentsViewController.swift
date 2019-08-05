@@ -14,8 +14,7 @@ import KeychainSwift
 
 final class CommentsViewController: UIViewController {
     
-    var episodeID: String = ""
-    var showID: String = ""
+    var details: Current! = nil
     
     // MARK: - Outlets
     
@@ -96,7 +95,7 @@ final class CommentsViewController: UIViewController {
         guard let text = commentInput?.text else {
             return
         }
-        postEpisodeComments(text: text, episodeID: episodeID)
+        postEpisodeComments(text: text, episodeID: details.episodeID)
     }
     
     @objc private func refresh() {
@@ -120,8 +119,7 @@ final class CommentsViewController: UIViewController {
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.episodeDetailsViewConstroller) as? EpisodeDetailsViewController
             else { return }
         
-        viewController.episodeID = episodeID
-        viewController.showID = showID
+        viewController.episodeDetails = Current(showID: details.showID, episodeID: details.episodeID)
         print("Navigate back")
         dismiss(animated: true, completion: nil)
     }
@@ -194,7 +192,7 @@ final class CommentsViewController: UIViewController {
         
         firstly {
             Alamofire
-                .request("https://api.infinum.academy/api/episodes/\(episodeID)/comments",
+                .request("https://api.infinum.academy/api/episodes/\(details.episodeID)/comments",
                     method: .get,
                     encoding: JSONEncoding.default)
                 .validate()

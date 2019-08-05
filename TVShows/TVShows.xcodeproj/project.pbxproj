@@ -29,6 +29,7 @@
 		427B1FEA22F32FFE006D6109 /* TransitionSubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FE522F32FFE006D6109 /* TransitionSubmitButton.swift */; };
 		427B1FEB22F32FFE006D6109 /* FadeTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FE622F32FFE006D6109 /* FadeTransition.swift */; };
 		427B1FEC22F32FFE006D6109 /* TimerEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FE722F32FFE006D6109 /* TimerEx.swift */; };
+		427B1FEE22F8D2E9006D6109 /* Current.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FED22F8D2E9006D6109 /* Current.swift */; };
 		42D5FDF622EBBAD4001F3C6E /* EpisodeDetails.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42D5FDF522EBBAD4001F3C6E /* EpisodeDetails.storyboard */; };
 		42D5FDFA22EBBB4C001F3C6E /* EpisodeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5FDF922EBBB4C001F3C6E /* EpisodeDetailsViewController.swift */; };
 		42D5FDFD22ECA51E001F3C6E /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5FDFC22ECA51E001F3C6E /* CommentsViewController.swift */; };
@@ -63,6 +64,7 @@
 		427B1FE522F32FFE006D6109 /* TransitionSubmitButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionSubmitButton.swift; sourceTree = "<group>"; };
 		427B1FE622F32FFE006D6109 /* FadeTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FadeTransition.swift; sourceTree = "<group>"; };
 		427B1FE722F32FFE006D6109 /* TimerEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerEx.swift; sourceTree = "<group>"; };
+		427B1FED22F8D2E9006D6109 /* Current.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Current.swift; sourceTree = "<group>"; };
 		42D5FDF522EBBAD4001F3C6E /* EpisodeDetails.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EpisodeDetails.storyboard; sourceTree = "<group>"; };
 		42D5FDF922EBBB4C001F3C6E /* EpisodeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeDetailsViewController.swift; sourceTree = "<group>"; };
 		42D5FDFC22ECA51E001F3C6E /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				42387B0822CE53AB00C829B9 /* Assets.xcassets */,
 				42387B0A22CE53AB00C829B9 /* LaunchScreen.storyboard */,
 				42387B0D22CE53AB00C829B9 /* Info.plist */,
+				427B1FED22F8D2E9006D6109 /* Current.swift */,
 			);
 			path = TVShows;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 				42387B1F22CFE59F00C829B9 /* LoginViewController.swift in Sources */,
 				42387B0222CE53AA00C829B9 /* AppDelegate.swift in Sources */,
 				42D5FDFA22EBBB4C001F3C6E /* EpisodeDetailsViewController.swift in Sources */,
+				427B1FEE22F8D2E9006D6109 /* Current.swift in Sources */,
 				427B1FEB22F32FFE006D6109 /* FadeTransition.swift in Sources */,
 				42391C9522E710B4006ECD14 /* ShowDetailsTableCell.swift in Sources */,
 				42D5FDFD22ECA51E001F3C6E /* CommentsViewController.swift in Sources */,

@@ -24,8 +24,7 @@ final class EpisodeDetailsViewController: UIViewController {
     @IBOutlet private weak var episodeNumberLabel: UILabel!
     @IBOutlet private weak var descriptionTextView: UITextView!
     
-    var episodeID: String = ""
-    var showID: String = ""
+    var episodeDetails: Current! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +56,7 @@ final class EpisodeDetailsViewController: UIViewController {
         guard
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.showDetailsViewConstroller) as? ShowDetailsViewController
             else { return }
-        viewController.id = showID
+        viewController.id = episodeDetails?.showID
         dismiss(animated: true, completion: nil)
         print("Navigate back cliked")
     
@@ -70,8 +69,7 @@ final class EpisodeDetailsViewController: UIViewController {
         guard
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.commentsViewConstroller) as? CommentsViewController
             else { return }
-        viewController.episodeID = episodeID
-        viewController.showID = showID
+        viewController.details = Current(showID: episodeDetails.showID, episodeID: episodeDetails.episodeID)
         let navigationController = UINavigationController(rootViewController: viewController)
         present(navigationController, animated: true, completion: nil)
     }
@@ -83,7 +81,7 @@ final class EpisodeDetailsViewController: UIViewController {
         
         firstly {
             Alamofire
-                .request("https://api.infinum.academy/api/episodes/\(episodeID)",
+                .request("https://api.infinum.academy/api/episodes/\(episodeDetails!.episodeID)",
                     method: .get,
                     encoding: JSONEncoding.default)
                 .validate()

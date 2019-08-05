@@ -246,6 +246,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="sof-56-gJ1"/>
                     </view>
+                    <navigationItem key="navigationItem" id="MR5-sa-p17"/>
                     <connections>
                         <outlet property="addButton" destination="iQr-ed-XEI" id="SLF-wH-x86"/>
                         <outlet property="descriptionView" destination="KKv-MX-ym0" id="ZeJ-8R-XIx"/>
@@ -261,7 +262,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x2s-ZM-E5r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3294.202898550725" y="-1130.3571428571429"/>
+            <point key="canvasLocation" x="-2384.057971014493" y="-1130.3571428571429"/>
         </scene>
     </scenes>
     <resources>

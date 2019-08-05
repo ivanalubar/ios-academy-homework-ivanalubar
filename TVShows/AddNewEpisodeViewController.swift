@@ -36,9 +36,9 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
     private var episodeDescription: SkyFloatingLabelTextField!
     private var image: UIImage!
     weak var delegate: NewEpiodeDelegate?
-    var showID: String = ""
     var showTitle: String = ""
     var mediaId: String = ""
+    var episodeDetails: Current! = nil
     
     override func viewDidLoad() {
         
@@ -218,7 +218,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
             let viewController = sb.instantiateViewController(withIdentifier: Constants.Controllers.showDetailsViewConstroller) as? ShowDetailsViewController
             else { return }
         
-        viewController.id = showID
+        viewController.id = episodeDetails.showID
         viewController.showTitle = showTitle
         print(viewController.id!)
         dismiss(animated: true, completion: nil)
@@ -238,7 +238,7 @@ final class AddNewEpisodeViewController: UIViewController, UIImagePickerControll
         SVProgressHUD.show()
         
         let parameters: [String: String] = [
-            "showId": showID,
+            "showId": episodeDetails.showID,
             "title": title,
             "mediaId": mediaId,
             "description": description,
