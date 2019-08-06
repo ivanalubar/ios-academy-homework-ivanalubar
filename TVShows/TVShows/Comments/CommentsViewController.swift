@@ -109,6 +109,7 @@ final class CommentsViewController: UIViewController {
     }
     
     @objc private func endRefreshing(){
+        
         refreshControl.endRefreshing()
     }
     
@@ -132,6 +133,23 @@ final class CommentsViewController: UIViewController {
     }
     
     // MARK: - Keyboard Setup
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
     
     private func keyboardManipulation(){
 
@@ -162,15 +180,16 @@ final class CommentsViewController: UIViewController {
     
     @objc private func keyboardWillShow(notification: NSNotification) {
         
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             bottomConstraint.constant = keyboardSize.height - view.safeAreaInsets.bottom
+
         }
     }
 
     @objc private func keyboardWillHide(notification: NSNotification) {
         
         if self.view.frame.origin.y != 0 {
-           bottomConstraint.constant = 0
+           bottomConstraint.constant = 10
         }
     }
     

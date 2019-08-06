@@ -18,7 +18,6 @@ protocol NewEpiodeDelegate: class {
     func episodeAdded()
 }
 
-
 final class AddNewEpisodeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // MARK: - Outlets

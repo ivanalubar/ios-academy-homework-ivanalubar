@@ -93,6 +93,14 @@ class HomeViewController: UIViewController {
     
     // MARK: - Api calls
     
+    func reloadData(){
+        
+        self.collectionView.performBatchUpdates({
+            let indexSet = IndexSet(integersIn: 0...0)
+            self.collectionView.reloadSections(indexSet)
+        }, completion: nil)
+    }
+    
     private func getApiShows() {
         SVProgressHUD.show()
         
@@ -113,9 +121,7 @@ class HomeViewController: UIViewController {
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success: \(shows)")
                 self?.items = shows
-                UIView.animate(withDuration: 0.3, animations: {
-                    self?.collectionView.reloadData()
-                })
+                self?.reloadData()
                 SVProgressHUD.dismiss()
                 
             }.catch { [weak self]  error in
@@ -167,7 +173,7 @@ class HomeViewController: UIViewController {
             grid = true
             keychain.set("true", forKey: "grid")
         }
-        collectionView.reloadData()
+       reloadData()
     }
 }
 
