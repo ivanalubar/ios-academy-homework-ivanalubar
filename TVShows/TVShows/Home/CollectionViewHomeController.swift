@@ -29,6 +29,12 @@ class HomeViewController: UIViewController {
         setupCollectionView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.leftBarButtonItem?.tintColor = .gray
+        navigationItem.rightBarButtonItem?.tintColor = .gray
+    }
+    
     // MARK: - UI Setup
     
     private func loadShowInfo() {
@@ -107,7 +113,9 @@ class HomeViewController: UIViewController {
                 SVProgressHUD.setDefaultMaskType(.black)
                 print("Success: \(shows)")
                 self?.items = shows
-                (self?.collectionView.reloadData())!
+                UIView.animate(withDuration: 0.3, animations: {
+                    self?.collectionView.reloadData()
+                })
                 SVProgressHUD.dismiss()
                 
             }.catch { [weak self]  error in
