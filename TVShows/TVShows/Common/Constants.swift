@@ -18,7 +18,7 @@ enum Constants {
         static let episodeDetails = "EpisodeDetails"
         static let comments = "Comments"
         static let uiImagePicker = "UIImagePicker"
-        static let collectionHome = "CollectionViewHome"
+        static let collectionHome = "Home"
     }
     
     enum Controllers {

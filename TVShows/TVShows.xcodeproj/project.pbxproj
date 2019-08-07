@@ -20,8 +20,8 @@
 		4257525E22E7BFDD0012CD3D /* AddNewEpisodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4257525D22E7BFDD0012CD3D /* AddNewEpisodeViewController.swift */; };
 		4257526022E7C0100012CD3D /* AddNewEpisode.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4257525F22E7C0100012CD3D /* AddNewEpisode.storyboard */; };
 		426C134B22DCC5FE000D971A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C134A22DCC5FE000D971A /* User.swift */; };
-		427B1FAF22F18573006D6109 /* CollectionViewHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FAE22F18573006D6109 /* CollectionViewHomeController.swift */; };
-		427B1FB122F18586006D6109 /* CollectionViewHome.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 427B1FB022F18586006D6109 /* CollectionViewHome.storyboard */; };
+		427B1FAF22F18573006D6109 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FAE22F18573006D6109 /* HomeViewController.swift */; };
+		427B1FB122F18586006D6109 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 427B1FB022F18586006D6109 /* Home.storyboard */; };
 		427B1FB422F185B1006D6109 /* TvShowsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FB322F185B1006D6109 /* TvShowsCollectionCell.swift */; };
 		427B1FB822F19C52006D6109 /* TvShowsListCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FB722F19C52006D6109 /* TvShowsListCollectionCell.swift */; };
 		427B1FE822F32FFE006D6109 /* SpinerLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B1FE322F32FFE006D6109 /* SpinerLayer.swift */; };
@@ -55,8 +55,8 @@
 		4257525D22E7BFDD0012CD3D /* AddNewEpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewEpisodeViewController.swift; sourceTree = "<group>"; };
 		4257525F22E7C0100012CD3D /* AddNewEpisode.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddNewEpisode.storyboard; sourceTree = "<group>"; };
 		426C134A22DCC5FE000D971A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		427B1FAE22F18573006D6109 /* CollectionViewHomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewHomeController.swift; sourceTree = "<group>"; };
-		427B1FB022F18586006D6109 /* CollectionViewHome.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CollectionViewHome.storyboard; sourceTree = "<group>"; };
+		427B1FAE22F18573006D6109 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		427B1FB022F18586006D6109 /* Home.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		427B1FB322F185B1006D6109 /* TvShowsCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvShowsCollectionCell.swift; sourceTree = "<group>"; };
 		427B1FB722F19C52006D6109 /* TvShowsListCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvShowsListCollectionCell.swift; sourceTree = "<group>"; };
 		427B1FE322F32FFE006D6109 /* SpinerLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpinerLayer.swift; sourceTree = "<group>"; };
@@ -175,8 +175,8 @@
 			isa = PBXGroup;
 			children = (
 				427B1FB222F1858F006D6109 /* Cells */,
-				427B1FAE22F18573006D6109 /* CollectionViewHomeController.swift */,
-				427B1FB022F18586006D6109 /* CollectionViewHome.storyboard */,
+				427B1FAE22F18573006D6109 /* HomeViewController.swift */,
+				427B1FB022F18586006D6109 /* Home.storyboard */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -313,7 +313,7 @@
 				42387B0922CE53AB00C829B9 /* Assets.xcassets in Resources */,
 				42387B1D22CFE55D00C829B9 /* Login.storyboard in Resources */,
 				42391C8B22E50D25006ECD14 /* ShowDetails.storyboard in Resources */,
-				427B1FB122F18586006D6109 /* CollectionViewHome.storyboard in Resources */,
+				427B1FB122F18586006D6109 /* Home.storyboard in Resources */,
 				42D5FDF622EBBAD4001F3C6E /* EpisodeDetails.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,7 +370,7 @@
 				427B1FB822F19C52006D6109 /* TvShowsListCollectionCell.swift in Sources */,
 				42D5FE0222ECB2BF001F3C6E /* CommentsTableCell.swift in Sources */,
 				427B1FEA22F32FFE006D6109 /* TransitionSubmitButton.swift in Sources */,
-				427B1FAF22F18573006D6109 /* CollectionViewHomeController.swift in Sources */,
+				427B1FAF22F18573006D6109 /* HomeViewController.swift in Sources */,
 				426C134B22DCC5FE000D971A /* User.swift in Sources */,
 				427B1FEC22F32FFE006D6109 /* TimerEx.swift in Sources */,
 				4257525E22E7BFDD0012CD3D /* AddNewEpisodeViewController.swift in Sources */,
