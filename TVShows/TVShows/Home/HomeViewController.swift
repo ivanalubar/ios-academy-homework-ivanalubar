@@ -187,6 +187,37 @@ extension HomeViewController: UICollectionViewDelegate {
         print("Selected Item: \(item)")
         navigateToDetails(item: item)
     }
+    
+    fileprivate func scaleCells(_ scrollView: UIScrollView) {
+        let currentOffset = scrollView.contentOffset.y
+        let cells = collectionView.visibleCells
+        let distances = cells.map { $0.frame.minY }
+            .map { abs(currentOffset - $0) }
+        let scales = distances.map { (d) -> CGFloat in
+            let constraind = min(200, max(50, d))
+            let burek = (constraind - 50) / (200 - 50)
+            return (1 - burek) * (1 - 0.85) + 0.85
+            
+        }
+        zip(cells, scales).forEach { (cell, scale) in
+            cell.transform = .init(scaleX: scale, y: scale)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let currentOffset = collectionView.contentOffset.y
+        let d = abs(currentOffset - cell.frame.minY)
+        let constraind = min(200, max(50, d))
+        let burek = (constraind - 50) / (200 - 50)
+        let scale = (1 - burek) * (1 - 0.85) + 0.85
+        cell.transform = .init(scaleX: scale, y: scale)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scaleCells(scrollView)
+    }
+    
+    
 }
 
 extension HomeViewController: UICollectionViewDataSource {

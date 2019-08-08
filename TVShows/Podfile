@@ -12,5 +12,6 @@ target 'TVShows' do
   pod 'SkyFloatingLabelTextField', '~> 3.0'
   pod 'JTMaterialTransition'
   pod 'TKSubmitTransition' , :git => 'https://github.com/entotsu/TKSubmitTransition.git', :branch => 'swift4'
-
+  pod ‘DisplaySwitcher’, :git => 'https://github.com/Yalantis/DisplaySwitcher', :branch => 'master'
+  
 end

@@ -2,6 +2,7 @@ PODS:
   - Alamofire (4.8.2)
   - CodableAlamofire (1.1.1):
     - Alamofire (~> 4.0)
+  - DisplaySwitcher (1.2)
   - JTMaterialTransition (2.0.3)
   - KeychainSwift (16.0.1)
   - Kingfisher (4.10.1)
@@ -16,6 +17,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - CodableAlamofire
+  - DisplaySwitcher (from `https://github.com/Yalantis/DisplaySwitcher`, branch `master`)
   - JTMaterialTransition
   - KeychainSwift
   - Kingfisher (~> 4.2)
@@ -37,11 +39,17 @@ SPEC REPOS:
     - SVProgressHUD
 
 EXTERNAL SOURCES:
+  DisplaySwitcher:
+    :branch: master
+    :git: https://github.com/Yalantis/DisplaySwitcher
   TKSubmitTransition:
     :branch: swift4
     :git: https://github.com/entotsu/TKSubmitTransition.git
 
 CHECKOUT OPTIONS:
+  DisplaySwitcher:
+    :commit: 8895f597bdc0c2e93a22659814205d5718a59c6f
+    :git: https://github.com/Yalantis/DisplaySwitcher
   TKSubmitTransition:
     :commit: 29fac6072451a4def5cde567075bfc62a728bb1f
     :git: https://github.com/entotsu/TKSubmitTransition.git
@@ -49,6 +57,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   CodableAlamofire: b587c1198562824abb1f468aed34feb00d6cecd8
+  DisplaySwitcher: a9ee0b5c7821cd8d12e39783ada99399f6d927a0
   JTMaterialTransition: 7ff22aae6cd969734d775708f08e3656c52cb7bf
   KeychainSwift: 4209611373ca4a098e09b1e547eebd87c544dcc4
   Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
@@ -57,6 +66,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   TKSubmitTransition: 647b907508da58ba864141e3c4382442ec536d40
 
-PODFILE CHECKSUM: 9055e98459398f104f4ece776159c04bb1ce7022
+PODFILE CHECKSUM: e06d287a2ddec4e4dbe1fe276b97cbc08f5807a3
 
 COCOAPODS: 1.7.5

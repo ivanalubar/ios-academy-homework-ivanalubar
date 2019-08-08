@@ -121,7 +121,7 @@
                                                                     <constraint firstAttribute="height" constant="24" id="VAf-Ad-V2A"/>
                                                                 </constraints>
                                                                 <size key="titleShadowOffset" width="-15" height="0.0"/>
-                                                                <state key="normal" title="Button" image="ic-checkbox-empty"/>
+                                                                <state key="normal" image="ic-checkbox-empty"/>
                                                                 <connections>
                                                                     <action selector="rememberMeActionHandler" destination="dkk-aT-jMa" eventType="touchUpInside" id="6lr-5z-rZU"/>
                                                                 </connections>
